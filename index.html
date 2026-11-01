@@ -993,7 +993,13 @@
 
     // Direct Syllabus PDF opener in BTechX Viewer
     function openSyllabusPdf(pdfPath, title) {
-      const viewerUrl = 'viewer.html?file=' + encodeURIComponent(pdfPath) + '&title=' + encodeURIComponent(title) + '&ref=index.html';
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop || window.scrollY || 0;
+      try {
+        sessionStorage.setItem("btechx_viewer_return_url", window.location.href);
+        sessionStorage.setItem("btechx_viewer_return_scroll", scrollY.toString());
+        sessionStorage.setItem("btxLastInternalNav", Date.now().toString());
+      } catch (err) {}
+      const viewerUrl = 'viewer.html?file=' + encodeURIComponent(pdfPath) + '&title=' + encodeURIComponent(title) + '&ref=' + encodeURIComponent(window.location.href);
       window.location.href = viewerUrl;
     }
 
