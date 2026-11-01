@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE-MIT)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE-APACHE)
 [![Website](https://img.shields.io/badge/Website-btechx.online-blue.svg)](https://btechx.online)
-[![Build Status](https://img.shields.io/badge/Deployment-GitHub%20Pages-success.svg)](https://github.com/py-C0der/yourclg)
+[![Build Status](https://img.shields.io/badge/Deployment-GitHub%20Pages-success.svg)](https://github.com/devakalpyrate/yourclg)
 [![Tech Stack](https://img.shields.io/badge/Stack-HTML5%20%7C%20CSS3%20%7C%20JS-informational.svg)](#tech-stack)
 
 ---
@@ -81,7 +81,7 @@ BTechX/
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/py-C0der/yourclg.git
+   git clone https://github.com/devakalpyrate/yourclg.git
    cd BTechX
    ```
 

@@ -329,7 +329,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 </a>
                 <a href="${prefix}index.html" class="alp-item" title="BTechX">
                     <div class="alp-item-icon">
-                        <img src="${prefix}logo.png" alt="BTechX Logo" onerror="this.onerror=null;this.src='${prefix}images/btechx.png';this.onerror=function(){this.src='https://raw.githubusercontent.com/py-C0der/yourclg/main/logo.png';};" style="
+                        <img src="${prefix}logo.png" alt="BTechX Logo" onerror="this.onerror=null;this.src='${prefix}images/btechx.png';this.onerror=function(){this.src='https://raw.githubusercontent.com/devakalpyrate/yourclg/main/logo.png';};" style="
                             width: 100%;
                             height: 100%;
                             object-fit: cover;
