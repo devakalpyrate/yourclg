@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Data Communication & Network - BTechX</title>
+  <meta content="Data Communication and Network (DCCN) notes, question bank, and solved resources for BTech." name="description" />
+  <meta content="BTechX" name="author" />
+  <meta content="Data Communication & Network - BTechX" property="og:title" />
+  <meta content="Data Communication and Network (DCCN) notes, question bank, and solved resources for BTech." property="og:description" />
+  <meta content="https://btechx.online/logo.png" property="og:image" />
+  <meta content="https://btechx.online/2ndYearSub/dccn.html" property="og:url" />
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <link href="../styles.css?v=17.1" rel="stylesheet" />
+  <link href="https://btechx.online/2ndYearSub/dccn.html" rel="canonical" />
+  <link rel="icon" type="image/png" href="../logo.png?v=7" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Data Communication & Network",
+    "description": "OSI & TCP/IP models, physical layer transmission, data link protocols, routing algorithms, transport and application layers.",
+    "provider": {
+      "@type": "Organization",
+      "name": "BTechX",
+      "sameAs": "https://btechx.online"
+    }
+  }
+  </script>
+</head>
+<body>
+  <!-- Global Shared SVG Defs -->
+  <svg width="0" height="0" style="position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none;" aria-hidden="true">
+    <defs>
+      <linearGradient id="neonGradientNav" x1="120" y1="30" x2="955" y2="520" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#00f2fe" />
+        <stop offset="35%" stop-color="#2563eb" />
+        <stop offset="72%" stop-color="#d946ef" />
+        <stop offset="100%" stop-color="#ec4899" />
+      </linearGradient>
+      <linearGradient id="coreGradientNav" x1="120" y1="30" x2="955" y2="520" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#ffffff" />
+        <stop offset="50%" stop-color="#d8e2ff" />
+        <stop offset="100%" stop-color="#ffd6f9" />
+      </linearGradient>
+    </defs>
+  </svg>
+  <nav class="navbar">
+    <div class="container navbar-inner">
+      <div class="navbar-brand">
+        <button class="apps-launcher-btn mobile-apps-btn" id="mobileAppsLauncherBtn" type="button" title="Apps" aria-label="Apps">
+          <span class="apps-icon-stack">
+            <svg class="apps-matrix-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+              <circle cx="2.5" cy="2.5" r="1.6"></circle>
+              <circle cx="8" cy="2.5" r="1.6"></circle>
+              <circle cx="13.5" cy="2.5" r="1.6"></circle>
+              <circle cx="2.5" cy="8" r="1.6"></circle>
+              <circle cx="8" cy="8" r="1.6"></circle>
+              <circle cx="13.5" cy="8" r="1.6"></circle>
+              <circle cx="2.5" cy="13.5" r="1.6"></circle>
+              <circle cx="8" cy="13.5" r="1.6"></circle>
+              <circle cx="13.5" cy="13.5" r="1.6"></circle>
+            </svg>
+            <svg class="apps-neon-icon" width="16" height="16" viewBox="7 -35 1060 1060" fill="none" aria-hidden="true">
+              <path d="M 124 35 L 124 195 C 124 275, 165 305, 255 335 C 420 390, 560 442, 692 484 C 560 526, 420 582, 255 645 C 165 680, 124 715, 122 800 L 122 955 C 330 890, 535 765, 622 685 C 785 595, 895 520, 916 499 L 952 484 L 916 469 C 895 440, 785 350, 622 252 C 535 190, 330 95, 124 35 Z" stroke="url(#neonGradientNav)" stroke-width="70" stroke-opacity="0.25" stroke-linejoin="round" />
+              <path class="neon-laser-path" pathLength="1000" d="M 124 35 L 124 195 C 124 275, 165 305, 255 335 C 420 390, 560 442, 692 484 C 560 526, 420 582, 255 645 C 165 680, 124 715, 122 800 L 122 955 C 330 890, 535 765, 622 685 C 785 595, 895 520, 916 499 L 952 484 L 916 469 C 895 440, 785 350, 622 252 C 535 190, 330 95, 124 35 Z" stroke="url(#neonGradientNav)" stroke-width="120" stroke-linecap="round" stroke-linejoin="round" />
+              <path class="neon-core-path" pathLength="1000" d="M 124 35 L 124 195 C 124 275, 165 305, 255 335 C 420 390, 560 442, 692 484 C 560 526, 420 582, 255 645 C 165 680, 124 715, 122 800 L 122 955 C 330 890, 535 765, 622 685 C 785 595, 895 520, 916 499 L 952 484 L 916 469 C 895 440, 785 350, 622 252 C 535 190, 330 95, 124 35 Z" stroke="url(#coreGradientNav)" stroke-width="50" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          <span class="logo-text">BTechX</span>
+        </a>
+      </div>
+      <div class="navbar-links">
+        <a href="../index.html">Home</a>
+        <a class="active" href="../index.html#subjects">Subjects</a>
+        <a href="../syllabus.html">Syllabus</a>
+        <a href="../about.html">About &amp; Contact</a>
+        <div class="apps-launcher-wrapper" id="appsLauncherWrapper">
+          <button class="apps-launcher-btn" id="appsLauncherBtn" type="button" title="Apps" aria-label="Apps" aria-expanded="false">
+            <span class="apps-icon-stack">
+              <svg class="apps-matrix-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                <circle cx="2.5" cy="2.5" r="1.6"></circle>
+                <circle cx="8" cy="2.5" r="1.6"></circle>
+                <circle cx="13.5" cy="2.5" r="1.6"></circle>
+                <circle cx="2.5" cy="8" r="1.6"></circle>
+                <circle cx="8" cy="8" r="1.6"></circle>
+                <circle cx="13.5" cy="8" r="1.6"></circle>
+                <circle cx="2.5" cy="13.5" r="1.6"></circle>
+                <circle cx="8" cy="13.5" r="1.6"></circle>
+                <circle cx="13.5" cy="13.5" r="1.6"></circle>
+              </svg>
+              <svg class="apps-neon-icon" width="16" height="16" viewBox="7 -35 1060 1060" fill="none" aria-hidden="true">
+                <path d="M 124 35 L 124 195 C 124 275, 165 305, 255 335 C 420 390, 560 442, 692 484 C 560 526, 420 582, 255 645 C 165 680, 124 715, 122 800 L 122 955 C 330 890, 535 765, 622 685 C 785 595, 895 520, 916 499 L 952 484 L 916 469 C 895 440, 785 350, 622 252 C 535 190, 330 95, 124 35 Z" stroke="url(#neonGradientNav)" stroke-width="70" stroke-opacity="0.25" stroke-linejoin="round" />
+                <path class="neon-laser-path" pathLength="1000" d="M 124 35 L 124 195 C 124 275, 165 305, 255 335 C 420 390, 560 442, 692 484 C 560 526, 420 582, 255 645 C 165 680, 124 715, 122 800 L 122 955 C 330 890, 535 765, 622 685 C 785 595, 895 520, 916 499 L 952 484 L 916 469 C 895 440, 785 350, 622 252 C 535 190, 330 95, 124 35 Z" stroke="url(#neonGradientNav)" stroke-width="120" stroke-linecap="round" stroke-linejoin="round" />
+                <path class="neon-core-path" pathLength="1000" d="M 124 35 L 124 195 C 124 275, 165 305, 255 335 C 420 390, 560 442, 692 484 C 560 526, 420 582, 255 645 C 165 680, 124 715, 122 800 L 122 955 C 330 890, 535 765, 622 685 C 785 595, 895 520, 916 499 L 952 484 L 916 469 C 895 440, 785 350, 622 252 C 535 190, 330 95, 124 35 Z" stroke="url(#coreGradientNav)" stroke-width="50" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+          </button>
+          <div class="apps-launcher-popover" id="appsLauncherPopover" role="dialog" aria-label="DLM Apps Launcher">
+            <div class="alp-header">
+              <span class="alp-header-title">Apps</span>
+            </div>
+            <div class="alp-grid">
+              <a href="https://angkor-ai-dlm.vercel.app/" target="_blank" rel="noopener noreferrer" class="alp-item" title="Angkor AI">
+                <div class="alp-item-icon">
+                  <img src="../images/angkor.png" alt="Angkor AI" onerror="this.onerror=null;this.src='https://angkor-ai-dlm.vercel.app/favicon.ico';" />
+                </div>
+                <span class="alp-item-name">Angkor AI</span>
+              </a>
+              <a href="https://meta-cleaner-dlm.vercel.app/" target="_blank" rel="noopener noreferrer" class="alp-item" title="MetaCleaner">
+                <div class="alp-item-icon">
+                  <img src="../images/metacleaner.png" alt="MetaCleaner" onerror="this.onerror=null;this.src='https://meta-cleaner-dlm.vercel.app/favicon.ico';" />
+                </div>
+                <span class="alp-item-name">MetaCleaner</span>
+              </a>
+              <a href="https://k6dlm.vercel.app/" target="_blank" rel="noopener noreferrer" class="alp-item" title="K6 Engine">
+                <div class="alp-item-icon">
+                  <img src="../images/k6.png" alt="K6 Engine" onerror="this.onerror=null;this.src='https://k6dlm.vercel.app/favicon.ico';" />
+                </div>
+                <span class="alp-item-name">K6 Engine</span>
+              </a>
+              <a href="../index.html" class="alp-item" title="BTechX">
+                <div class="alp-item-icon">
+                  <img src="../logo.png" alt="BTechX Logo" onerror="this.onerror=null;this.src='../images/btechx.png';this.onerror=function(){this.src='https://raw.githubusercontent.com/devakalpyrate/yourclg/main/logo.png';};" style="
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 50%;
+                  ">
+                </div>
+                <span class="alp-item-name">BTechX</span>
+              </a>
+            </div>
+            <div class="alp-storage-track" id="appsStorageTrack" title="Browser Storage">
+              <div class="alp-storage-fill" id="appsStorageFill" style="width: 100%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button aria-label="Toggle menu" class="nav-toggle" id="navToggle">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-panel">
+      <div class="sidebar-header">
+        <span class="logo-text">BTechX</span>
+        <button class="close-btn" id="closeMenu">&times;</button>
+      </div>
+      <a href="../index.html">Home</a>
+      <a class="active" href="../index.html#subjects">Subjects</a>
+      <a href="../syllabus.html">Syllabus</a>
+      <a href="../about.html">About &amp; Contact</a>
+    </div>
+  </div>
+
+  <section class="modules-section" style="padding-top: 60px;">
+    <div class="container">
+      <div class="section-header">
+        <h1 style="color: var(--text); font-size: 2.5rem; margin-bottom: 10px;">Data Communication &amp; Network</h1>
+        <p style="color: var(--text-muted); font-size: 1.1rem;">OSI &amp; TCP/IP architectures, physical layer, data link protocols, routing, transport and application layers (CS201).</p>
+        <div class="section-divider"></div>
+      </div>
+
+      <!-- Unit 1 -->
+      <div class="module-block" id="module-1">
+        <div class="module-block-header">
+          <div style="display: flex; align-items: center; gap: 16px">
+            <div class="module-num">1</div>
+            <div>
+              <h3>Data Communication Fundamentals</h3>
+              <p>Data transmission concepts, network topologies, OSI 7-layer reference model, TCP/IP protocol suite, transmission modes, analog &amp; digital signals.</p>
+            </div>
+          </div>
+          <div class="btn-group">
+            <a class="download-btn" href="../Data/Subjects/2nd year/DCCN/DCCN_Chapter_1_Data_Communication_Fundamentals.pdf"><i class="fas fa-file-alt"></i> Download Notes</a>
+            <a class="download-btn qna-btn" href="../Data/Subjects/2nd year/DCCN/unit1/Unit-1 model questions (1).pdf"><i class="fas fa-question-circle"></i> QNA</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Unit 2 -->
+      <div class="module-block" id="module-2">
+        <div class="module-block-header">
+          <div style="display: flex; align-items: center; gap: 16px">
+            <div class="module-num">2</div>
+            <div>
+              <h3>Physical Layer &amp; Transmission Media</h3>
+              <p>Guided and unguided transmission media, modulation techniques (AM, FM, PM, ASK, FSK, PSK), multiplexing (FDM, WDM, TDM), circuit &amp; packet switching.</p>
+            </div>
+          </div>
+          <div class="btn-group">
+            <a class="download-btn" href="../Data/Subjects/2nd year/DCCN/DCCN_Chapter_2_Modulation_Multiplexing_Media_Switching.pdf"><i class="fas fa-file-alt"></i> Download Notes</a>
+            <a class="download-btn qna-btn" href="../Data/Subjects/2nd year/DCCN/unit2/Unit2 model question (1).pdf"><i class="fas fa-question-circle"></i> QNA</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Unit 3 -->
+      <div class="module-block" id="module-3">
+        <div class="module-block-header">
+          <div style="display: flex; align-items: center; gap: 16px">
+            <div class="module-num">3</div>
+            <div>
+              <h3>Data Link Layer &amp; MAC Sublayer</h3>
+              <p>Framing, error detection &amp; correction (Parity, Checksum, CRC, Hamming code), flow control protocols (Stop-and-Wait, Go-Back-N, Selective Repeat), ALOHA, CSMA/CD.</p>
+            </div>
+          </div>
+          <div class="btn-group">
+            <a class="download-btn" href="../Data/Subjects/2nd year/DCCN/DCCN_Chapter_3_Data_Link_Layer.pdf"><i class="fas fa-file-alt"></i> Download Notes</a>
+            <a class="download-btn qna-btn" href="../Data/Subjects/2nd year/DCCN/unit3/Assignment 3.pdf"><i class="fas fa-question-circle"></i> QNA</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Unit 4 -->
+      <div class="module-block" id="module-4">
+        <div class="module-block-header">
+          <div style="display: flex; align-items: center; gap: 16px">
+            <div class="module-num">4</div>
+            <div>
+              <h3>Network &amp; Transport Layer</h3>
+              <p>IPv4 &amp; IPv6 addressing, subnetting and CIDR, routing algorithms (Distance Vector, Link State, Dijkstra), ARP, ICMP, TCP 3-way handshake, UDP, congestion control.</p>
+            </div>
+          </div>
+          <div class="btn-group">
+            <a class="download-btn" href="../Data/Subjects/2nd year/DCCN/DCCN_Chapter_4_Network_and_Transport_Layer.pdf"><i class="fas fa-file-alt"></i> Download Notes</a>
+            <a class="download-btn qna-btn" href="../Data/Subjects/2nd year/DCCN/unit4/Assignment 4 DCCN.pdf"><i class="fas fa-question-circle"></i> QNA</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Unit 5 -->
+      <div class="module-block" id="module-5">
+        <div class="module-block-header">
+          <div style="display: flex; align-items: center; gap: 16px">
+            <div class="module-num">5</div>
+            <div>
+              <h3>Application Layer &amp; Network Security</h3>
+              <p>Domain Name System (DNS), HTTP/HTTPS, File Transfer Protocol (FTP), SMTP, POP3, IMAP, network security fundamentals, symmetric &amp; asymmetric cryptography.</p>
+            </div>
+          </div>
+          <div class="btn-group">
+            <a class="download-btn" href="../Data/Subjects/2nd year/DCCN/DCCN_Chapter_5_Application_Layer.pdf"><i class="fas fa-file-alt"></i> Download Notes</a>
+            <a class="download-btn qna-btn" href="../Data/Subjects/2nd year/DCCN/DCCN_Question_Bank_Unit1_to_5_Solved.pdf"><i class="fas fa-question-circle"></i> QNA (All Units)</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Special Resources: PYQ & Solved Question Bank -->
+      <div style="margin-top: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+        <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 18px; display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            <h4 style="color: var(--text); margin-bottom: 4px; font-size: 1rem;"><i class="fas fa-graduation-cap" style="color: var(--primary); margin-right: 8px;"></i> Complete PYQs</h4>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0;">Previous Year Examination Papers</p>
+          </div>
+          <a class="download-btn" href="../Data/Subjects/2nd year/DCCN/DCCN PYQ (2).pdf" style="padding: 8px 14px; font-size: 0.85rem;"><i class="fas fa-download"></i> PYQ</a>
+        </div>
+        <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 18px; display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            <h4 style="color: var(--text); margin-bottom: 4px; font-size: 1rem;"><i class="fas fa-book" style="color: #10b981; margin-right: 8px;"></i> DCCN Syllabus</h4>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0;">Official CGU Course Syllabus</p>
+          </div>
+          <a class="download-btn qna-btn" href="../Data/Syllabus/2nd Year/dccn.pdf" style="padding: 8px 14px; font-size: 0.85rem;"><i class="fas fa-file-pdf"></i> Syllabus</a>
+        </div>
+      </div>
+
+      <div class="related-subjects" style="margin-top: 40px; padding: 20px; background: rgba(255,255,255,0.05); border-radius: 12px;">
+        <h3 style="color: var(--primary); margin-bottom: 15px; font-size: 1.2rem;">Related 2nd Year Subjects</h3>
+        <div style="display:flex; gap: 15px; flex-wrap: wrap;">
+          <a href="dbe.html" style="color: var(--text); text-decoration: none; padding: 8px 16px; background: rgba(255,255,255,0.1); border-radius: 20px; font-size: 0.9rem; transition: 0.3s;" onmouseover="this.style.background='var(--primary)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">Database Engineering (DBE)</a>
+          <a href="dmgt.html" style="color: var(--text); text-decoration: none; padding: 8px 16px; background: rgba(255,255,255,0.1); border-radius: 20px; font-size: 0.9rem; transition: 0.3s;" onmouseover="this.style.background='var(--primary)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">Discrete Mathematics (DMGT)</a>
+          <a href="bevs.html" style="color: var(--text); text-decoration: none; padding: 8px 16px; background: rgba(255,255,255,0.1); border-radius: 20px; font-size: 0.9rem; transition: 0.3s;" onmouseover="this.style.background='var(--primary)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">Biology &amp; Environmental (BEVS)</a>
+          <a href="uhv.html" style="color: var(--text); text-decoration: none; padding: 8px 16px; background: rgba(255,255,255,0.1); border-radius: 20px; font-size: 0.9rem; transition: 0.3s;" onmouseover="this.style.background='var(--primary)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">Universal Human Values (UHV)</a>
+          <a href="chemistry.html" style="color: var(--text); text-decoration: none; padding: 8px 16px; background: rgba(255,255,255,0.1); border-radius: 20px; font-size: 0.9rem; transition: 0.3s;" onmouseover="this.style.background='var(--primary)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">Chemistry</a>
+          <a href="../syllabus.html" style="color: var(--text); text-decoration: none; padding: 8px 16px; background: rgba(255,255,255,0.1); border-radius: 20px; font-size: 0.9rem; transition: 0.3s;" onmouseover="this.style.background='var(--primary)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">2nd Year Syllabus</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo-text">BTechX</div>
+          <p>A free academic resource platform for B.Tech students.</p>
+          <div class="footer-social">
+            <a href="https://www.instagram.com/mr.backbencher.007.in" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/subhammoharana2007/?locale=en-US" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://x.com/SubhamM17005388" target="_blank" title="X (Twitter)"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../index.html#subjects">Subjects</a></li>
+            <li><a href="../syllabus.html">Syllabus</a></li>
+            <li><a href="../about.html">About &amp; Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="../syllabus.html">Syllabus</a></li>
+            <li><a href="../about.html">About &amp; Contact</a></li>
+            <li><a href="https://itsme-gilt.vercel.app/contact" target="_blank">Feedback Portal</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025&ndash;2029 <strong>BTechX</strong>. All rights reserved.</p>
+        <p>Built by <strong>BTechX</strong></p>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" title="Back to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+  <script src="../assets/js/nav.js?v=17.1"></script>
+  <script src="../assets/js/pdf-modal.js?v=16.7"></script>
+  <script src="../assets/js/version-check.js?v=16.7"></script>
+</body>
+</html>
