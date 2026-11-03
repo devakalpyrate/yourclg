@@ -1069,17 +1069,6 @@
         </div>
       </div>
 
-      <!-- Mobile Redirect to Google Drive State -->
-      <div id="mobileRedirectState" class="viewer-state" style="display: none;">
-        <div class="error-card" style="border-color: rgba(66, 133, 244, 0.35);">
-          <i class="fab fa-google-drive" style="font-size: 3.5rem; color: #4285f4; margin-bottom: 18px;"></i>
-          <h2>Opening in Google Drive...</h2>
-          <p id="mobileRedirectMsg">Redirecting to Google Drive Viewer for a fast and simple mobile experience.</p>
-          <a id="manualDriveBtn" href="#" class="error-back-btn" style="border-color: rgba(66, 133, 244, 0.4); background: rgba(66, 133, 244, 0.15);">
-            <i class="fas fa-external-link-alt"></i> <span>Open in Google Drive</span>
-          </a>
-        </div>
-      </div>
 
       <!-- Mode 1: Continuous Scroll View Container -->
       <div id="scrollContainer" class="scroll-container" style="display: none;"></div>
@@ -1589,7 +1578,8 @@
 
       getCachedPage(1).then(firstPage => {
         const unscaled = firstPage.getViewport({ scale: 1.0 });
-        const availW = Math.max(100, Math.min(viewerMain.clientWidth - 40, 920));
+        const paddingOffset = window.innerWidth <= 600 ? 12 : 40;
+        const availW = Math.max(100, Math.min(viewerMain.clientWidth - paddingOffset, 920));
         scaleScroll = availW / unscaled.width;
 
         const pageW = Math.floor(unscaled.width * scaleScroll);
@@ -2283,7 +2273,8 @@
       if (currentMode === 'scroll') {
         getCachedPage(1).then(page => {
           const unscaled = page.getViewport({ scale: 1.0 });
-          const availW = Math.max(100, Math.min(viewerMain.clientWidth - 40, 920));
+          const paddingOffset = window.innerWidth <= 600 ? 12 : 40;
+        const availW = Math.max(100, Math.min(viewerMain.clientWidth - paddingOffset, 920));
           scaleScroll = availW / unscaled.width;
           updateScrollLayout();
           viewerMain.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
@@ -2646,27 +2637,6 @@
       externalBtn.href = cleanPdfPath;
 
       const isFileProtocol = window.location.protocol === 'file:';
-      const isTablet = /iPad/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) || (/Android/i.test(navigator.userAgent) && !/Mobile/i.test(navigator.userAgent)) || window.innerWidth >= 768;
-      const isSmallPhone = !isFileProtocol && !isTablet && /Android|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-      // --- MOBILE: DIRECT STRAIGHT TO GOOGLE DRIVE (Only for small compact smartphones over HTTP/HTTPS; iPads & tablets use full native viewer) ---
-      if (isSmallPhone) {
-        const absoluteUrl = new URL(cleanPdfPath, window.location.href).href;
-        const gDriveUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(absoluteUrl)}`;
-
-        hideLoadingState();
-        const mobileRedirectState = document.getElementById('mobileRedirectState');
-        const manualDriveBtn = document.getElementById('manualDriveBtn');
-
-        if (mobileRedirectState) mobileRedirectState.style.display = 'flex';
-        if (manualDriveBtn) manualDriveBtn.href = gDriveUrl;
-
-        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-        if (!isLocalhost) {
-          window.location.replace(gDriveUrl);
-          return;
-        }
-      }
 
       // If running on local file:// protocol, bypass PDF.js worker/fetch restrictions directly
       if (isFileProtocol) {
