@@ -857,6 +857,82 @@
       font-family: 'Inter', system-ui, sans-serif;
     }
 
+    /* ── DEFAULT PLACEHOLDER (BEFORE GENERATING) ── */
+    .paper-placeholder-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 24px;
+      margin: 40px auto;
+      max-width: 520px;
+      width: 100%;
+      background: #0d0d0d;
+      border: 1px solid #222222;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+    }
+    .placeholder-icon {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: #181818;
+      border: 1px solid #333333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: #ffffff;
+      margin-bottom: 20px;
+    }
+    .placeholder-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 10px;
+      letter-spacing: -0.3px;
+    }
+    .placeholder-desc {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: #888888;
+      max-width: 420px;
+      margin-bottom: 24px;
+    }
+    .placeholder-generate-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #000000;
+      font-size: 0.92rem;
+      font-weight: 800;
+      font-family: inherit;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(255, 255, 255, 0.15);
+      transition: all 0.15s ease;
+    }
+    .placeholder-generate-btn:hover {
+      background: #e6e6e6;
+      transform: translateY(-1px);
+    }
+    .placeholder-generate-btn:active {
+      transform: translateY(0);
+    }
+
+    .sets-placeholder-msg {
+      text-align: center;
+      padding: 24px 10px;
+      font-size: 0.78rem;
+      color: #666666;
+      line-height: 1.4;
+      font-style: italic;
+    }
+
     /* ── TABLET & MOBILE DRAWER VIEW (<= 1024px, including 824x732) ── */
     @media (max-width: 1024px) {
       .paper-workspace {
@@ -1121,7 +1197,7 @@
           <button type="button" class="sidebar-btn-download" id="btnDownloadPDF" onclick="downloadPaperPDF()" title="Download Official Question Paper PDF">
             <i class="fas fa-file-pdf"></i> Download PDF
           </button>
-          <button type="button" class="sidebar-btn-print" onclick="window.print()" title="Print Paper">
+          <button type="button" class="sidebar-btn-print" onclick="printCurrentPaper()" title="Print Paper">
             <i class="fas fa-print"></i> Print Paper
           </button>
         </div>
@@ -1133,48 +1209,14 @@
             <span id="setsPatternLabel">Mid-Sem (20M)</span>
           </div>
           <div class="sets-list" id="setsListContainer">
-            <button type="button" class="paper-set-item active" data-set="1" onclick="switchPaperSet(1)">
-              <div class="set-left">
-                <span class="set-pill">SET 1</span>
-                <span class="set-title">Model Paper 1</span>
-              </div>
-              <span class="set-meta">20M</span>
-            </button>
-            <button type="button" class="paper-set-item" data-set="2" onclick="switchPaperSet(2)">
-              <div class="set-left">
-                <span class="set-pill">SET 2</span>
-                <span class="set-title">Model Paper 2</span>
-              </div>
-              <span class="set-meta">20M</span>
-            </button>
-            <button type="button" class="paper-set-item" data-set="3" onclick="switchPaperSet(3)">
-              <div class="set-left">
-                <span class="set-pill">SET 3</span>
-                <span class="set-title">Model Paper 3</span>
-              </div>
-              <span class="set-meta">20M</span>
-            </button>
-            <button type="button" class="paper-set-item" data-set="4" onclick="switchPaperSet(4)">
-              <div class="set-left">
-                <span class="set-pill">SET 4</span>
-                <span class="set-title">Model Paper 4</span>
-              </div>
-              <span class="set-meta">20M</span>
-            </button>
-            <button type="button" class="paper-set-item" data-set="5" onclick="switchPaperSet(5)">
-              <div class="set-left">
-                <span class="set-pill">SET 5</span>
-                <span class="set-title">Model Paper 5</span>
-              </div>
-              <span class="set-meta">20M</span>
-            </button>
+            <div class="sets-placeholder-msg">Select options &amp; click &ldquo;Generate Paper&rdquo;</div>
           </div>
         </div>
 
         <!-- Minimal Note -->
         <div class="sidebar-note">
           <i class="fas fa-bolt"></i>
-          <span>Click <strong>⚡</strong> next to subject to generate 5 fresh random sets.</span>
+          <span>Select subject &amp; pattern, then click <strong>Generate Paper</strong> to create 5 sets.</span>
         </div>
       </div>
     </aside>
@@ -1201,7 +1243,21 @@
 
       <!-- The A4 Paper Canvas -->
       <div class="preview-canvas" id="previewCanvasWrapper">
-        <div class="exam-paper-sheet" id="examPaperSheet">
+        <!-- Default Empty Placeholder (Before Generation) -->
+        <div class="paper-placeholder-card" id="paperPlaceholderCard">
+          <div class="placeholder-icon">
+            <i class="fas fa-file-invoice"></i>
+          </div>
+          <h3 class="placeholder-title">Select Subject &amp; Generate Paper</h3>
+          <p class="placeholder-desc">
+            Choose your subject and examination pattern from the sidebar, then click <strong>Generate Paper</strong> to create 5 randomized model question papers.
+          </p>
+          <button type="button" class="placeholder-generate-btn" onclick="generateAllPapers()">
+            <i class="fas fa-bolt"></i> Generate Paper Now
+          </button>
+        </div>
+
+        <div class="exam-paper-sheet" id="examPaperSheet" style="display: none;">
           <div class="paper-uni-header">
             <div class="paper-uni-title">BTechX MODEL QUESTION PAPER</div>
             <div class="paper-exam-name" id="sheetExamName">MID-SEMESTER EXAMINATION — 2026</div>
@@ -1235,7 +1291,7 @@
       </div>
 
       <!-- Fixed Horizontal Zoom Controller (Stationary on Scroll in Right Corner) -->
-      <div class="fixed-zoom-bar" id="fixedZoomBar">
+      <div class="fixed-zoom-bar" id="fixedZoomBar" style="display: none;">
         <button type="button" class="zoom-btn" onclick="changeZoom(-0.1)" title="Zoom Out">
           <i class="fas fa-minus"></i>
         </button>
@@ -1331,8 +1387,31 @@
     let currentSetIndex = 1; // 1 to 5
     let generatedSetsData = {}; // { 1: html, 2: html, 3: html, 4: html, 5: html }
     let currentZoom = 1.0;
+    let hasGeneratedPapers = false;
 
     const ROMAN_NUMERALS = ['', 'I', 'II', 'III', 'IV', 'V'];
+
+    // Reset Canvas and Sets list back to clean default placeholder
+    function resetToPlaceholder() {
+      hasGeneratedPapers = false;
+      generatedSetsData = {};
+
+      const placeholder = document.getElementById('paperPlaceholderCard');
+      const sheet = document.getElementById('examPaperSheet');
+      const zoomBar = document.getElementById('fixedZoomBar');
+      const setsContainer = document.getElementById('setsListContainer');
+      const setsLabel = document.getElementById('setsPatternLabel');
+
+      if (placeholder) placeholder.style.display = 'flex';
+      if (sheet) sheet.style.display = 'none';
+      if (zoomBar) zoomBar.style.display = 'none';
+      if (setsLabel) {
+        setsLabel.textContent = currentExamMode === 'mid' ? 'Mid-Sem (20M)' : 'End-Sem (100M)';
+      }
+      if (setsContainer) {
+        setsContainer.innerHTML = '<div class="sets-placeholder-msg">Select options &amp; click &ldquo;Generate Paper&rdquo;</div>';
+      }
+    }
 
     // Fisher-Yates array shuffle for dynamic random question picking
     function shuffleArray(array) {
@@ -1344,16 +1423,9 @@
       return copy;
     }
 
-    // Load CSV for Subject
-    async function loadSubjectCSV(subjectKey) {
+    // Load CSV for Subject (silently in background by default, or autoGenerate when requested)
+    async function loadSubjectCSV(subjectKey, autoGenerate = false) {
       currentSubjectKey = subjectKey;
-      const container = document.getElementById('paperSectionsContainer');
-      container.innerHTML = `
-        <div class="paper-empty-state">
-          <i class="fas fa-spinner fa-spin" style="font-size: 1.5rem; margin-bottom: 10px; color: #888888;"></i>
-          <p>Loading questions for ${SUBJECT_METADATA[subjectKey].name}...</p>
-        </div>
-      `;
 
       try {
         const res = await fetch(SUBJECT_METADATA[subjectKey].csv);
@@ -1368,18 +1440,8 @@
         }
       }
 
-      if (currentQuestions.length > 0) {
+      if (autoGenerate) {
         generateAllPapers();
-      } else {
-        container.innerHTML = `
-          <div class="paper-empty-state">
-            <i class="fas fa-folder-open" style="font-size: 2rem; margin-bottom: 10px; color: #666666;"></i>
-            <h4 style="font-size: 1.1rem; color: #000000; margin-bottom: 6px;">Questions not added yet</h4>
-            <p style="font-size: 0.9rem; color: #555555; max-width: 460px; margin: 0 auto;">
-              Questions for ${SUBJECT_METADATA[subjectKey].name} will appear once added.
-            </p>
-          </div>
-        `;
       }
     }
 
@@ -1476,9 +1538,13 @@
     }
 
     // ── GENERATE 5 DISTINCT SETS ──
-    function generateAllPapers(showLoader = true) {
-      if (!currentQuestions.length) {
-        loadSubjectCSV(currentSubjectKey);
+    async function generateAllPapers(showLoader = true) {
+      if (!currentQuestions || !currentQuestions.length) {
+        await loadSubjectCSV(currentSubjectKey, false);
+      }
+
+      if (!currentQuestions || !currentQuestions.length) {
+        alert(`Questions for ${SUBJECT_METADATA[currentSubjectKey] ? SUBJECT_METADATA[currentSubjectKey].name : 'selected subject'} are not available yet.`);
         return;
       }
 
@@ -1492,6 +1558,16 @@
     }
 
     function executePaperGeneration() {
+      hasGeneratedPapers = true;
+
+      const placeholder = document.getElementById('paperPlaceholderCard');
+      const sheet = document.getElementById('examPaperSheet');
+      const zoomBar = document.getElementById('fixedZoomBar');
+
+      if (placeholder) placeholder.style.display = 'none';
+      if (sheet) sheet.style.display = 'block';
+      if (zoomBar) zoomBar.style.display = 'flex';
+
       generatedSetsData = {};
       for (let s = 1; s <= 5; s++) {
         generatedSetsData[s] = buildSetHTML(s, currentExamMode);
@@ -1499,6 +1575,7 @@
 
       renderSidebarSetsList();
       displayActivePaperSet();
+      applyZoom();
 
       // On mobile & tablet (<= 1024px), auto-close sidebar so user immediately views the generated paper
       if (window.innerWidth <= 1024) {
@@ -1822,8 +1899,21 @@
       }
     }
 
+    // ── PRINT CURRENT PAPER ──
+    function printCurrentPaper() {
+      if (!hasGeneratedPapers) {
+        alert('Please click "Generate Paper" first to create the question paper before printing.');
+        return;
+      }
+      window.print();
+    }
+
     // ── DIRECT CLIENT-SIDE PDF DOWNLOAD ──
     async function downloadPaperPDF() {
+      if (!hasGeneratedPapers) {
+        alert('Please click "Generate Paper" first to create the question paper before downloading PDF.');
+        return;
+      }
       const sheet = document.getElementById('examPaperSheet');
       const btn = document.getElementById('btnDownloadPDF');
       if (!sheet) return;
@@ -1919,7 +2009,8 @@
     function onSubjectChange() {
       currentSubjectKey = document.getElementById('subjectSelect').value;
       currentSetIndex = 1;
-      loadSubjectCSV(currentSubjectKey);
+      resetToPlaceholder();
+      loadSubjectCSV(currentSubjectKey, false);
     }
 
     // ── SWITCH EXAM MODE ──
@@ -1929,20 +2020,28 @@
       currentSetIndex = 1;
       document.getElementById('btnMidSem').classList.toggle('active', mode === 'mid');
       document.getElementById('btnEndSem').classList.toggle('active', mode === 'end');
-      generateAllPapers();
+      const setsLabel = document.getElementById('setsPatternLabel');
+      if (setsLabel) {
+        setsLabel.textContent = currentExamMode === 'mid' ? 'Mid-Sem (20M)' : 'End-Sem (100M)';
+      }
+      if (hasGeneratedPapers) {
+        generateAllPapers();
+      } else {
+        resetToPlaceholder();
+      }
     }
 
     // ── DOM READY ──
     window.addEventListener('DOMContentLoaded', () => {
       initSidebarState();
       buildMatrix();
+      resetToPlaceholder();
 
       // On mobile / tablet, auto-fit sheet zoom so entire A4 sheet fits viewport width cleanly
       if (window.innerWidth <= 1024) {
         const availableWidth = window.innerWidth - 24;
         const autoZoom = Math.min(1.0, Math.max(0.38, Math.floor((availableWidth / 840) * 100) / 100));
         currentZoom = autoZoom;
-        applyZoom();
       }
 
       const urlParams = new URLSearchParams(window.location.search);
@@ -1951,7 +2050,7 @@
         currentSubjectKey = subParam.toLowerCase();
         document.getElementById('subjectSelect').value = currentSubjectKey;
       }
-      loadSubjectCSV(currentSubjectKey);
+      loadSubjectCSV(currentSubjectKey, false);
     });
   </script>
 </body>
