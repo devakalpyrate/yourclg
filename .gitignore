@@ -2,3 +2,10 @@ Newdesine/
 *.lnk
 drive-download-*.zip
 *drive-download*/
+
+# Explicitly track Question Bank data & papers
+!Data/
+!Data/Questions/
+!Data/Questions/**
+!*.csv
+

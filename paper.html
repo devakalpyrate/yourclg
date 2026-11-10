@@ -58,34 +58,6 @@
       width: 100%;
     }
 
-    /* Top Navbar Options Button (Visible on Tablet & Mobile <= 1024px) */
-    .paper-sidebar-nav-btn {
-      display: none;
-      align-items: center;
-      gap: 7px;
-      background: #181818;
-      border: 1px solid #333333;
-      color: #ffffff;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      font-family: inherit;
-      cursor: pointer;
-      margin-left: 12px;
-      transition: all 0.15s ease;
-      white-space: nowrap;
-    }
-    .paper-sidebar-nav-btn:hover {
-      background: #262626;
-      border-color: #555555;
-    }
-    .paper-sidebar-nav-btn.active {
-      background: #ffffff;
-      color: #000000;
-      border-color: #ffffff;
-    }
-
     /* ── LEFT SIDEBAR: FIXED / UNSCROLLABLE (BLACK & WHITE) ── */
     .paper-sidebar {
       position: relative;
@@ -349,46 +321,6 @@
     }
     .sidebar-body::-webkit-scrollbar {
       display: none;
-    }
-
-    /* Mobile Drawer Title Bar with Close Button */
-    .mobile-sidebar-title-bar {
-      display: none;
-      align-items: center;
-      justify-content: space-between;
-      padding-bottom: 12px;
-      border-bottom: 1px solid #222222;
-      margin-bottom: 4px;
-    }
-    .mobile-drawer-title {
-      font-size: 0.86rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .mobile-sidebar-close-btn {
-      background: #181818;
-      border: 1px solid #333333;
-      color: #ffffff;
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.95rem;
-      cursor: pointer;
-      line-height: 1;
-      transition: background 0.15s, color 0.15s, border-color 0.15s;
-    }
-    .mobile-sidebar-close-btn:hover {
-      background: #ffffff;
-      color: #000000;
-      border-color: #ffffff;
     }
 
     /* ── MOBILE / TABLET DRAWER BACKDROP ── */
@@ -927,9 +859,6 @@
 
     /* ── TABLET & MOBILE DRAWER VIEW (<= 1024px, including 824x732) ── */
     @media (max-width: 1024px) {
-      .paper-sidebar-nav-btn {
-        display: inline-flex !important;
-      }
       .paper-workspace {
         position: relative !important;
         overflow: hidden !important;
@@ -960,12 +889,8 @@
         z-index: 1000 !important;
         display: flex !important;
       }
-      /* Inside drawer title bar with clean close button */
-      .mobile-sidebar-title-bar {
-        display: flex !important;
-      }
       .sidebar-body {
-        padding: 14px 14px 20px !important;
+        padding: 48px 16px 20px !important;
         gap: 12px !important;
       }
       .paper-preview-pane {
@@ -1060,15 +985,13 @@
         <a href="index.html" style="text-decoration: none; display: flex; align-items: center;">
           <span class="logo-text">BTechX</span>
         </a>
-        <button class="paper-sidebar-nav-btn" id="navbarSidebarToggle" onclick="toggleSidebar()" type="button" title="Toggle Paper Options">
-          <i class="fas fa-sliders-h"></i> <span>Options</span>
-        </button>
 
       </div>
       <div class="navbar-links">
         <a href="index.html">Home</a>
         <a href="index.html#subjects">Subjects</a>
         <a href="syllabus.html">Syllabus</a>
+        <a href="paper.html" class="active">Model Paper</a>
         <a href="about.html">About & Contact</a>
         <div class="apps-launcher-wrapper" id="appsLauncherWrapper">
           <button class="apps-launcher-btn" id="appsLauncherBtn" type="button" title="Apps" aria-label="Apps" aria-expanded="false">
@@ -1143,6 +1066,7 @@
       <a href="index.html">Home</a>
       <a href="index.html#subjects">Subjects</a>
       <a href="syllabus.html">Syllabus</a>
+      <a href="paper.html" class="active">Model Paper</a>
       <a href="about.html">About & Contact</a>
     </div>
   </div>
@@ -1160,16 +1084,6 @@
       </button>
 
       <div class="sidebar-body">
-        <!-- Mobile Drawer Header with Close Button -->
-        <div class="mobile-sidebar-title-bar">
-          <div class="mobile-drawer-title">
-            <i class="fas fa-sliders-h"></i> Paper Options
-          </div>
-          <button type="button" class="mobile-sidebar-close-btn" onclick="toggleSidebar(false)" aria-label="Close Options" title="Close Drawer">
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
-
         <!-- Subject Selection -->
         <div class="sidebar-group">
           <label class="sidebar-label" for="subjectSelect">
@@ -1822,7 +1736,6 @@
     function toggleSidebar(forceState) {
       const sidebar = document.getElementById('paperSidebar');
       const toggleBtn = document.getElementById('btnSidebarToggle');
-      const navBtn = document.getElementById('navbarSidebarToggle');
       const backdrop = document.getElementById('sidebarBackdrop');
       if (!sidebar) return;
       
@@ -1833,19 +1746,11 @@
       if (shouldOpen) {
         sidebar.classList.remove('collapsed');
         if (toggleBtn) toggleBtn.setAttribute('title', 'Close Sidebar');
-        if (navBtn) {
-          navBtn.classList.add('active');
-          navBtn.innerHTML = '<i class="fas fa-times"></i> <span>Close</span>';
-        }
         if (backdrop && isMobileOrTablet) backdrop.classList.add('active');
         try { localStorage.setItem('btechx_paper_sidebar', 'open'); } catch(e) {}
       } else {
         sidebar.classList.add('collapsed');
         if (toggleBtn) toggleBtn.setAttribute('title', 'Open Sidebar');
-        if (navBtn) {
-          navBtn.classList.remove('active');
-          navBtn.innerHTML = '<i class="fas fa-sliders-h"></i> <span>Options</span>';
-        }
         if (backdrop) backdrop.classList.remove('active');
         try { localStorage.setItem('btechx_paper_sidebar', 'closed'); } catch(e) {}
       }
@@ -1854,7 +1759,6 @@
     function initSidebarState() {
       const sidebar = document.getElementById('paperSidebar');
       const toggleBtn = document.getElementById('btnSidebarToggle');
-      const navBtn = document.getElementById('navbarSidebarToggle');
       const backdrop = document.getElementById('sidebarBackdrop');
       if (!sidebar) return;
 
@@ -1868,18 +1772,10 @@
       if (savedState === 'closed' || (savedState === null && isMobileOrTablet)) {
         sidebar.classList.add('collapsed');
         if (toggleBtn) toggleBtn.setAttribute('title', 'Open Sidebar');
-        if (navBtn) {
-          navBtn.classList.remove('active');
-          navBtn.innerHTML = '<i class="fas fa-sliders-h"></i> <span>Options</span>';
-        }
         if (backdrop) backdrop.classList.remove('active');
       } else {
         sidebar.classList.remove('collapsed');
         if (toggleBtn) toggleBtn.setAttribute('title', 'Close Sidebar');
-        if (navBtn) {
-          navBtn.classList.add('active');
-          navBtn.innerHTML = '<i class="fas fa-times"></i> <span>Close</span>';
-        }
         if (backdrop && isMobileOrTablet) backdrop.classList.add('active');
       }
     }
