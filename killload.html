@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dot Matrix — Loading Screen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Single accent hue — emerald green. No blue, no purple anywhere. */
+    --dot: #33d96f;
+    --bg: #070a08;
+    --bg-2: #0b0f0c;
+    --text: #d6e6da;
+    --text-dim: #6d7f73;
+    --hairline: rgba(51, 217, 111, .16);
+    --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    --dot-size: 11px;
+    --dot-gap: 13px;
+    --cols: 14;
+    --rows: 9;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html, body{ height: 100%; }
+
+  body{
+    margin: 0;
+    background:
+      radial-gradient(120% 90% at 50% 0%, rgba(51,217,111,.055), transparent 60%),
+      radial-gradient(80% 60% at 50% 110%, rgba(51,217,111,.035), transparent 65%),
+      var(--bg);
+    color: var(--text);
+    font-family: var(--font-mono);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─────────────────────────────────────────────
+     LOADING OVERLAY
+     ───────────────────────────────────────────── */
+  .loader{
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: grid;
+    place-items: center;
+    background:
+      radial-gradient(60% 55% at 50% 45%, rgba(51,217,111,.07), transparent 70%),
+      var(--bg);
+    transition: opacity .7s cubic-bezier(.4,0,.2,1), transform .7s cubic-bezier(.4,0,.2,1), visibility .7s;
+  }
+
+  .loader.is-done{
+    opacity: 0;
+    transform: scale(1.03);
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  /* faint technical grid behind everything */
+  .loader::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.022) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.022) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(circle at 50% 50%, #000 20%, transparent 78%);
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 20%, transparent 78%);
+    pointer-events: none;
+  }
+
+  .loader__inner{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 34px;
+    padding: 32px;
+  }
+
+  /* ── the dot matrix ── */
+  .matrix{
+    display: grid;
+    grid-template-columns: repeat(var(--cols), var(--dot-size));
+    gap: var(--dot-gap);
+    filter: drop-shadow(0 0 10px rgba(51,217,111,.18));
+  }
+
+  .matrix__dot{
+    width: var(--dot-size);
+    height: var(--dot-size);
+    border-radius: 50%;
+    background: var(--dot);
+    opacity: .1;
+    transform: scale(.62);
+    animation: sweep 2.6s cubic-bezier(.45,0,.55,1) infinite;
+    will-change: opacity, transform;
+  }
+
+  /* a bright band travels diagonally across the grid */
+  @keyframes sweep{
+    0%   { opacity: .1;  transform: scale(.62); }
+    14%  { opacity: 1;   transform: scale(1); }
+    30%  { opacity: .28; transform: scale(.82); }
+    55%  { opacity: .08; transform: scale(.6); }
+    100% { opacity: .1;  transform: scale(.62); }
+  }
+
+  /* ── readout ── */
+  .readout{
+    width: min(340px, 78vw);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .readout__row{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    font-size: 11px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+  }
+
+  .readout__label{ color: var(--text); }
+
+  .readout__pct{
+    color: var(--dot);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: .06em;
+    font-weight: 500;
+  }
+
+  /* thin linear progress — deliberately not circular, not skeletal */
+  .bar{
+    position: relative;
+    height: 3px;
+    width: 100%;
+    background: rgba(255,255,255,.09);
+    overflow: hidden;
+  }
+
+  .bar__fill{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: var(--dot);
+    box-shadow: 0 0 10px rgba(51,217,111,.55);
+  }
+
+  .bar__fill::after{
+    content: "";
+    position: absolute;
+    top: -4px; right: 0; bottom: -4px;
+    width: 26px;
+    background: linear-gradient(90deg, transparent, rgba(51,217,111,.55));
+  }
+
+  .status{
+    font-size: 10.5px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    height: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: opacity .25s ease;
+  }
+
+  .status::before{
+    content: "";
+    width: 5px;
+    height: 5px;
+    background: var(--dot);
+    border-radius: 50%;
+    animation: blink 1.4s steps(1, end) infinite;
+    flex: none;
+  }
+
+  @keyframes blink{
+    0%, 55% { opacity: 1; }
+    56%, 100% { opacity: .15; }
+  }
+
+  .loader__foot{
+    position: absolute;
+    bottom: 28px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 9.5px;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: rgba(109,127,115,.6);
+  }
+
+  /* ─────────────────────────────────────────────
+     THE PAGE BEHIND (so you can see it arrive)
+     ───────────────────────────────────────────── */
+  .page{
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 96px 28px 120px;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity .8s ease .1s, transform .8s cubic-bezier(.4,0,.2,1) .1s;
+  }
+
+  .page.is-visible{ opacity: 1; transform: none; }
+
+  .page__eyebrow{
+    font-size: 10px;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--dot);
+    margin: 0 0 18px;
+  }
+
+  .page h1{
+    font-size: clamp(26px, 4.6vw, 40px);
+    line-height: 1.15;
+    font-weight: 500;
+    letter-spacing: -.02em;
+    margin: 0 0 20px;
+  }
+
+  .page p{
+    color: var(--text-dim);
+    font-size: 13.5px;
+    line-height: 1.85;
+    margin: 0 0 16px;
+    max-width: 58ch;
+  }
+
+  .page code{
+    color: var(--text);
+    background: rgba(51,217,111,.09);
+    border: 1px solid var(--hairline);
+    padding: 1px 6px;
+    font-size: 12px;
+  }
+
+  .replay{
+    margin-top: 30px;
+    font-family: inherit;
+    font-size: 11px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--dot);
+    background: rgba(51,217,111,.07);
+    border: 1px solid var(--hairline);
+    padding: 13px 22px;
+    cursor: pointer;
+    transition: background .2s ease, border-color .2s ease;
+  }
+
+  .replay:hover{
+    background: rgba(51,217,111,.14);
+    border-color: rgba(51,217,111,.38);
+  }
+
+  .replay:focus-visible{
+    outline: 1px solid var(--dot);
+    outline-offset: 3px;
+  }
+
+  /* ── accessibility / reduced motion ── */
+  @media (prefers-reduced-motion: reduce){
+    .matrix__dot{ animation: none; opacity: .55; transform: none; }
+    .status::before{ animation: none; }
+    .loader, .page{ transition-duration: .01s; }
+  }
+
+  @media (max-width: 520px){
+    :root{ --dot-size: 9px; --dot-gap: 10px; }
+    .matrix{ grid-template-columns: repeat(var(--cols), var(--dot-size)); }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ══ LOADING SCREEN ══ -->
+  <div class="loader" id="loader" role="status" aria-live="polite" aria-label="Page loading">
+    <div class="loader__inner">
+
+      <div class="matrix" id="matrix" aria-hidden="true"></div>
+
+      <div class="readout">
+        <div class="readout__row">
+          <span class="readout__label">Loading</span>
+          <span class="readout__pct" id="pct">0%</span>
+        </div>
+        <div class="bar" aria-hidden="true">
+          <div class="bar__fill" id="barFill"></div>
+        </div>
+        <div class="status" id="status">Connecting</div>
+      </div>
+
+    </div>
+    <div class="loader__foot">dot matrix &middot; v1</div>
+  </div>
+
+  <!-- ══ PAGE BEHIND ══ -->
+  <main class="page" id="page">
+    <p class="page__eyebrow">Ready</p>
+    <h1>The dot matrix loader finished. This is your page.</h1>
+    <p>
+      Fourteen columns, nine rows, one single accent hue &mdash; no gradients, no second
+      colour. A bright band travels diagonally across the grid, dot by dot, so the screen
+      reads as motion rather than as a spinner or a grey placeholder block.
+    </p>
+    <p>
+      Drop the <code>.loader</code> block into any page and remove the
+      <code>is-done</code> class when your data resolves. The progress bar and status line
+      are driven by a single <code>setProgress()</code> call in the script below.
+    </p>
+    <button class="replay" id="replay">Replay loading screen</button>
+  </main>
+
+<script>
+(function () {
+  const COLS = 14;
+  const ROWS = 9;
+
+  const matrix  = document.getElementById('matrix');
+  const loader  = document.getElementById('loader');
+  const page    = document.getElementById('page');
+  const pctEl   = document.getElementById('pct');
+  const barFill = document.getElementById('barFill');
+  const statusEl = document.getElementById('status');
+  const replay  = document.getElementById('replay');
+
+  const STATUS_STEPS = [
+    { at: 0,  text: 'Connecting' },
+    { at: 18, text: 'Fetching assets' },
+    { at: 42, text: 'Rendering dot matrix' },
+    { at: 68, text: 'Warming up the grid' },
+    { at: 88, text: 'Almost there' },
+    { at: 100, text: 'Ready' }
+  ];
+
+  /* Build the dot grid once. Delay per dot is set by its diagonal index,
+     so the bright band sweeps across from top-left to bottom-right. */
+  function buildMatrix() {
+    matrix.innerHTML = '';
+    const frag = document.createDocumentFragment();
+
+    for (let r = 0; r < ROWS; r++) {
+      for (let c = 0; c < COLS; c++) {
+        const dot = document.createElement('span');
+        dot.className = 'matrix__dot';
+        const diagonal = r + c;                 // 0 .. (ROWS-1)+(COLS-1)
+        dot.style.animationDelay = (diagonal * 0.085) + 's';
+        frag.appendChild(dot);
+      }
+    }
+    matrix.appendChild(frag);
+  }
+
+  /* Public-ish API: call setProgress(0..100) from your real loading logic. */
+  let current = 0;
+  function setProgress(value) {
+    current = Math.max(0, Math.min(100, Math.round(value)));
+    pctEl.textContent = current + '%';
+    barFill.style.width = current + '%';
+
+    let label = STATUS_STEPS[0].text;
+    for (const step of STATUS_STEPS) {
+      if (current >= step.at) label = step.text;
+    }
+    if (statusEl.textContent !== label) statusEl.textContent = label;
+  }
+  window.setProgress = setProgress;
+
+  function finish() {
+    setProgress(100);
+    setTimeout(() => {
+      loader.classList.add('is-done');
+      page.classList.add('is-visible');
+    }, 380);
+  }
+
+  /* Simulated load — swap this block for your real async work. */
+  let timer = null;
+  function simulate() {
+    clearInterval(timer);
+    current = 0;
+    setProgress(0);
+    timer = setInterval(() => {
+      // ease out: big jumps early, small at the end
+      const step = current < 55 ? Math.random() * 9 + 3
+                 : current < 85 ? Math.random() * 4 + 1.2
+                 : Math.random() * 1.6 + 0.4;
+      if (current + step >= 100) {
+        clearInterval(timer);
+        finish();
+      } else {
+        setProgress(current + step);
+      }
+    }, 230);
+  }
+
+  function start() {
+    loader.classList.remove('is-done');
+    page.classList.remove('is-visible');
+    setProgress(0);
+    simulate();
+  }
+
+  replay.addEventListener('click', () => {
+    start();
+    window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+  });
+
+  buildMatrix();
+  start();
+})();
+</script>
+</body>
+</html>

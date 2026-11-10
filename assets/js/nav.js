@@ -338,6 +338,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                     <span class="alp-item-name">BTechX</span>
                 </a>
+                <a href="${prefix}paper.html" class="alp-item" title="Paper">
+                    <div class="alp-item-icon">
+                        <img src="${prefix}images/paper.png" alt="Paper" onerror="this.onerror=null;" />
+                    </div>
+                    <span class="alp-item-name">Paper</span>
+                </a>
             </div>
             <div class="alp-storage-track" id="appsStorageTrack" title="Browser Storage">
                 <div class="alp-storage-fill" id="appsStorageFill" style="width: 100%;"></div>

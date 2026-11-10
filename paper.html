@@ -1,0 +1,2062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paper | BTechX</title>
+  <link rel="icon" type="image/png" href="logo.png">
+
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* ══ PURE BLACK & WHITE MINIMAL WORKSPACE (NO OVERLAP) ══ */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      height: 100%;
+      width: 100%;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow: hidden;
+      background: #000000;
+      color: #ffffff;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── NAVBAR ZERO-OVERLAP FLOW ── */
+    .navbar {
+      position: relative !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      z-index: 1000 !important;
+      background: #0a0a0a !important;
+      border-bottom: 1px solid #1f1f1f !important;
+      padding: 12px 0 !important;
+      flex-shrink: 0 !important;
+    }
+
+    /* ── MAIN WORKSPACE CONTAINER ── */
+    .paper-workspace {
+      position: relative !important;
+      flex: 1;
+      display: flex;
+      height: auto;
+      min-height: 0;
+      overflow: hidden;
+      background: #000000;
+      width: 100%;
+    }
+
+    /* Top Navbar Options Button (Visible on Tablet & Mobile <= 1024px) */
+    .paper-sidebar-nav-btn {
+      display: none;
+      align-items: center;
+      gap: 7px;
+      background: #181818;
+      border: 1px solid #333333;
+      color: #ffffff;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      margin-left: 12px;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .paper-sidebar-nav-btn:hover {
+      background: #262626;
+      border-color: #555555;
+    }
+    .paper-sidebar-nav-btn.active {
+      background: #ffffff;
+      color: #000000;
+      border-color: #ffffff;
+    }
+
+    /* ── LEFT SIDEBAR: FIXED / UNSCROLLABLE (BLACK & WHITE) ── */
+    .paper-sidebar {
+      position: relative;
+      width: 320px;
+      min-width: 320px;
+      max-width: 320px;
+      height: 100%;
+      background: #0d0d0d;
+      border-right: 1px solid #222222;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      z-index: 500; /* Stays above preview pane and loader overlay */
+      overflow: visible; /* Allows square toggle tab to protrude outside */
+      transition: margin-left 0.28s cubic-bezier(0.16, 1, 0.3, 1), transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .paper-sidebar.collapsed {
+      margin-left: -320px;
+    }
+
+    /* ── OUTSIDE SQUARE TOGGLE HANDLE (ATTACHED TO SIDEBAR EDGE) ── */
+    .sidebar-edge-toggle {
+      position: absolute;
+      top: 14px;
+      right: -34px;
+      width: 34px;
+      height: 34px;
+      background: #0d0d0d;
+      border: 1px solid #333333;
+      border-left: none;
+      border-radius: 0 6px 6px 0;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1000; /* Highest priority: never covered by loader or canvas */
+      box-shadow: 4px 2px 12px rgba(0, 0, 0, 0.6);
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .sidebar-edge-toggle:hover {
+      background: #ffffff;
+      color: #000000;
+      border-color: #ffffff;
+    }
+    .sidebar-edge-toggle:focus {
+      outline: none;
+    }
+    .sidebar-edge-toggle i {
+      font-size: 0.82rem;
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .paper-sidebar.collapsed .sidebar-edge-toggle {
+      border-left: 1px solid #333333;
+    }
+    .paper-sidebar.collapsed .sidebar-edge-toggle i {
+      transform: rotate(180deg);
+    }
+
+    /* ══ DOT MATRIX LOADING SCREEN (from killload.html) ══ */
+    :root {
+      --dot: #33d96f;
+      --loader-bg: #070a08;
+      --loader-font: "JetBrains Mono", ui-monospace, monospace;
+      --dot-size: 11px;
+      --dot-gap: 13px;
+      --cols: 14;
+      --rows: 9;
+    }
+
+    .loader {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      min-height: 100%;
+      z-index: 30; /* Inside preview pane, below sidebar z-index 500 */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(60% 55% at 50% 45%, rgba(51, 217, 111, .07), transparent 70%),
+        var(--loader-bg);
+      transition: opacity .6s cubic-bezier(.4, 0, .2, 1), transform .6s cubic-bezier(.4, 0, .2, 1), visibility .6s;
+      font-family: var(--loader-font);
+    }
+
+    .loader.is-done {
+      opacity: 0;
+      transform: scale(1.03);
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loader::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(255, 255, 255, .022) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, .022) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(circle at 50% 50%, #000 20%, transparent 78%);
+      -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 20%, transparent 78%);
+      pointer-events: none;
+    }
+
+    .loader__inner {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 34px;
+      padding: 32px;
+    }
+
+    .matrix {
+      display: grid;
+      grid-template-columns: repeat(var(--cols), var(--dot-size));
+      gap: var(--dot-gap);
+      filter: drop-shadow(0 0 10px rgba(51, 217, 111, .18));
+    }
+
+    .matrix__dot {
+      width: var(--dot-size);
+      height: var(--dot-size);
+      border-radius: 50%;
+      background: var(--dot);
+      opacity: .1;
+      transform: scale(.62);
+      animation: matrixSweep 2.6s cubic-bezier(.45, 0, .55, 1) infinite;
+      will-change: opacity, transform;
+    }
+
+    @keyframes matrixSweep {
+      0%   { opacity: .1;  transform: scale(.62); }
+      14%  { opacity: 1;   transform: scale(1); }
+      30%  { opacity: .28; transform: scale(.82); }
+      55%  { opacity: .08; transform: scale(.6); }
+      100% { opacity: .1;  transform: scale(.62); }
+    }
+
+    .readout {
+      width: min(340px, 78vw);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .readout__row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 11px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      font-family: var(--loader-font);
+    }
+
+    .readout__label { color: #d6e6da; }
+
+    .readout__pct {
+      color: var(--dot);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: .06em;
+      font-weight: 500;
+      font-family: var(--loader-font);
+    }
+
+    .bar {
+      position: relative;
+      height: 3px;
+      width: 100%;
+      background: rgba(255, 255, 255, .09);
+      overflow: hidden;
+    }
+
+    .bar__fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0%;
+      background: var(--dot);
+      box-shadow: 0 0 10px rgba(51, 217, 111, .55);
+      transition: width 0.15s ease-out;
+    }
+
+    .bar__fill::after {
+      content: "";
+      position: absolute;
+      top: -4px; right: 0; bottom: -4px;
+      width: 26px;
+      background: linear-gradient(90deg, transparent, rgba(51, 217, 111, .55));
+    }
+
+    .status {
+      font-size: 10.5px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: #6d7f73;
+      height: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: opacity .25s ease;
+      font-family: var(--loader-font);
+    }
+
+    .status::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      background: var(--dot);
+      border-radius: 50%;
+      animation: matrixBlink 1.4s steps(1, end) infinite;
+      flex: none;
+    }
+
+    @keyframes matrixBlink {
+      0%, 55% { opacity: 1; }
+      56%, 100% { opacity: .15; }
+    }
+
+    .loader__foot {
+      position: absolute;
+      bottom: 28px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 9.5px;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: rgba(109, 127, 115, .6);
+      font-family: var(--loader-font);
+    }
+
+    @media (max-width: 520px) {
+      :root { --dot-size: 9px; --dot-gap: 10px; }
+      .matrix { grid-template-columns: repeat(var(--cols), var(--dot-size)); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .matrix__dot { animation: none; opacity: .55; transform: none; }
+      .status::before { animation: none; }
+      .loader { transition-duration: .01s; }
+    }
+
+    .sidebar-body {
+      padding: 48px 16px 16px; /* Offset down so options start cleanly below the toggle button */
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex: 1;
+      overflow-y: auto;
+      scrollbar-width: none;
+      position: relative;
+      z-index: 1;
+    }
+    .sidebar-body::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Mobile Drawer Title Bar with Close Button */
+    .mobile-sidebar-title-bar {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #222222;
+      margin-bottom: 4px;
+    }
+    .mobile-drawer-title {
+      font-size: 0.86rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .mobile-sidebar-close-btn {
+      background: #181818;
+      border: 1px solid #333333;
+      color: #ffffff;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .mobile-sidebar-close-btn:hover {
+      background: #ffffff;
+      color: #000000;
+      border-color: #ffffff;
+    }
+
+    /* ── MOBILE / TABLET DRAWER BACKDROP ── */
+    .sidebar-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(2px);
+      z-index: 450;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+    }
+    .sidebar-backdrop.active {
+      display: block;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .sidebar-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .sidebar-label {
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #888888;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ── SUBJECT DROPDOWN ── */
+    .sidebar-select {
+      width: 100%;
+      min-width: 0;
+      height: 38px;
+      background: #141414;
+      border: 1px solid #2e2e2e;
+      border-radius: 8px;
+      color: #ffffff;
+      padding: 0 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      font-family: inherit;
+      outline: none;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .sidebar-select:focus {
+      border-color: #ffffff;
+      background: #181818;
+    }
+    .sidebar-select option {
+      background: #0f0f0f;
+      color: #ffffff;
+    }
+
+    /* ── EXAM PATTERN TOGGLE (BLACK & WHITE) ── */
+    .sidebar-toggle-group {
+      display: flex;
+      height: 36px;
+      background: #141414;
+      border: 1px solid #2e2e2e;
+      border-radius: 8px;
+      padding: 3px;
+      gap: 3px;
+    }
+    .sidebar-toggle-btn {
+      flex: 1;
+      height: 100%;
+      background: transparent;
+      border: none;
+      color: #888888;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .sidebar-toggle-btn.active {
+      background: #ffffff;
+      color: #000000;
+      font-weight: 700;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    /* ── ACTION BUTTONS: GENERATE & PRINT ── */
+    .sidebar-action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* Primary Generate Button (Prominent Pure White) */
+    .sidebar-btn-generate {
+      width: 100%;
+      height: 40px;
+      background: #ffffff;
+      color: #000000;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 2px 10px rgba(255, 255, 255, 0.15);
+      transition: all 0.15s ease;
+    }
+    .sidebar-btn-generate:hover {
+      background: #e5e5e5;
+      transform: translateY(-1px);
+    }
+    .sidebar-btn-generate:active {
+      transform: translateY(0);
+    }
+
+    /* Download PDF Button (Direct client-side generation) */
+    .sidebar-btn-download {
+      width: 100%;
+      height: 40px;
+      background: #ffffff;
+      border: 1px solid #ffffff;
+      color: #000000;
+      border-radius: 8px;
+      font-size: 0.86rem;
+      font-weight: 800;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 2px 10px rgba(255, 255, 255, 0.12);
+      transition: all 0.15s ease;
+    }
+    .sidebar-btn-download:hover {
+      background: #e6e6e6;
+      border-color: #e6e6e6;
+      transform: translateY(-1px);
+    }
+    .sidebar-btn-download:active {
+      transform: translateY(0);
+    }
+    .sidebar-btn-download.is-downloading {
+      opacity: 0.75;
+      cursor: wait;
+      pointer-events: none;
+    }
+
+    /* Print Button */
+    .sidebar-btn-print {
+      width: 100%;
+      height: 38px;
+      background: #161616;
+      border: 1px solid #333333;
+      color: #ffffff;
+      border-radius: 8px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: all 0.15s ease;
+    }
+    .sidebar-btn-print:hover {
+      background: #252525;
+      border-color: #555555;
+    }
+
+    /* ── QUESTION PAPERS: 5 SETS SECTION (IN PLACE OF DOCUMENT SPECS) ── */
+    .papers-sets-container {
+      background: #111111;
+      border: 1px solid #222222;
+      border-radius: 9px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .sets-header {
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #a3a3a3;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #1f1f1f;
+      margin-bottom: 2px;
+    }
+    .sets-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .paper-set-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      border-radius: 7px;
+      background: #171717;
+      border: 1px solid #262626;
+      color: #cccccc;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: inherit;
+      width: 100%;
+      text-align: left;
+    }
+    .paper-set-item:hover {
+      background: #202020;
+      border-color: #404040;
+      color: #ffffff;
+    }
+    .paper-set-item.active {
+      background: #242424;
+      border-color: #ffffff;
+      color: #ffffff;
+    }
+    .set-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .set-pill {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #2b2b2b;
+      color: #ffffff;
+    }
+    .paper-set-item.active .set-pill {
+      background: #ffffff;
+      color: #000000;
+    }
+    .set-title {
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+    .set-meta {
+      font-size: 0.74rem;
+      color: #888888;
+      font-weight: 600;
+    }
+    .paper-set-item.active .set-meta {
+      color: #ffffff;
+    }
+
+    /* ── NOTE BOX ── */
+    .sidebar-note {
+      font-size: 0.74rem;
+      line-height: 1.45;
+      color: #777777;
+      border-top: 1px solid #1a1a1a;
+      padding-top: 10px;
+      display: flex;
+      gap: 6px;
+      align-items: flex-start;
+    }
+    .sidebar-note i {
+      margin-top: 2px;
+      color: #aaaaaa;
+    }
+
+    /* ── RIGHT PREVIEW PANE (SCROLLABLE & ZOOMABLE) ── */
+    .paper-preview-pane {
+      position: relative;
+      flex: 1;
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: auto;
+      background: #050505;
+      padding: 20px 24px 80px;
+      scroll-behavior: smooth;
+    }
+    /* Lock scrolling and hide paper sheet completely while generating */
+    .paper-preview-pane.is-loading {
+      overflow: hidden !important;
+    }
+    .paper-preview-pane.is-loading .preview-canvas {
+      visibility: hidden !important;
+      opacity: 0 !important;
+    }
+    .paper-preview-pane.is-loading .fixed-zoom-bar {
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+    .paper-preview-pane::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    .paper-preview-pane::-webkit-scrollbar-track {
+      background: #0a0a0a;
+    }
+    .paper-preview-pane::-webkit-scrollbar-thumb {
+      background: #282828;
+      border-radius: 4px;
+    }
+    .paper-preview-pane::-webkit-scrollbar-thumb:hover {
+      background: #3a3a3a;
+    }
+
+    /* ── FIXED HORIZONTAL ZOOM BAR (RIGHT-SIDE CORNER, STATIONARY ON SCROLL) ── */
+    .fixed-zoom-bar {
+      position: fixed;
+      right: 28px;
+      bottom: 24px;
+      z-index: 500;
+      display: flex;
+      flex-direction: row; /* HORIZONTAL */
+      align-items: center;
+      background: #111111;
+      border: 1px solid #2e2e2e;
+      border-radius: 8px;
+      padding: 3px 6px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
+      user-select: none;
+    }
+    .fixed-zoom-bar .zoom-btn {
+      background: transparent;
+      border: none;
+      color: #cccccc;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.84rem;
+      transition: background 0.15s, color 0.15s;
+    }
+    .fixed-zoom-bar .zoom-btn:hover {
+      background: #ffffff;
+      color: #000000;
+    }
+    .fixed-zoom-bar .zoom-text {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #ffffff;
+      padding: 0 10px;
+      cursor: pointer;
+      min-width: 48px;
+      text-align: center;
+    }
+
+    /* ── THE PAPER SHEET (BLACK & WHITE PRINT LOOK) ── */
+    .preview-canvas {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+    .exam-paper-sheet {
+      width: 820px;
+      max-width: 820px;
+      background: #ffffff;
+      color: #000000;
+      border-radius: 4px;
+      padding: 44px 50px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 0 1px #222222;
+      font-family: 'Times New Roman', Times, serif;
+      line-height: 1.6;
+      transition: transform 0.15s ease-out;
+      transform-origin: top center;
+    }
+    .exam-paper-sheet * {
+      box-sizing: border-box;
+    }
+
+    .paper-uni-header {
+      text-align: center;
+      border-bottom: 2px solid #000000;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+    }
+    .paper-uni-title {
+      font-size: 1.35rem;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    .paper-exam-name {
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 0;
+      color: #000000;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    .paper-header-grid {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      background: #fafafa;
+      border: 1px solid #111111;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+    .paper-header-details {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      text-align: left;
+    }
+    .ph-course {
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: #000000;
+      font-family: 'Times New Roman', Times, serif;
+    }
+    .ph-branch {
+      font-size: 0.82rem;
+      color: #444444;
+      font-weight: 600;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    .paper-set-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px 14px;
+      border: 2px solid #000000;
+      background: #ffffff;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-weight: 900;
+      font-size: 1rem;
+      letter-spacing: 1.2px;
+      color: #000000;
+      text-transform: uppercase;
+      box-shadow: 2px 2px 0 #000000;
+      white-space: nowrap;
+    }
+    .paper-meta-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      font-weight: 700;
+      padding: 6px 4px;
+      border-bottom: 1.5px solid #000000;
+      margin-bottom: 14px;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    .paper-instructions {
+      font-size: 0.88rem;
+      font-style: italic;
+      background: #f4f4f4;
+      border-left: 3px solid #222222;
+      padding: 8px 14px;
+      margin-bottom: 22px;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+
+    .paper-section {
+      margin-bottom: 26px;
+    }
+    .paper-section-head {
+      font-size: 1.05rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      border-bottom: 1.5px solid #000000;
+      padding-bottom: 4px;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    .paper-section-marks {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #333333;
+    }
+    .question-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .question-item {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 14px;
+      font-size: 1.02rem;
+      line-height: 1.55;
+    }
+    .q-number {
+      font-weight: 800;
+      min-width: 28px;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    .q-text {
+      flex: 1;
+    }
+    .q-meta {
+      font-size: 0.82rem;
+      color: #555555;
+      white-space: nowrap;
+      margin-left: 12px;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-weight: 600;
+    }
+
+    .paper-empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #666666;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+
+    /* ── TABLET & MOBILE DRAWER VIEW (<= 1024px, including 824x732) ── */
+    @media (max-width: 1024px) {
+      .paper-sidebar-nav-btn {
+        display: inline-flex !important;
+      }
+      .paper-workspace {
+        position: relative !important;
+        overflow: hidden !important;
+      }
+      .paper-sidebar {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        bottom: 0 !important;
+        width: min(320px, 86vw) !important;
+        min-width: 280px !important;
+        max-width: 320px !important;
+        height: 100% !important;
+        box-shadow: 14px 0 36px rgba(0, 0, 0, 0.9) !important;
+        border-right: 1px solid #2a2a2a !important;
+        z-index: 500 !important;
+        transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      }
+      .paper-sidebar.collapsed {
+        transform: translateX(-100%) !important;
+        margin-left: 0 !important;
+      }
+      .sidebar-edge-toggle {
+        top: 14px !important;
+        right: -36px !important;
+        width: 36px !important;
+        height: 36px !important;
+        z-index: 1000 !important;
+        display: flex !important;
+      }
+      /* Inside drawer title bar with clean close button */
+      .mobile-sidebar-title-bar {
+        display: flex !important;
+      }
+      .sidebar-body {
+        padding: 14px 14px 20px !important;
+        gap: 12px !important;
+      }
+      .paper-preview-pane {
+        padding: 14px 10px 70px !important;
+      }
+      .fixed-zoom-bar {
+        right: 14px !important;
+        bottom: 14px !important;
+        padding: 3px 6px !important;
+        z-index: 400 !important;
+      }
+      .fixed-zoom-bar .zoom-btn {
+        width: 32px !important;
+        height: 32px !important;
+      }
+      .fixed-zoom-bar .zoom-text {
+        padding: 0 6px !important;
+        font-size: 0.76rem !important;
+        min-width: 42px !important;
+      }
+    }
+
+    @media (max-width: 520px) {
+      :root {
+        --dot-size: 8px;
+        --dot-gap: 8px;
+      }
+      .matrix {
+        grid-template-columns: repeat(var(--cols), var(--dot-size));
+      }
+      .readout {
+        width: 86vw;
+      }
+    }
+
+    /* ── PRINT MEDIA (CLEAN A4 PAPER ONLY) ── */
+    @media print {
+      html, body {
+        overflow: visible !important;
+        height: auto !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+      body * {
+        visibility: hidden;
+      }
+      .exam-paper-sheet, .exam-paper-sheet * {
+        visibility: visible;
+      }
+      .exam-paper-sheet {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 16px 20px !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        transform: none !important;
+      }
+      .paper-sidebar, .sidebar-edge-toggle, .navbar, .mobile-menu, .preview-toolbar, .fixed-zoom-bar, .sidebar-expand-btn, .loader {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ MAIN NAVBAR ══ -->
+  <nav class="navbar">
+    <div class="container navbar-inner">
+      <div class="navbar-brand">
+        <button class="apps-launcher-btn mobile-apps-btn" id="mobileAppsLauncherBtn" type="button" title="Apps" aria-label="Apps">
+          <span class="apps-icon-stack">
+            <svg class="apps-matrix-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+              <circle cx="2.5" cy="2.5" r="1.6"></circle>
+              <circle cx="8" cy="2.5" r="1.6"></circle>
+              <circle cx="13.5" cy="2.5" r="1.6"></circle>
+              <circle cx="2.5" cy="8" r="1.6"></circle>
+              <circle cx="8" cy="8" r="1.6"></circle>
+              <circle cx="13.5" cy="8" r="1.6"></circle>
+              <circle cx="2.5" cy="13.5" r="1.6"></circle>
+              <circle cx="8" cy="13.5" r="1.6"></circle>
+              <circle cx="13.5" cy="13.5" r="1.6"></circle>
+            </svg>
+            <svg class="apps-neon-icon" width="16" height="16" viewBox="7 -35 1060 1060" fill="none" aria-hidden="true">
+              <path d="M 124 35 L 124 195 C 124 275, 165 305, 255 335 C 420 390, 560 442, 692 484 C 560 526, 420 582, 255 645 C 165 680, 124 715, 122 800 L 122 955 C 330 890, 535 765, 622 685 C 785 595, 895 520, 916 499 L 952 484 L 916 469 C 895 440, 785 350, 622 252 C 535 190, 330 95, 124 35 Z" stroke="url(#neonGradientNav)" stroke-width="70" stroke-opacity="0.25" stroke-linejoin="round" />
+            </svg>
+          </span>
+        </button>
+        <a href="index.html" style="text-decoration: none; display: flex; align-items: center;">
+          <span class="logo-text">BTechX</span>
+        </a>
+        <button class="paper-sidebar-nav-btn" id="navbarSidebarToggle" onclick="toggleSidebar()" type="button" title="Toggle Paper Options">
+          <i class="fas fa-sliders-h"></i> <span>Options</span>
+        </button>
+
+      </div>
+      <div class="navbar-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#subjects">Subjects</a>
+        <a href="syllabus.html">Syllabus</a>
+        <a href="about.html">About & Contact</a>
+        <div class="apps-launcher-wrapper" id="appsLauncherWrapper">
+          <button class="apps-launcher-btn" id="appsLauncherBtn" type="button" title="Apps" aria-label="Apps" aria-expanded="false">
+            <span class="apps-icon-stack">
+              <svg class="apps-matrix-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                <circle cx="2.5" cy="2.5" r="1.6"></circle>
+                <circle cx="8" cy="2.5" r="1.6"></circle>
+                <circle cx="13.5" cy="2.5" r="1.6"></circle>
+                <circle cx="2.5" cy="8" r="1.6"></circle>
+                <circle cx="8" cy="8" r="1.6"></circle>
+                <circle cx="13.5" cy="8" r="1.6"></circle>
+                <circle cx="2.5" cy="13.5" r="1.6"></circle>
+                <circle cx="8" cy="13.5" r="1.6"></circle>
+                <circle cx="13.5" cy="13.5" r="1.6"></circle>
+              </svg>
+            </span>
+          </button>
+          <div class="apps-launcher-popover" id="appsLauncherPopover" role="dialog" aria-label="DLM Apps Launcher">
+            <div class="alp-header">
+              <span class="alp-header-title">Apps</span>
+            </div>
+            <div class="alp-grid">
+              <a href="https://angkor-ai-dlm.vercel.app/" target="_blank" rel="noopener noreferrer" class="alp-item" title="Angkor AI">
+                <div class="alp-item-icon">
+                  <img src="images/angkor.png" alt="Angkor AI" onerror="this.onerror=null;this.src='https://angkor-ai-dlm.vercel.app/favicon.ico';" />
+                </div>
+                <span class="alp-item-name">Angkor AI</span>
+              </a>
+              <a href="https://meta-cleaner-dlm.vercel.app/" target="_blank" rel="noopener noreferrer" class="alp-item" title="MetaCleaner">
+                <div class="alp-item-icon">
+                  <img src="images/metacleaner.png" alt="MetaCleaner" onerror="this.onerror=null;this.src='https://meta-cleaner-dlm.vercel.app/favicon.ico';" />
+                </div>
+                <span class="alp-item-name">MetaCleaner</span>
+              </a>
+              <a href="https://k6dlm.vercel.app/" target="_blank" rel="noopener noreferrer" class="alp-item" title="K6 Engine — NIFTY 50 Directional Intelligence">
+                <div class="alp-item-icon">
+                  <img src="images/k6.png" alt="K6 Engine" onerror="this.onerror=null;this.src='https://k6dlm.vercel.app/favicon.ico';" />
+                </div>
+                <span class="alp-item-name">K6 Engine</span>
+              </a>
+              <a href="index.html" class="alp-item" title="BTechX">
+                <div class="alp-item-icon">
+                  <img src="logo.png" alt="BTechX Logo" onerror="this.onerror=null;this.src='images/btechx.png';" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                </div>
+                <span class="alp-item-name">BTechX</span>
+              </a>
+              <a href="paper.html" class="alp-item" title="Paper">
+                <div class="alp-item-icon">
+                  <img src="images/paper.png" alt="Paper" onerror="this.onerror=null;" />
+                </div>
+                <span class="alp-item-name">Paper</span>
+              </a>
+            </div>
+            <div class="alp-storage-track" id="appsStorageTrack" title="Browser Storage">
+              <div class="alp-storage-fill" id="appsStorageFill" style="width: 100%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-panel">
+      <div class="sidebar-header" style="display: flex; align-items: center;">
+        <span class="logo-text">BTechX</span>
+        <button class="close-btn" id="closeMenu">&times;</button>
+      </div>
+      <a href="index.html">Home</a>
+      <a href="index.html#subjects">Subjects</a>
+      <a href="syllabus.html">Syllabus</a>
+      <a href="about.html">About & Contact</a>
+    </div>
+  </div>
+
+  <!-- ══ SPLIT WORKSPACE: PURE BLACK & WHITE MINIMAL UI ══ -->
+  <div class="paper-workspace">
+    <!-- Mobile / Tablet Drawer Backdrop -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar(false)"></div>
+
+    <!-- LEFT SIDEBAR: FIXED / UNSCROLLABLE (CONTROLS & 5 SETS) -->
+    <aside class="paper-sidebar" id="paperSidebar">
+      <!-- Outside Square Toggle Handle (Moves with sidebar to open / close) -->
+      <button type="button" class="sidebar-edge-toggle" id="btnSidebarToggle" onclick="toggleSidebar()" title="Close Sidebar">
+        <i class="fas fa-chevron-left" id="sidebarToggleIcon"></i>
+      </button>
+
+      <div class="sidebar-body">
+        <!-- Mobile Drawer Header with Close Button -->
+        <div class="mobile-sidebar-title-bar">
+          <div class="mobile-drawer-title">
+            <i class="fas fa-sliders-h"></i> Paper Options
+          </div>
+          <button type="button" class="mobile-sidebar-close-btn" onclick="toggleSidebar(false)" aria-label="Close Options" title="Close Drawer">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <!-- Subject Selection -->
+        <div class="sidebar-group">
+          <label class="sidebar-label" for="subjectSelect">
+            <i class="fas fa-book"></i> Subject
+          </label>
+          <select id="subjectSelect" class="sidebar-select" onchange="onSubjectChange()" title="Select Subject">
+            <option value="uhv" selected>Universal Human Values (HS201)</option>
+            <option value="dbe">Database Engineering (CS202)</option>
+            <option value="dccn">Data Communication & Network (CS201)</option>
+            <option value="dmgt">Discrete Mathematics & Graph Theory (MA203)</option>
+            <option value="bee">Basic Electrical Engineering (EE102)</option>
+          </select>
+        </div>
+
+        <!-- Exam Pattern Toggle -->
+        <div class="sidebar-group">
+          <label class="sidebar-label">
+            <i class="fas fa-graduation-cap"></i> Exam Pattern
+          </label>
+          <div class="sidebar-toggle-group">
+            <button type="button" class="sidebar-toggle-btn active" id="btnMidSem" onclick="switchExam('mid')">
+              <i class="fas fa-file-invoice"></i> Mid-Sem
+            </button>
+            <button type="button" class="sidebar-toggle-btn" id="btnEndSem" onclick="switchExam('end')">
+              <i class="fas fa-scroll"></i> End-Sem
+            </button>
+          </div>
+        </div>
+
+        <!-- Action Buttons: Generate & Download PDF -->
+        <div class="sidebar-action-buttons">
+          <button type="button" class="sidebar-btn-generate" id="btnGenerate" onclick="generateAllPapers()" title="⚡ Generate / Shuffle 5 New Sets">
+            <i class="fas fa-bolt"></i> Generate Paper
+          </button>
+          <button type="button" class="sidebar-btn-download" id="btnDownloadPDF" onclick="downloadPaperPDF()" title="Download Official Question Paper PDF">
+            <i class="fas fa-file-pdf"></i> Download PDF
+          </button>
+          <button type="button" class="sidebar-btn-print" onclick="window.print()" title="Print Paper">
+            <i class="fas fa-print"></i> Print Paper
+          </button>
+        </div>
+
+        <!-- 5 Question Papers Sets List (In place of Document Space) -->
+        <div class="papers-sets-container">
+          <div class="sets-header">
+            <span><i class="fas fa-layer-group"></i> Question Papers</span>
+            <span id="setsPatternLabel">Mid-Sem (20M)</span>
+          </div>
+          <div class="sets-list" id="setsListContainer">
+            <button type="button" class="paper-set-item active" data-set="1" onclick="switchPaperSet(1)">
+              <div class="set-left">
+                <span class="set-pill">SET 1</span>
+                <span class="set-title">Model Paper 1</span>
+              </div>
+              <span class="set-meta">20M</span>
+            </button>
+            <button type="button" class="paper-set-item" data-set="2" onclick="switchPaperSet(2)">
+              <div class="set-left">
+                <span class="set-pill">SET 2</span>
+                <span class="set-title">Model Paper 2</span>
+              </div>
+              <span class="set-meta">20M</span>
+            </button>
+            <button type="button" class="paper-set-item" data-set="3" onclick="switchPaperSet(3)">
+              <div class="set-left">
+                <span class="set-pill">SET 3</span>
+                <span class="set-title">Model Paper 3</span>
+              </div>
+              <span class="set-meta">20M</span>
+            </button>
+            <button type="button" class="paper-set-item" data-set="4" onclick="switchPaperSet(4)">
+              <div class="set-left">
+                <span class="set-pill">SET 4</span>
+                <span class="set-title">Model Paper 4</span>
+              </div>
+              <span class="set-meta">20M</span>
+            </button>
+            <button type="button" class="paper-set-item" data-set="5" onclick="switchPaperSet(5)">
+              <div class="set-left">
+                <span class="set-pill">SET 5</span>
+                <span class="set-title">Model Paper 5</span>
+              </div>
+              <span class="set-meta">20M</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Minimal Note -->
+        <div class="sidebar-note">
+          <i class="fas fa-bolt"></i>
+          <span>Click <strong>⚡</strong> next to subject to generate 5 fresh random sets.</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- RIGHT PANE: SCROLLABLE PDF DOCUMENT PREVIEW -->
+    <main class="paper-preview-pane" id="paperPreviewPane">
+      <!-- ══ DOT MATRIX LOADING SCREEN (ONLY LOADS OVER PDF SECTION) ══ -->
+      <div class="loader is-done" id="loader" role="status" aria-live="polite" aria-label="Generating exam papers">
+        <div class="loader__inner">
+          <div class="matrix" id="matrix" aria-hidden="true"></div>
+          <div class="readout">
+            <div class="readout__row">
+              <span class="readout__label">GENERATING PAPERS</span>
+              <span class="readout__pct" id="pct">0%</span>
+            </div>
+            <div class="bar" aria-hidden="true">
+              <div class="bar__fill" id="barFill"></div>
+            </div>
+            <div class="status" id="status">Connecting</div>
+          </div>
+        </div>
+        <div class="loader__foot">BTechX Question Engine &middot; RAM Generator</div>
+      </div>
+
+      <!-- The A4 Paper Canvas -->
+      <div class="preview-canvas" id="previewCanvasWrapper">
+        <div class="exam-paper-sheet" id="examPaperSheet">
+          <div class="paper-uni-header">
+            <div class="paper-uni-title">BTechX MODEL QUESTION PAPER</div>
+            <div class="paper-exam-name" id="sheetExamName">MID-SEMESTER EXAMINATION — 2026</div>
+          </div>
+
+          <div class="paper-header-grid">
+            <div class="paper-header-details">
+              <div class="ph-course" id="sheetSubjectDetails">Course: Universal Human Values (HS201)</div>
+              <div class="ph-branch">B.Tech &bull; 2nd Year (All Branches)</div>
+            </div>
+            <div class="paper-set-badge" id="sheetSetBadge">SET — I</div>
+          </div>
+
+          <div class="paper-meta-row">
+            <span>Time Allowed: <span id="sheetTimeAllowed">1 Hour</span></span>
+            <span>Full Marks: <span id="sheetMaxMarks">20 Marks</span></span>
+          </div>
+
+          <div class="paper-instructions" id="sheetInstructions">
+            Instructions: Part-A (10 Marks): Answer ALL 5 questions (2 marks each). Part-B (10 Marks): Answer ALL questions (5 marks each).
+          </div>
+
+          <!-- Dynamic Questions Container -->
+          <div id="paperSectionsContainer">
+            <div class="paper-empty-state">
+              <i class="fas fa-spinner fa-spin" style="font-size: 1.5rem; margin-bottom: 10px; color: #888888;"></i>
+              <p>Loading question sets...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fixed Horizontal Zoom Controller (Stationary on Scroll in Right Corner) -->
+      <div class="fixed-zoom-bar" id="fixedZoomBar">
+        <button type="button" class="zoom-btn" onclick="changeZoom(-0.1)" title="Zoom Out">
+          <i class="fas fa-minus"></i>
+        </button>
+        <span class="zoom-text" id="zoomDisplay" onclick="resetZoom()" title="Click to Reset Zoom">100%</span>
+        <button type="button" class="zoom-btn" onclick="changeZoom(0.1)" title="Zoom In">
+          <i class="fas fa-plus"></i>
+        </button>
+        <button type="button" class="zoom-btn" onclick="resetZoom()" title="Reset to 100%">
+          <i class="fas fa-expand"></i>
+        </button>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/js/html2pdf.bundle.min.js"></script>
+  <script src="assets/js/nav.js?v=18.0"></script>
+  <script>
+    // ═══════════════════════════════════════════════════════════════
+    // DYNAMIC PAPER GENERATOR ENGINE (Pure Client-side, Dynamic CSV)
+    // ═══════════════════════════════════════════════════════════════
+    const SUBJECT_METADATA = {
+      uhv: { code: "HS201", name: "Universal Human Values", csv: "Data/Questions/uhv.csv" },
+      dbe: { code: "CS202", name: "Database Engineering", csv: "Data/Questions/dbe.csv" },
+      dccn: { code: "CS201", name: "Data Communication & Network", csv: "Data/Questions/dccn.csv" },
+      dmgt: { code: "MA203", name: "Discrete Mathematics & Graph Theory", csv: "Data/Questions/dmgt.csv" },
+      bee: { code: "EE102", name: "Basic Electrical Engineering", csv: "Data/Questions/bee.csv" }
+    };
+
+    // Offline fallback for direct file:/// (File Explorer) opening where browser blocks fetch()
+    const FALLBACK_QUESTION_BANKS = {"uhv": [{"chapter": 1, "mark": 2, "question": "Define the value of an entity and illustrate it with one example."}, {"chapter": 1, "mark": 2, "question": "What should be the content and scope of value education?"}, {"chapter": 1, "mark": 2, "question": "What are the two domains of education? State what each one addresses."}, {"chapter": 1, "mark": 2, "question": "Distinguish between 'what to do' and 'how to do' in the context of education."}, {"chapter": 1, "mark": 2, "question": "Why is value education needed in the present-day education system?"}, {"chapter": 1, "mark": 2, "question": "List the five guidelines that the content of value education must satisfy."}, {"chapter": 1, "mark": 2, "question": "What is meant by the basic human aspiration?"}, {"chapter": 1, "mark": 2, "question": "Define happiness."}, {"chapter": 1, "mark": 2, "question": "Define prosperity."}, {"chapter": 1, "mark": 2, "question": "Is excitement the same as happiness? Give one example to support your answer."}, {"chapter": 1, "mark": 2, "question": "What are the four stages through which a sensation from physical facility passes?"}, {"chapter": 1, "mark": 2, "question": "Differentiate prosperity from accumulation of wealth."}, {"chapter": 1, "mark": 2, "question": "What is right understanding?"}, {"chapter": 1, "mark": 2, "question": "What is right feeling? How is it related to right understanding?"}, {"chapter": 1, "mark": 2, "question": "Why is physical facility necessary but not sufficient for a human being?"}, {"chapter": 1, "mark": 2, "question": "State the three requirements for the fulfilment of human aspiration in their correct priority."}, {"chapter": 1, "mark": 2, "question": "What happens when physical facility is treated as the primary aim of life?"}, {"chapter": 1, "mark": 2, "question": "Define self-exploration."}, {"chapter": 1, "mark": 2, "question": "What is natural acceptance?"}, {"chapter": 1, "mark": 2, "question": "Mention any two characteristics of natural acceptance."}, {"chapter": 1, "mark": 2, "question": "What are the three marks by which right understanding is recognised?"}, {"chapter": 1, "mark": 2, "question": "What is meant by experiential validation?"}, {"chapter": 1, "mark": 2, "question": "Why is self-verification necessary in value education?"}, {"chapter": 1, "mark": 2, "question": "Distinguish between animal consciousness and human consciousness."}, {"chapter": 1, "mark": 2, "question": "What are the four levels of living of a human being?"}, {"chapter": 1, "mark": 2, "question": "Define holistic development."}, {"chapter": 1, "mark": 2, "question": "Why is correct identification of goals necessary for a human being?"}, {"chapter": 1, "mark": 2, "question": "How does a misunderstanding of aspiration lead to conflict?"}, {"chapter": 1, "mark": 2, "question": "What is meant by 'education' and what is meant by 'sanskar'?"}, {"chapter": 1, "mark": 2, "question": "How does sanskar differ from education?"}, {"chapter": 1, "mark": 2, "question": "Why is the present education system described as skill-biased? State one consequence."}, {"chapter": 1, "mark": 2, "question": "Why can science and technology not decide what is truly valuable?"}, {"chapter": 1, "mark": 2, "question": "What are the two questions every human being asks about life?"}, {"chapter": 1, "mark": 2, "question": "What is meant by an all-encompassing resolution? Name its four components."}, {"chapter": 1, "mark": 2, "question": "What is meant by mutual happiness?"}, {"chapter": 1, "mark": 2, "question": "Why are values said to be universal?"}, {"chapter": 1, "mark": 2, "question": "What is meant by saying that value education is the missing link in the present education system?"}, {"chapter": 1, "mark": 2, "question": "How are values and skills complementary to each other?"}, {"chapter": 1, "mark": 2, "question": "What is the programme for continuity of happiness?"}, {"chapter": 1, "mark": 2, "question": "What is meant by living in harmony at all levels of being?"}, {"chapter": 1, "mark": 2, "question": "What is the difference between a temporary feeling of pleasure and continuous happiness?"}, {"chapter": 1, "mark": 2, "question": "Define value. How can the value of a thing be determined?"}, {"chapter": 1, "mark": 2, "question": "Why is physical facility necessary but not adequate for a human being?"}, {"chapter": 1, "mark": 2, "question": "Distinguish animal consciousness from human consciousness."}, {"chapter": 1, "mark": 2, "question": "Is excitement the same as happiness? Explain with examples."}, {"chapter": 1, "mark": 2, "question": "Define Value."}, {"chapter": 1, "mark": 2, "question": "Describe the two domains of education."}, {"chapter": 1, "mark": 2, "question": "Explain the process of self-exploration."}, {"chapter": 1, "mark": 2, "question": "Distinguish between 'animal consciousness' and 'human consciousness'."}, {"chapter": 1, "mark": 2, "question": "Define prosperity. Explain with two examples from your day-to-day life to support your answer."}, {"chapter": 1, "mark": 2, "question": "Is excitement and happiness the same thing or different? Explain with few examples of both, preferably from your own experience."}, {"chapter": 1, "mark": 2, "question": "Illustrate how can the Value of a thing be determined."}, {"chapter": 1, "mark": 2, "question": "Are the two domains of education complementary? How do they assist in living a fulfilling life?"}, {"chapter": 1, "mark": 2, "question": "Identify the basic human aspirations of human beings."}, {"chapter": 1, "mark": 2, "question": "Assess the significance of right understanding in day-to-day decision-making."}, {"chapter": 1, "mark": 2, "question": "Analyze how misunderstanding of aspirations leads to conflict."}, {"chapter": 1, "mark": 2, "question": "Discuss the interconnectedness of right understanding and holistic development."}, {"chapter": 1, "mark": 2, "question": "Explain how right understanding leads to harmony in individual and societal living."}, {"chapter": 1, "mark": 2, "question": "Why is correct identification of goals necessary?"}, {"chapter": 1, "mark": 2, "question": "Explain: \"Physical Facility is necessary and adequate for animals. For humans, physical facility is necessary but alone is not"}, {"chapter": 1, "mark": 2, "question": "How can we achieve mutual happiness."}, {"chapter": 1, "mark": 2, "question": "Define Education and Sanskar."}, {"chapter": 1, "mark": 5, "question": "Explain the need for value education in the present scenario."}, {"chapter": 1, "mark": 5, "question": "Describe the two domains of education and explain their complementarity with examples."}, {"chapter": 1, "mark": 5, "question": "Explain the five guidelines that the content of value education must satisfy."}, {"chapter": 1, "mark": 5, "question": "Values and skills go hand in hand.\"\" Discuss with suitable examples."}, {"chapter": 1, "mark": 5, "question": "Explain the basic human aspiration and the three requirements for its fulfilment, indicating the correct priority."}, {"chapter": 1, "mark": 5, "question": "Distinguish between happiness and excitement with examples from daily life."}, {"chapter": 1, "mark": 5, "question": "Distinguish between prosperity and accumulation of wealth."}, {"chapter": 1, "mark": 5, "question": "Explain the process of self-exploration with its two steps."}, {"chapter": 1, "mark": 5, "question": "Explain the dialogue within, and the two things it is a dialogue between."}, {"chapter": 1, "mark": 5, "question": "Distinguish between acceptance and natural acceptance."}, {"chapter": 1, "mark": 5, "question": "Explain the six implications of self-exploration."}, {"chapter": 1, "mark": 5, "question": "Explain natural acceptance and its role in self-verification."}, {"chapter": 1, "mark": 5, "question": "Explain the four levels of living of a human being with examples."}, {"chapter": 1, "mark": 5, "question": "Explain holistic development and the role of education in it."}, {"chapter": 1, "mark": 5, "question": "Distinguish animal consciousness from human consciousness and bring out its implications for education."}, {"chapter": 1, "mark": 5, "question": "Explain how a misunderstanding of aspiration creates problems at the individual, family, societal and environmental levels."}, {"chapter": 1, "mark": 5, "question": "Explain the programme for continuity of happiness."}, {"chapter": 1, "mark": 5, "question": "Explain the concept of 'value' of an entity and how the value of a thing can be determined."}, {"chapter": 1, "mark": 5, "question": "Explain the relationship between right understanding, right feeling and right thought in living."}, {"chapter": 1, "mark": 5, "question": "Explain the role of education and sanskar in the development of the Self."}, {"chapter": 1, "mark": 5, "question": "Why is value education essential in technical and professional education? Discuss."}, {"chapter": 1, "mark": 5, "question": "Explain how right understanding leads to harmony in individual and societal living."}, {"chapter": 1, "mark": 5, "question": "Explain the three states of a human being described in the manual."}, {"chapter": 1, "mark": 5, "question": "Explain right understanding and resolution as activities of the Self."}, {"chapter": 1, "mark": 5, "question": "Why is the Self central to human existence?"}, {"chapter": 1, "mark": 5, "question": "Explain the need for value education and the two domains of education."}, {"chapter": 1, "mark": 5, "question": "Explain self-exploration, the dialogue within, and the two-step process."}, {"chapter": 1, "mark": 5, "question": "Distinguish acceptance from natural acceptance; state its characteristics."}, {"chapter": 1, "mark": 5, "question": "Explain the basic human aspiration and the three requirements in priority."}, {"chapter": 1, "mark": 5, "question": "Explain the role of education-sanskar in holistic development."}, {"chapter": 1, "mark": 7, "question": "Describe the process of value education."}, {"chapter": 1, "mark": 7, "question": "Explain the basic human aspirations and the requirements to fulfil them. Indicate their correct priority and support your answer with two examples."}, {"chapter": 1, "mark": 7, "question": "Why is right understanding required for ensuring physical facility? How does it result in mutual prosperity? Illustrate with two examples."}, {"chapter": 1, "mark": 7, "question": "When do we say that development is holistic? What is the role of education in it? Explain briefly."}, {"chapter": 1, "mark": 7, "question": "Four levels of living have been proposed in the course. What are these levels? Can you see that you live at all these levels? Explain with examples from your life."}, {"chapter": 1, "mark": 7, "question": "Discuss the programme for continuity of happiness."}, {"chapter": 1, "mark": 7, "question": "Critically examine the prevailing notions of happiness and prosperity in society. What are the consequences of these notions?"}, {"chapter": 1, "mark": 7, "question": "Why is right understanding required in relationship for mutual happiness? Illustrate with two examples."}, {"chapter": 1, "mark": 7, "question": "Describe the guidelines for value education in detail."}, {"chapter": 1, "mark": 7, "question": "Examine the present education system as skill-biased and suggest the way ahead."}, {"chapter": 1, "mark": 7, "question": "Explain self-exploration as the method of value education \u2014 its content, process and outcome."}, {"chapter": 1, "mark": 7, "question": "Explain how natural acceptance and experiential validation together establish the validity of values."}, {"chapter": 1, "mark": 7, "question": "Explain the all-encompassing resolution and its four components, with examples."}, {"chapter": 1, "mark": 7, "question": "Explain the role of value education in resolving the crises at the individual, societal and environmental levels."}, {"chapter": 1, "mark": 7, "question": "The purpose of education is to facilitate clarity of aspiration and the competence to actualise it.\"\" Discuss."}, {"chapter": 1, "mark": 7, "question": "Explain how problems are solved in the light of the all-encompassing resolution."}, {"chapter": 1, "mark": 7, "question": "Describe the guidelines that the content of value education must satisfy."}, {"chapter": 1, "mark": 7, "question": "Critically examine the prevailing notions of happiness and prosperity."}, {"chapter": 1, "mark": 7, "question": "Define happiness and prosperity; give the programme for continuity."}, {"chapter": 1, "mark": 7, "question": "What are the basic human aspirations and what are the requirements to fulfil them? Indicate their correct priority. Support your answer with two examples."}, {"chapter": 1, "mark": 7, "question": "Why is right understanding required for ensuring physical facility? How does it result in mutual prosperity? Illustrate with the help of two personal examples."}, {"chapter": 1, "mark": 7, "question": "When do you say that the development is holistic? What is the role of education in it? Explain briefly."}, {"chapter": 1, "mark": 7, "question": "Four levels of living have been proposed in this chapter. What are these levels? Can you see that you are living at all these levels? Explain with examples from your life."}, {"chapter": 1, "mark": 7, "question": "Is there any difference between prosperity and accumulation of wealth? Explain with few examples of both, preferably from your own experience."}, {"chapter": 1, "mark": 7, "question": "Critically examine the prevailing notions of happiness and prosperity in the society. What are the consequences of these notions?"}, {"chapter": 1, "mark": 7, "question": "Why is right understanding required in relationship for mutual happiness? Illustrate with the help of two examples."}, {"chapter": 1, "mark": 7, "question": "Describe the guidelines for Value Education."}, {"chapter": 2, "mark": 2, "question": "What is meant by 'the human being is the co-existence of the Self and the Body'?"}, {"chapter": 2, "mark": 2, "question": "What are the two realities of a human being?"}, {"chapter": 2, "mark": 2, "question": "Define the Self and the Body."}, {"chapter": 2, "mark": 2, "question": "What is the domain of the Self?"}, {"chapter": 2, "mark": 2, "question": "What is the domain of the Body?"}, {"chapter": 2, "mark": 2, "question": "Give one example of a need of the Self."}, {"chapter": 2, "mark": 2, "question": "Give one example of a need of the Body."}, {"chapter": 2, "mark": 2, "question": "Differentiate between the needs of the Self and the Body."}, {"chapter": 2, "mark": 2, "question": "Why are the needs of the Self continuous in time?"}, {"chapter": 2, "mark": 2, "question": "Why are the needs of the Body temporary?"}, {"chapter": 2, "mark": 2, "question": "Why do the needs of the Body vary from person to person while those of the Self do not?"}, {"chapter": 2, "mark": 2, "question": "How are the needs of the Self fulfilled?"}, {"chapter": 2, "mark": 2, "question": "How are the needs of the Body fulfilled?"}, {"chapter": 2, "mark": 2, "question": "Mention two activities of the Self."}, {"chapter": 2, "mark": 2, "question": "What are the potentialities of the Self?"}, {"chapter": 2, "mark": 2, "question": "Mention two activities of the Body."}, {"chapter": 2, "mark": 2, "question": "Why are the activities of the Self continuous?"}, {"chapter": 2, "mark": 2, "question": "Differentiate between the response of the Self and the response of the Body."}, {"chapter": 2, "mark": 2, "question": "What is meant by 'the Self is the Seer, Doer and Enjoyer'?"}, {"chapter": 2, "mark": 2, "question": "What does the Self use the Body for?"}, {"chapter": 2, "mark": 2, "question": "How do the Self and the Body interact?"}, {"chapter": 2, "mark": 2, "question": "Define self-regulation."}, {"chapter": 2, "mark": 2, "question": "What is the gross misunderstanding about the human being?"}, {"chapter": 2, "mark": 2, "question": "What are the consequences of assuming the human being to be only the Body?"}, {"chapter": 2, "mark": 2, "question": "What are the three possible sources of imagination?"}, {"chapter": 2, "mark": 2, "question": "What is preconditioning?"}, {"chapter": 2, "mark": 2, "question": "What is sensation?"}, {"chapter": 2, "mark": 2, "question": "What is meant by the 'state of imagination'?"}, {"chapter": 2, "mark": 2, "question": "Distinguish between self-organisation and enslavement."}, {"chapter": 2, "mark": 2, "question": "Why is the Self considered central to human existence?"}, {"chapter": 2, "mark": 2, "question": "What is meant by harmony in the Self?"}, {"chapter": 2, "mark": 2, "question": "How does disharmony in the Self affect the Body?"}, {"chapter": 2, "mark": 2, "question": "Why is the Body called a self-organised system?"}, {"chapter": 2, "mark": 2, "question": "What are the two indicators of a healthy Body?"}, {"chapter": 2, "mark": 2, "question": "Name the components of the programme for nurturing the Body."}, {"chapter": 2, "mark": 2, "question": "What is meant by prosperity in the light of self-regulation?"}, {"chapter": 2, "mark": 2, "question": "How does self-exploration help in ensuring harmony in the Self?"}, {"chapter": 2, "mark": 2, "question": "What is sanskar and how is it formed?"}, {"chapter": 2, "mark": 2, "question": "Differentiate the activities and responses of the Self and the Body."}, {"chapter": 2, "mark": 2, "question": "What is sanskar? How is it updated?"}, {"chapter": 2, "mark": 2, "question": "What is the basic aspiration of a human being?"}, {"chapter": 2, "mark": 2, "question": "Give an example of a need of the Self."}, {"chapter": 2, "mark": 2, "question": "Give an example of a need of the Body."}, {"chapter": 2, "mark": 2, "question": "How are the needs of the Self and Body fulfilled?"}, {"chapter": 2, "mark": 2, "question": "Define \"\"self-regulation\"\"."}, {"chapter": 2, "mark": 2, "question": "Explain the difference between qualitative and quantitative needs."}, {"chapter": 2, "mark": 2, "question": "What are the three sources of imagination?"}, {"chapter": 2, "mark": 2, "question": "What is meant by \"the Self is the Seer, Doer and Enjoyer\"?"}, {"chapter": 2, "mark": 5, "question": "Explain the human being as the co-existence of the Self and the Body."}, {"chapter": 2, "mark": 5, "question": "Distinguish between the needs, activities, response and domain of the Self and the Body in a tabular form."}, {"chapter": 2, "mark": 5, "question": "Explain how the needs of the Self and the Body are fulfilled, and why the means of fulfilment differ."}, {"chapter": 2, "mark": 5, "question": "Explain the Self as the Seer, Doer and Enjoyer, and the Body as its instrument."}, {"chapter": 2, "mark": 5, "question": "Explain the three sources of imagination and their consequences."}, {"chapter": 2, "mark": 5, "question": "Explain how imagination driven by preconditioning and sensation leads to enslavement."}, {"chapter": 2, "mark": 5, "question": "Explain harmony in the Self and the way to ensure it."}, {"chapter": 2, "mark": 5, "question": "Explain the way ahead for ensuring harmony in the Self."}, {"chapter": 2, "mark": 5, "question": "Explain the feeling of self-regulation and its role in health."}, {"chapter": 2, "mark": 5, "question": "Describe the programme for nurturing and maintaining the health of the Body."}, {"chapter": 2, "mark": 5, "question": "Explain the gross misunderstanding of assuming the human being to be only the Body, and its consequences."}, {"chapter": 2, "mark": 5, "question": "Explain the concept of sanskar and its importance in the development of the Self."}, {"chapter": 2, "mark": 5, "question": "Explain the Body as a self-organised system."}, {"chapter": 2, "mark": 5, "question": "Explain prosperity in the light of right understanding and self-regulation."}, {"chapter": 2, "mark": 5, "question": "Explain the relationship between harmony in the Self and harmony of the Self with the Body."}, {"chapter": 2, "mark": 5, "question": "Appraise the current status of health and suggest the way ahead."}, {"chapter": 2, "mark": 5, "question": "Explain the activities of the Self and how they together constitute imagination."}, {"chapter": 2, "mark": 5, "question": "Explain the two blocks of activities of the Self."}, {"chapter": 2, "mark": 5, "question": "How does understanding the human being extend to understanding nature and existence?"}, {"chapter": 2, "mark": 5, "question": "Explain the gross misunderstanding and its consequences."}, {"chapter": 2, "mark": 5, "question": "Why is the Body an instrument of the Self? Explain Seer, Doer, Enjoyer."}, {"chapter": 2, "mark": 5, "question": "Define self-regulation and explain its role in health."}, {"chapter": 2, "mark": 7, "question": "Explain the human being as the co-existence of the Self and the Body, covering needs, activities, response and domain."}, {"chapter": 2, "mark": 7, "question": "Distinguish between the needs of the Self and the Body with examples, and bring out the implications for living."}, {"chapter": 2, "mark": 7, "question": "Explain the activities of the Self and how they are continuous."}, {"chapter": 2, "mark": 7, "question": "Describe the difference between the responses of the Self and the Body."}, {"chapter": 2, "mark": 7, "question": "What are the consequences of assuming the human being to be only the Body?"}, {"chapter": 2, "mark": 7, "question": "Illustrate the programme for self-regulation and health."}, {"chapter": 2, "mark": 7, "question": "Discuss the concept of sanskar and its importance in the development of the Self."}, {"chapter": 2, "mark": 7, "question": "How does the Self regulate the Body? Describe with examples."}, {"chapter": 2, "mark": 7, "question": "How can we ensure harmony at all levels of human existence?"}, {"chapter": 2, "mark": 7, "question": "Write a detailed note on the Self as the Seer, Doer and Enjoyer, and the Body as its instrument."}, {"chapter": 2, "mark": 7, "question": "Explain the state of imagination, its three sources, and how one moves from enslavement to self-organisation."}, {"chapter": 2, "mark": 7, "question": "Explain the co-existence of the Self and the Body and, in that light, the programme for ensuring health."}, {"chapter": 2, "mark": 7, "question": "Explain 'my participation (value) regarding the Self and the Body'."}, {"chapter": 2, "mark": 7, "question": "Explain the human being as the co-existence of the Self and the Body."}, {"chapter": 2, "mark": 7, "question": "Distinguish the needs of the Self and the Body with examples."}, {"chapter": 2, "mark": 7, "question": "Describe the programme for self-regulation and health."}, {"chapter": 2, "mark": 7, "question": "How does understanding the Body lead to understanding prosperity?"}, {"chapter": 2, "mark": 7, "question": "Explain my participation regarding the Self and the Body."}, {"chapter": 2, "mark": 7, "question": "Explain the concept of human being as co-existence of the Self and the Body."}, {"chapter": 2, "mark": 7, "question": "Distinguish between the needs of the Self and the Body with suitable examples."}, {"chapter": 2, "mark": 7, "question": "What are the activities of the Self and how are they continuous?"}, {"chapter": 2, "mark": 7, "question": "What are the consequences of assuming the human being as only the Body?"}, {"chapter": 2, "mark": 7, "question": "How does the Self regulate the Body? Describe with examples.?"}, {"chapter": 2, "mark": 7, "question": "Write a detailed note on the Self as Seer, Doer and Enjoyer and the Body as its instrument."}, {"chapter": 3, "mark": 2, "question": "What is the fundamental unit of society?"}, {"chapter": 3, "mark": 2, "question": "Define family in the context of human values."}, {"chapter": 3, "mark": 2, "question": "Why is the family called the basic unit of human interaction?"}, {"chapter": 3, "mark": 2, "question": "Between whom does relationship exist?"}, {"chapter": 3, "mark": 2, "question": "What are the four important aspects of relationship?"}, {"chapter": 3, "mark": 2, "question": "Name the nine feelings in relationship."}, {"chapter": 3, "mark": 2, "question": "Which feeling is the foundation value and which is the complete value in relationship?"}, {"chapter": 3, "mark": 2, "question": "What is meant by trust?"}, {"chapter": 3, "mark": 2, "question": "What are the eight statements used to examine trust?"}, {"chapter": 3, "mark": 2, "question": "What is meant by respect?"}, {"chapter": 3, "mark": 2, "question": "In what three ways does disrespect take place?"}, {"chapter": 3, "mark": 2, "question": "How is respect different from fear?"}, {"chapter": 3, "mark": 2, "question": "What is the minimum content of respect?"}, {"chapter": 3, "mark": 2, "question": "What is the complete content of respect?"}, {"chapter": 3, "mark": 2, "question": "What is meant by differentiation? How does it lead to disrespect?"}, {"chapter": 3, "mark": 2, "question": "Differentiate between intention and competence."}, {"chapter": 3, "mark": 2, "question": "What is the feeling of affection?"}, {"chapter": 3, "mark": 2, "question": "Define care in relationship."}, {"chapter": 3, "mark": 2, "question": "What is the feeling of guidance?"}, {"chapter": 3, "mark": 2, "question": "What is meant by reverence?"}, {"chapter": 3, "mark": 2, "question": "Define the feeling of glory."}, {"chapter": 3, "mark": 2, "question": "Why is gratitude important in a family?"}, {"chapter": 3, "mark": 2, "question": "Explain love as the complete value in relationship."}, {"chapter": 3, "mark": 2, "question": "Distinguish between love and infatuation."}, {"chapter": 3, "mark": 2, "question": "Should right feeling be ensured within oneself or expected from the other?"}, {"chapter": 3, "mark": 2, "question": "What is the role of physical facility in the fulfilment of relationship?"}, {"chapter": 3, "mark": 2, "question": "Differentiate between response and reaction in behaviour."}, {"chapter": 3, "mark": 2, "question": "Define justice in the context of relationship."}, {"chapter": 3, "mark": 2, "question": "What are the four elements of justice?"}, {"chapter": 3, "mark": 2, "question": "What is meant by mutual happiness?"}, {"chapter": 3, "mark": 2, "question": "What is the comprehensive human goal?"}, {"chapter": 3, "mark": 2, "question": "What is the correct sequence and priority of the four human goals?"}, {"chapter": 3, "mark": 2, "question": "Name the five dimensions of a human order."}, {"chapter": 3, "mark": 2, "question": "What is meant by an undivided society?"}, {"chapter": 3, "mark": 2, "question": "What is meant by the universal human order?"}, {"chapter": 3, "mark": 2, "question": "What is meant by moving from family order to world family order?"}, {"chapter": 3, "mark": 2, "question": "What is meant by fearlessness in society?"}, {"chapter": 3, "mark": 2, "question": "What are the three obsessions prevalent in society today?"}, {"chapter": 3, "mark": 2, "question": "What is meant by co-existence in nature?"}, {"chapter": 3, "mark": 2, "question": "What is meant by 'my participation (value) in the family'?"}, {"chapter": 3, "mark": 2, "question": "What is meant by 'my participation (value) in society'?"}, {"chapter": 3, "mark": 2, "question": "What is the role of education-sanskar as a dimension of human order?"}, {"chapter": 3, "mark": 2, "question": "What is meant by justice-preservation as a dimension of society?"}, {"chapter": 3, "mark": 2, "question": "What is meant by exchange-storage?"}, {"chapter": 3, "mark": 2, "question": "Why are professions important in a human society?"}, {"chapter": 3, "mark": 2, "question": "Why is the family the basic unit of human interaction?"}, {"chapter": 3, "mark": 2, "question": "Explain the four aspects of understanding relationship."}, {"chapter": 3, "mark": 2, "question": "Explain trust and the distinction between intention and competence."}, {"chapter": 3, "mark": 2, "question": "Distinguish love from infatuation."}, {"chapter": 3, "mark": 2, "question": "What are the basic values in family relationships?"}, {"chapter": 3, "mark": 2, "question": "What is meant by trust in relationships?"}, {"chapter": 3, "mark": 2, "question": "Name two feelings essential for harmony in the family."}, {"chapter": 3, "mark": 2, "question": "What role does affection play in the family?"}, {"chapter": 3, "mark": 2, "question": "Define care in human relationships."}, {"chapter": 3, "mark": 2, "question": "What is meant by \"\"harmony in society\"\"?"}, {"chapter": 3, "mark": 2, "question": "What is the basis of universal human order?"}, {"chapter": 3, "mark": 2, "question": "How is justice ensured in relationships?"}, {"chapter": 3, "mark": 2, "question": "Mention two characteristics of a healthy family."}, {"chapter": 3, "mark": 2, "question": "What is the difference between intention and competence in relationships?"}, {"chapter": 3, "mark": 2, "question": "Why is gratitude important in family?"}, {"chapter": 3, "mark": 2, "question": "What is the role of reverence in family relationships?"}, {"chapter": 3, "mark": 2, "question": "What do we mean by the larger order of society?"}, {"chapter": 3, "mark": 2, "question": "How does trust serve as the foundation of society?"}, {"chapter": 3, "mark": 2, "question": "What is the importance of universal human values?"}, {"chapter": 3, "mark": 7, "question": "Explain the need and significance of trust in human relationships."}, {"chapter": 3, "mark": 7, "question": "Explain how trust is examined through the eight statements, and what the pattern of the answers shows."}, {"chapter": 3, "mark": 7, "question": "Discuss the role of respect in maintaining harmony within the family."}, {"chapter": 3, "mark": 7, "question": "Differentiate between intention and competence with suitable examples from family life."}, {"chapter": 3, "mark": 7, "question": "Describe the feelings of care and guidance in relationship."}, {"chapter": 3, "mark": 7, "question": "Explain the meaning of justice in relationship and its four elements."}, {"chapter": 3, "mark": 7, "question": "What is the role of gratitude and affection in strengthening family bonds?"}, {"chapter": 3, "mark": 7, "question": "Discuss the importance of harmony in society and how it can be achieved."}, {"chapter": 3, "mark": 7, "question": "Explain the concept of universal human order with examples."}, {"chapter": 3, "mark": 7, "question": "How can reverence and glory help in achieving a balanced social structure?"}, {"chapter": 3, "mark": 7, "question": "Illustrate with examples how harmony in the family contributes to harmony in society."}, {"chapter": 3, "mark": 7, "question": "Explain the nine feelings in relationship and their role in mutual happiness."}, {"chapter": 3, "mark": 7, "question": "Explain the minimum content and the complete content of respect."}, {"chapter": 3, "mark": 7, "question": "Explain differentiation and its consequences in relationship."}, {"chapter": 3, "mark": 7, "question": "Explain response and reaction in behaviour with examples."}, {"chapter": 3, "mark": 7, "question": "Explain the comprehensive human goal and the five dimensions of human order."}, {"chapter": 3, "mark": 7, "question": "Explain the role of education-sanskar and health-self-regulation in a harmonious society."}, {"chapter": 3, "mark": 7, "question": "Explain production-work, exchange-storage and justice-preservation as dimensions of human order."}, {"chapter": 3, "mark": 7, "question": "Explain the journey from family order to world family order."}, {"chapter": 3, "mark": 7, "question": "Explain 'my participation (value) in the family and in society'."}, {"chapter": 3, "mark": 7, "question": "Appraise the current status of the family and society, and suggest the way ahead."}, {"chapter": 3, "mark": 7, "question": "Explain the way ahead for ensuring harmony in the family."}, {"chapter": 3, "mark": 7, "question": "Explain the role of physical facility in the fulfilment of relationship."}, {"chapter": 3, "mark": 7, "question": "Explain love as the complete value in relationship."}, {"chapter": 3, "mark": 7, "question": "Explain how right understanding leads to fearlessness and co-existence in society."}, {"chapter": 3, "mark": 7, "question": "Explain the role of professions in a human society."}, {"chapter": 3, "mark": 7, "question": "Explain the scope of harmony from the individual to the whole of existence."}, {"chapter": 3, "mark": 7, "question": "Explain the natural outcome of right understanding at the level of society."}, {"chapter": 3, "mark": 7, "question": "Define justice and explain its elements."}, {"chapter": 3, "mark": 7, "question": "Explain respect: minimum content, differentiation, complete content."}, {"chapter": 3, "mark": 7, "question": "Describe affection, care, guidance, reverence, glory, gratitude and love."}, {"chapter": 3, "mark": 7, "question": "Distinguish response from reaction in behaviour."}, {"chapter": 3, "mark": 7, "question": "Explain the comprehensive human goal and the five dimensions."}, {"chapter": 3, "mark": 7, "question": "Appraise the current status of society."}, {"chapter": 3, "mark": 7, "question": "Explain justice-preservation and exchange-storage."}, {"chapter": 3, "mark": 7, "question": "Explain family order to world family order; my participation."}, {"chapter": 3, "mark": 7, "question": "Explain professions in a human society."}, {"chapter": 3, "mark": 7, "question": "Describe the feelings of care and guidance in relationships."}, {"chapter": 3, "mark": 7, "question": "Explain the meaning of justice in relationships and its four elements."}, {"chapter": 4, "mark": 2, "question": "Define nature."}, {"chapter": 4, "mark": 2, "question": "What are the four orders of nature?"}, {"chapter": 4, "mark": 2, "question": "On what basis are the units of nature classified into four orders?"}, {"chapter": 4, "mark": 2, "question": "Give two examples of mutual fulfilment among the four orders."}, {"chapter": 4, "mark": 2, "question": "What is meant by interconnectedness in nature?"}, {"chapter": 4, "mark": 2, "question": "What is meant by self-regulation in nature?"}, {"chapter": 4, "mark": 2, "question": "Arrange the four orders in terms of abundance."}, {"chapter": 4, "mark": 2, "question": "Define existence."}, {"chapter": 4, "mark": 2, "question": "Differentiate between units and space."}, {"chapter": 4, "mark": 2, "question": "What is meant by the submergence of units in space?"}, {"chapter": 4, "mark": 2, "question": "What is the innateness of a unit?"}, {"chapter": 4, "mark": 2, "question": "What is meant by the activity of a unit?"}, {"chapter": 4, "mark": 2, "question": "What is the difference between the activity and the innateness of a unit?"}, {"chapter": 4, "mark": 2, "question": "What is the natural characteristic of a unit?"}, {"chapter": 4, "mark": 2, "question": "What is meant by inheritance in the context of the four orders?"}, {"chapter": 4, "mark": 2, "question": "State the activity of the physical order."}, {"chapter": 4, "mark": 2, "question": "State the activity of the bio order."}, {"chapter": 4, "mark": 2, "question": "State the activity of the animal order."}, {"chapter": 4, "mark": 2, "question": "State the activity of the human order."}, {"chapter": 4, "mark": 2, "question": "Why is education-sanskar important for the human order?"}, {"chapter": 4, "mark": 2, "question": "Which order can exist independently of the others?"}, {"chapter": 4, "mark": 2, "question": "What are material units and consciousness units?"}, {"chapter": 4, "mark": 2, "question": "What is meant by co-existence?"}, {"chapter": 4, "mark": 2, "question": "What is the holistic perception of harmony in existence?"}, {"chapter": 4, "mark": 2, "question": "What is meant by development in the existential sense?"}, {"chapter": 4, "mark": 2, "question": "What is meant by inner evolution?"}, {"chapter": 4, "mark": 2, "question": "What are the three steps of inner evolution?"}, {"chapter": 4, "mark": 2, "question": "Distinguish between understanding and realisation."}, {"chapter": 4, "mark": 2, "question": "What is meant by contemplation?"}, {"chapter": 4, "mark": 2, "question": "What is the present state of the human order in relation to the other three orders?"}, {"chapter": 4, "mark": 2, "question": "What is the desired state of the human order?"}, {"chapter": 4, "mark": 2, "question": "What are the two types of basic realities in existence?"}, {"chapter": 4, "mark": 2, "question": "What is meant by 'my participation (value) in nature'?"}, {"chapter": 4, "mark": 2, "question": "What are the natural outcomes of understanding harmony in nature?"}, {"chapter": 4, "mark": 2, "question": "Why is the human order dependent on the other three orders?"}, {"chapter": 4, "mark": 2, "question": "What is meant by mutual fulfilment?"}, {"chapter": 4, "mark": 2, "question": "What is the innateness of the human order?"}, {"chapter": 4, "mark": 2, "question": "What is the natural characteristic of the human order?"}, {"chapter": 4, "mark": 2, "question": "What is the inheritance of the physical order?"}, {"chapter": 4, "mark": 2, "question": "How is space different from units in terms of activity?"}, {"chapter": 4, "mark": 2, "question": "What is meant by 'existence is co-existence'?"}, {"chapter": 4, "mark": 2, "question": "What is the role of the human being in existence?"}, {"chapter": 4, "mark": 2, "question": "Why is nature said to be in harmony and not in chaos?"}, {"chapter": 4, "mark": 2, "question": "Arrange the four orders in terms of abundance and explain."}, {"chapter": 4, "mark": 2, "question": "Show that the human order depends on the other three orders."}, {"chapter": 4, "mark": 2, "question": "Explain the role of the human being in existence."}, {"chapter": 4, "mark": 2, "question": "Explain inner evolution and its three steps."}, {"chapter": 4, "mark": 2, "question": "Distinguish understanding, realisation and contemplation."}, {"chapter": 4, "mark": 2, "question": "What is the natural acceptance of human beings towards the four orders?"}, {"chapter": 4, "mark": 2, "question": "What do you mean by \"\"self-regulation\"\" in nature?"}, {"chapter": 4, "mark": 2, "question": "Define \"\"existence\"\" according to the notes."}, {"chapter": 4, "mark": 2, "question": "What does \"\"submergence of units in space\"\" mean?"}, {"chapter": 4, "mark": 2, "question": "Which order can exist independently of others?"}, {"chapter": 4, "mark": 2, "question": "What is meant by \"\"co-existence\"\"?"}, {"chapter": 4, "mark": 2, "question": "Name any two natural outcomes of right understanding."}, {"chapter": 4, "mark": 2, "question": "What are human values in relation to all the three orders?"}, {"chapter": 4, "mark": 2, "question": "What is Existence?"}, {"chapter": 4, "mark": 2, "question": "What do you mean by Units?"}, {"chapter": 4, "mark": 2, "question": "What is Right understanding?"}, {"chapter": 4, "mark": 2, "question": "What is co-existence?"}, {"chapter": 4, "mark": 7, "question": "Explain mutual fulfilment among the four orders of nature with two examples."}, {"chapter": 4, "mark": 7, "question": "Discuss the present state and the desired state of the human order in relation to the other three orders."}, {"chapter": 4, "mark": 7, "question": "What is interconnectedness in nature? How is self-regulation achieved in a forest ecosystem?"}, {"chapter": 4, "mark": 7, "question": "Describe in detail the activity, innateness, natural characteristic and inheritance of the four orders."}, {"chapter": 4, "mark": 7, "question": "The human order is dependent on all the other three orders.\"\" Explain with suitable examples."}, {"chapter": 4, "mark": 7, "question": "What is the role of human beings in ensuring mutual fulfilment with the rest of nature?"}, {"chapter": 4, "mark": 7, "question": "Define existence. How are units and space understood in terms of co-existence?"}, {"chapter": 4, "mark": 7, "question": "Explain the concept of 'units submerged in space' and the three implications of submergence."}, {"chapter": 4, "mark": 7, "question": "Differentiate between material units and consciousness units with examples."}, {"chapter": 4, "mark": 7, "question": "What is the holistic perception of harmony in existence? Discuss the role of human beings in it."}, {"chapter": 4, "mark": 7, "question": "Explain abundance in nature and its significance."}, {"chapter": 4, "mark": 7, "question": "Explain the significance of education-sanskar for the human order."}, {"chapter": 4, "mark": 7, "question": "Explain the classification of the units of nature into four orders."}, {"chapter": 4, "mark": 7, "question": "Explain development in the existential sense."}, {"chapter": 4, "mark": 7, "question": "Explain the expression of co-existence at different levels of existence."}, {"chapter": 4, "mark": 7, "question": "Explain the natural outcome of understanding harmony in nature."}, {"chapter": 4, "mark": 7, "question": "Explain 'my participation (value) in nature'."}, {"chapter": 4, "mark": 7, "question": "Explain the mutually fulfilling interaction of the human being with nature."}, {"chapter": 4, "mark": 7, "question": "Explain the need and process of inner evolution."}, {"chapter": 4, "mark": 7, "question": "Explain realisation, understanding and contemplation as three activities of the Self."}, {"chapter": 4, "mark": 7, "question": "How is inner evolution different from accepting beliefs, following sentiment, or doubting everything?"}, {"chapter": 4, "mark": 7, "question": "Define nature and classify its units into four orders."}, {"chapter": 4, "mark": 7, "question": "Explain mutual fulfilment among the four orders with examples."}, {"chapter": 4, "mark": 7, "question": "Explain interconnectedness, self-regulation and mutual fulfilment."}, {"chapter": 4, "mark": 7, "question": "Describe activity, innateness, natural characteristic and inheritance."}, {"chapter": 4, "mark": 7, "question": "Explain the mutually fulfilling interaction of the human order."}, {"chapter": 4, "mark": 7, "question": "Define existence; differentiate units and space."}, {"chapter": 4, "mark": 7, "question": "Explain submergence and its three implications."}, {"chapter": 4, "mark": 7, "question": "Explain existence as co-existence; development in the existential sense."}, {"chapter": 4, "mark": 7, "question": "Explain my participation in nature / in existence."}, {"chapter": 4, "mark": 7, "question": "Illustrate with examples how harmony in family contributes to harmony in society."}, {"chapter": 4, "mark": 7, "question": "Explain mutual fulfilment among the four orders of nature. Give 2 examples."}, {"chapter": 4, "mark": 7, "question": "Discuss the present state and desired state of the human order in relation to the other three orders."}, {"chapter": 4, "mark": 7, "question": "Human order is dependent on all other three orders\"\" \u2013 Explain with suitable examples."}, {"chapter": 4, "mark": 7, "question": "Explain the concept of \"\"units submerged in space\"\" and the three implications of submergence."}, {"chapter": 5, "mark": 2, "question": "What is meant by value-based living?"}, {"chapter": 5, "mark": 2, "question": "Name the nine values in human-human relationship."}, {"chapter": 5, "mark": 2, "question": "What are the values of work? What do they result in?"}, {"chapter": 5, "mark": 2, "question": "How do universal human values emerge from right understanding?"}, {"chapter": 5, "mark": 2, "question": "What is meant by the development of human consciousness?"}, {"chapter": 5, "mark": 2, "question": "State two implications of value-based living at the level of the individual."}, {"chapter": 5, "mark": 2, "question": "State two benefits of value-based living in the family."}, {"chapter": 5, "mark": 2, "question": "List two societal outcomes of value-based living."}, {"chapter": 5, "mark": 2, "question": "State two implications of value-based living at the level of nature."}, {"chapter": 5, "mark": 2, "question": "Define definite (ethical) human conduct."}, {"chapter": 5, "mark": 2, "question": "How is harmony in the Self expressed at all levels of our being?"}, {"chapter": 5, "mark": 2, "question": "Explain the relationship between human values, policy and character."}, {"chapter": 5, "mark": 2, "question": "In terms of what is human character expressed?"}, {"chapter": 5, "mark": 2, "question": "State the qualifications of ethical human conduct."}, {"chapter": 5, "mark": 2, "question": "Define profession in the context of the comprehensive human goal."}, {"chapter": 5, "mark": 2, "question": "Define professional ethics."}, {"chapter": 5, "mark": 2, "question": "State the six salient features characterising professional ethics."}, {"chapter": 5, "mark": 2, "question": "Enlist the salient categories of unethical practices in the current professional scenario."}, {"chapter": 5, "mark": 2, "question": "What approaches are presently employed to check unethical practices, and why are they inadequate?"}, {"chapter": 5, "mark": 2, "question": "How do inherent contradictions and dilemmas arise from the prevailing worldview?"}, {"chapter": 5, "mark": 2, "question": "What is the way ahead for safeguarding professional ethics?"}, {"chapter": 5, "mark": 2, "question": "What is the vision for holistic development?"}, {"chapter": 5, "mark": 2, "question": "What is meant by the visualisation of the comprehensive human goal?"}, {"chapter": 5, "mark": 2, "question": "What does the universal human order involve?"}, {"chapter": 5, "mark": 2, "question": "What is humanistic education? What does it facilitate?"}, {"chapter": 5, "mark": 2, "question": "What is a humanistic constitution? State its salient directive principles."}, {"chapter": 5, "mark": 2, "question": "What questions must a humanistic constitution address?"}, {"chapter": 5, "mark": 2, "question": "What is meant by a humanistic tradition?"}, {"chapter": 5, "mark": 2, "question": "Why is a holistic worldview needed for developing technologies and systems?"}, {"chapter": 5, "mark": 2, "question": "What are the undesirable characteristics of present-day technologies and systems?"}, {"chapter": 5, "mark": 2, "question": "State the three broad criteria for evaluating holistic technologies and systems."}, {"chapter": 5, "mark": 2, "question": "List the specific criteria for judging the appropriateness of technologies."}, {"chapter": 5, "mark": 2, "question": "What are the four key questions to be answered in determining production systems?"}, {"chapter": 5, "mark": 2, "question": "List the criteria for judging the appropriateness of production systems."}, {"chapter": 5, "mark": 2, "question": "What is a humanistic management model? State its criteria."}, {"chapter": 5, "mark": 2, "question": "What can we learn from the systems in nature and from traditional practices?"}, {"chapter": 5, "mark": 2, "question": "What is meant by visualising a holistic community model (gram-swarajya)?"}, {"chapter": 5, "mark": 2, "question": "State the core message of the course."}, {"chapter": 5, "mark": 2, "question": "What two transformations does the core message of the course lead to?"}, {"chapter": 5, "mark": 2, "question": "State the three sub-steps for individual transformation."}, {"chapter": 5, "mark": 2, "question": "Whom should one share with while creating mass awareness towards holistic development?"}, {"chapter": 5, "mark": 2, "question": "What caution should be observed while creating mass awareness?"}, {"chapter": 5, "mark": 2, "question": "State the sub-steps for moving towards humanising mainstream education."}, {"chapter": 5, "mark": 2, "question": "What does developing models for holistic living involve?"}, {"chapter": 5, "mark": 2, "question": "What is meant by ethical competence?"}, {"chapter": 5, "mark": 2, "question": "What is the difference between a job and a profession?"}, {"chapter": 5, "mark": 2, "question": "Define profession and professional ethics; state the six features."}, {"chapter": 5, "mark": 2, "question": "Explain how dilemmas arise from the prevailing worldview."}, {"chapter": 5, "mark": 2, "question": "State the criteria for technologies, production and management."}, {"chapter": 5, "mark": 2, "question": "Define Profession."}, {"chapter": 5, "mark": 2, "question": "What is the role of humanistic constitution?"}, {"chapter": 5, "mark": 2, "question": "What do you mean by ethical conduct of profession?"}, {"chapter": 5, "mark": 2, "question": "What is meant by 'humanistic tradition'?"}, {"chapter": 5, "mark": 2, "question": "What is the role of self-exploration in ethical conduct?"}, {"chapter": 5, "mark": 2, "question": "Define 'policy' in the context of ethical human conduct."}, {"chapter": 5, "mark": 2, "question": "What are the three components of ethical human conduct?"}, {"chapter": 5, "mark": 2, "question": "What are the features of ethical conduct?"}, {"chapter": 5, "mark": 2, "question": "How does right understanding transform consciousness?"}, {"chapter": 5, "mark": 2, "question": "Mention two implications of value-based living at the individual level."}, {"chapter": 5, "mark": 2, "question": "Why is ethical competence important for professionals?"}, {"chapter": 5, "mark": 2, "question": "List any two salient features of ethical competence."}, {"chapter": 5, "mark": 2, "question": "What are the main causes of unethical professional practices?"}, {"chapter": 5, "mark": 2, "question": "What is the holistic approach to professional ethics?"}, {"chapter": 5, "mark": 2, "question": "Explain the meaning of holistic development."}, {"chapter": 5, "mark": 2, "question": "What is the universal human order?"}, {"chapter": 5, "mark": 2, "question": "Mention any two components of humanistic education."}, {"chapter": 5, "mark": 7, "question": "Explain how universal human values emerge naturally from right understanding."}, {"chapter": 5, "mark": 7, "question": "Discuss the definitiveness of ethical human conduct \u2014 how harmony is expressed at all levels of living."}, {"chapter": 5, "mark": 7, "question": "Explain professional ethics in the light of right understanding."}, {"chapter": 5, "mark": 7, "question": "Explain the vision for holistic development and the universal human order."}, {"chapter": 5, "mark": 7, "question": "Explain the need for a holistic worldview in developing technologies and systems, and state the three broad criteria for evaluation."}, {"chapter": 5, "mark": 7, "question": "Explain the critical appraisal of the prevailing technologies and systems."}, {"chapter": 5, "mark": 7, "question": "State the core message of the course and explain the four steps for the transition towards a value-based life and profession."}, {"chapter": 5, "mark": 7, "question": "Explain the first step of transition \u2014 individual transformation \u2014 in detail."}, {"chapter": 5, "mark": 7, "question": "Explain values, policy and character as the components of ethical human conduct."}, {"chapter": 5, "mark": 7, "question": "Explain the implications of value-based living at the individual, family, societal and nature levels."}, {"chapter": 5, "mark": 7, "question": "Define professional ethics and discuss its importance in human welfare."}, {"chapter": 5, "mark": 7, "question": "Explain the salient features characterising ethical competence."}, {"chapter": 5, "mark": 7, "question": "Discuss the causes and impact of unethical practices in professions."}, {"chapter": 5, "mark": 7, "question": "Evaluate the current approaches used to promote professional ethics and their inadequacy."}, {"chapter": 5, "mark": 7, "question": "Explain how right understanding can resolve professional dilemmas and contradictions."}, {"chapter": 5, "mark": 7, "question": "Define holistic development and universal human order, and explain their relationship."}, {"chapter": 5, "mark": 7, "question": "Explain the criteria for judging the appropriateness of technologies and of production systems."}, {"chapter": 5, "mark": 7, "question": "Explain the humanistic management model and its criteria."}, {"chapter": 5, "mark": 7, "question": "Explain what can be learnt from the systems in nature and traditional practices, and describe the gram-swarajya model."}, {"chapter": 5, "mark": 7, "question": "Explain humanistic education, humanistic constitution and humanistic tradition."}, {"chapter": 5, "mark": 7, "question": "Explain 'my participation (value) in the larger order' in the light of Module 5."}, {"chapter": 5, "mark": 7, "question": "Explain the implications of value-based living at four levels."}, {"chapter": 5, "mark": 7, "question": "Explain the definitiveness of ethical human conduct."}, {"chapter": 5, "mark": 7, "question": "Explain values, policy and character."}, {"chapter": 5, "mark": 7, "question": "Discuss unethical practices and the inadequacy of present remedies."}, {"chapter": 5, "mark": 7, "question": "Explain the vision for holistic development and universal human order."}, {"chapter": 5, "mark": 7, "question": "Explain humanistic education, constitution and tradition."}, {"chapter": 5, "mark": 7, "question": "What can be learnt from nature and traditional practices?"}, {"chapter": 5, "mark": 7, "question": "Explain gram-swarajya."}, {"chapter": 5, "mark": 7, "question": "State the core message and the steps for transition."}, {"chapter": 5, "mark": 7, "question": "Explain how right understanding forms the basis of universal human values."}, {"chapter": 5, "mark": 7, "question": "Discuss the definitiveness of ethical human conduct."}, {"chapter": 5, "mark": 7, "question": "What are the components of ethical human conduct\u2014values, policy, and character?"}, {"chapter": 5, "mark": 7, "question": "Explain the implications of value-based living at individual, family, societal, and nature levels."}, {"chapter": 5, "mark": 7, "question": "What are the salient features characterizing ethical competence?"}, {"chapter": 5, "mark": 7, "question": "Define holistic development and universal human order. Explain their relationship."}], "dbe": [{"chapter": 1, "mark": 2, "question": "Define DBMS and list two key advantages over traditional file processing systems."}, {"chapter": 1, "mark": 2, "question": "What is data abstraction? Name the three levels of data abstraction."}, {"chapter": 1, "mark": 2, "question": "Distinguish between Physical Data Independence and Logical Data Independence."}, {"chapter": 1, "mark": 2, "question": "What is a Data Dictionary and what metadata does it store?"}, {"chapter": 1, "mark": 2, "question": "Define DDL and DML with one SQL command example for each."}, {"chapter": 1, "mark": 2, "question": "What are the primary roles and responsibilities of a Database Administrator (DBA)?"}, {"chapter": 1, "mark": 2, "question": "Differentiate between Database Schema and Database Instance."}, {"chapter": 1, "mark": 5, "question": "Explain the Three-Schema Architecture of DBMS with a neat block diagram."}, {"chapter": 1, "mark": 5, "question": "Describe the overall system architecture and functional components of a DBMS."}, {"chapter": 1, "mark": 5, "question": "Compare Relational, Hierarchical, and Network data models with their merits and demerits."}, {"chapter": 1, "mark": 5, "question": "Explain the functions of Storage Manager and Query Processor in DBMS."}, {"chapter": 1, "mark": 7, "question": "Discuss DBMS system structure in detail. Explain how data independence is achieved through different architectural layers."}, {"chapter": 1, "mark": 7, "question": "Explain the various categories of DBMS users. Describe the duties of DBA in database design, security, and maintenance."}, {"chapter": 2, "mark": 2, "question": "Define Primary Key, Candidate Key, and Super Key with suitable examples."}, {"chapter": 2, "mark": 2, "question": "What is Referential Integrity Constraint? Explain using foreign key syntax."}, {"chapter": 2, "mark": 2, "question": "What are weak entity sets? How are they represented and identified in an ER diagram?"}, {"chapter": 2, "mark": 2, "question": "Define Cardinality Ratio and Participation Constraint in ER modeling."}, {"chapter": 2, "mark": 2, "question": "What is an identifying relationship in an ER model?"}, {"chapter": 2, "mark": 2, "question": "Distinguish between Simple vs Composite attributes and Single-valued vs Multi-valued attributes."}, {"chapter": 2, "mark": 5, "question": "Explain different types of attributes in an ER model with suitable examples and standard notations."}, {"chapter": 2, "mark": 5, "question": "Explain Specialization, Generalization, and Aggregation in Extended ER (EER) modeling with examples."}, {"chapter": 2, "mark": 5, "question": "Discuss the step-by-step rules for converting an ER diagram into Relational Tables."}, {"chapter": 2, "mark": 5, "question": "What are integrity constraints? Explain Domain Constraints, Entity Integrity, and Key Constraints."}, {"chapter": 2, "mark": 7, "question": "Construct a complete ER diagram for a University Management System showing entities (Student, Department, Course, Instructor), attributes, and relationship constraints. Map it to relational schema."}, {"chapter": 2, "mark": 7, "question": "Draw an ER diagram for a Hospital Management System with Doctor, Patient, Ward, and Treatment entities. Demonstrate the conversion into relational tables."}, {"chapter": 3, "mark": 2, "question": "What is Relational Algebra? List any four fundamental operations."}, {"chapter": 3, "mark": 2, "question": "Differentiate between Natural Join and Theta Join with an example."}, {"chapter": 3, "mark": 2, "question": "What is Tuple Relational Calculus (TRC)? Write its general syntax."}, {"chapter": 3, "mark": 2, "question": "Explain the Select (sigma) and Project (pi) operations in Relational Algebra with examples."}, {"chapter": 3, "mark": 2, "question": "Define Cartesian Product in relational algebra with an example."}, {"chapter": 3, "mark": 5, "question": "Explain Set operations (Union, Intersection, Set Difference, Cartesian Product) in Relational Algebra with examples."}, {"chapter": 3, "mark": 5, "question": "Explain different types of Outer Joins (Left Outer, Right Outer, Full Outer Join) with sample relations and results."}, {"chapter": 3, "mark": 5, "question": "Explain Division (/) operation in Relational Algebra with an illustrative scenario."}, {"chapter": 3, "mark": 7, "question": "Given relations: Student(RollNo, Name, Branch, CGPA), Course(CourseId, CName, Credits), Enrolls(RollNo, CourseId, Sem). Formulate relational algebra queries for 5 distinct analytical requests."}, {"chapter": 3, "mark": 7, "question": "Explain the equivalence rules for relational algebra expressions and discuss their role in query optimization."}, {"chapter": 4, "mark": 2, "question": "What is Functional Dependency? Give a formal definition and an example."}, {"chapter": 4, "mark": 2, "question": "What are Insertion, Deletion, and Update anomalies in unnormalized relations?"}, {"chapter": 4, "mark": 2, "question": "Define First Normal Form (1NF) and state how multi-valued attributes are eliminated."}, {"chapter": 4, "mark": 2, "question": "Define Second Normal Form (2NF) and explain partial dependency."}, {"chapter": 4, "mark": 2, "question": "What is Boyce-Codd Normal Form (BCNF)? How does it differ from 3NF?"}, {"chapter": 4, "mark": 2, "question": "What is transitive dependency? Illustrate with an example."}, {"chapter": 4, "mark": 5, "question": "State and prove Armstrong's Axioms for functional dependencies."}, {"chapter": 4, "mark": 5, "question": "Explain Third Normal Form (3NF) with a detailed example showing removal of transitive dependencies."}, {"chapter": 4, "mark": 5, "question": "Explain Boyce-Codd Normal Form (BCNF) and demonstrate step-by-step decomposition of a relation into BCNF."}, {"chapter": 4, "mark": 5, "question": "Explain Lossless-Join Decomposition and Dependency Preservation with mathematical conditions."}, {"chapter": 4, "mark": 7, "question": "Consider relation R(A, B, C, D, E) with FDs {A->BC, CD->E, B->D, E->A}. Find all candidate keys and determine the highest normal form of R. Decompose into 3NF if necessary."}, {"chapter": 4, "mark": 7, "question": "Explain 1NF, 2NF, 3NF, and BCNF comprehensively with a complete student-faculty-department database normalization walk-through."}, {"chapter": 5, "mark": 2, "question": "What is a Database Transaction? State the ACID properties."}, {"chapter": 5, "mark": 2, "question": "Define Serializability and Conflict Serializability."}, {"chapter": 5, "mark": 2, "question": "What is Deadlock in DBMS? Mention two deadlock prevention strategies."}, {"chapter": 5, "mark": 2, "question": "What is the Dirty Read (Temporary Update) problem in concurrent executions?"}, {"chapter": 5, "mark": 2, "question": "Explain Write-Ahead Logging (WAL) protocol."}, {"chapter": 5, "mark": 5, "question": "Explain the ACID properties of a transaction in detail with a banking fund-transfer example."}, {"chapter": 5, "mark": 5, "question": "Explain Two-Phase Locking (2PL) protocol. Compare Basic 2PL, Strict 2PL, and Rigorous 2PL."}, {"chapter": 5, "mark": 5, "question": "Describe Log-Based Recovery techniques (Deferred Update vs Immediate Update)."}, {"chapter": 5, "mark": 5, "question": "Explain how a Precedence (Serialization) Graph is constructed to test conflict serializability with an example schedule."}, {"chapter": 5, "mark": 7, "question": "Discuss Concurrency Control techniques in detail: Lock-based protocols, Timestamp-ordering protocols, and Validation-based protocols."}, {"chapter": 5, "mark": 7, "question": "Discuss Database Recovery Management in detail: Checkpointing, Shadow Paging, and the ARIES recovery algorithm."}]};
+
+    // Fast robust RFC 4180 CSV Parser (auto-detects Chapter, Mark, Question order)
+    function parseCSV(text) {
+      const lines = text.trim().split(/\r?\n/);
+      if (lines.length <= 1) return [];
+
+      const rows = [];
+      for (let i = 1; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (!line) continue;
+
+        const values = [];
+        let curVal = '';
+        let insideQuotes = false;
+
+        for (let c = 0; c < line.length; c++) {
+          const char = line[c];
+          if (char === '"') {
+            if (insideQuotes && line[c + 1] === '"') {
+              curVal += '"';
+              c++;
+            } else {
+              insideQuotes = !insideQuotes;
+            }
+          } else if (char === ',' && !insideQuotes) {
+            values.push(curVal.trim());
+            curVal = '';
+          } else {
+            curVal += char;
+          }
+        }
+        values.push(curVal.trim());
+
+        if (values.length >= 3) {
+          const col0 = values[0].replace(/^\uFEFF/, '').trim();
+          const col1 = values[1].replace(/^"|"$/g, '').trim();
+          const col2 = values[2].replace(/^"|"$/g, '').trim();
+
+          const chapter = parseInt(col0, 10);
+          let mark = NaN;
+          let question = '';
+
+          if (/^\d+$/.test(col1)) {
+            mark = parseInt(col1, 10);
+            question = col2;
+          } else if (/^\d+$/.test(col2)) {
+            mark = parseInt(col2, 10);
+            question = col1;
+          }
+
+          if (!isNaN(chapter) && !isNaN(mark) && question) {
+            rows.push({ chapter, mark, question });
+          }
+        }
+      }
+      return rows;
+    }
+
+    // ── STATE MANAGEMENT ──
+    let currentSubjectKey = 'uhv';
+    let currentExamMode = 'mid'; // 'mid' or 'end'
+    let currentQuestions = [];
+    let currentSetIndex = 1; // 1 to 5
+    let generatedSetsData = {}; // { 1: html, 2: html, 3: html, 4: html, 5: html }
+    let currentZoom = 1.0;
+
+    const ROMAN_NUMERALS = ['', 'I', 'II', 'III', 'IV', 'V'];
+
+    // Fisher-Yates array shuffle for dynamic random question picking
+    function shuffleArray(array) {
+      const copy = [...array];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    // Load CSV for Subject
+    async function loadSubjectCSV(subjectKey) {
+      currentSubjectKey = subjectKey;
+      const container = document.getElementById('paperSectionsContainer');
+      container.innerHTML = `
+        <div class="paper-empty-state">
+          <i class="fas fa-spinner fa-spin" style="font-size: 1.5rem; margin-bottom: 10px; color: #888888;"></i>
+          <p>Loading questions for ${SUBJECT_METADATA[subjectKey].name}...</p>
+        </div>
+      `;
+
+      try {
+        const res = await fetch(SUBJECT_METADATA[subjectKey].csv);
+        if (!res.ok) throw new Error("CSV file not found");
+        const text = await res.text();
+        currentQuestions = parseCSV(text);
+      } catch (err) {
+        if (FALLBACK_QUESTION_BANKS[subjectKey] && FALLBACK_QUESTION_BANKS[subjectKey].length > 0) {
+          currentQuestions = FALLBACK_QUESTION_BANKS[subjectKey];
+        } else {
+          currentQuestions = [];
+        }
+      }
+
+      if (currentQuestions.length > 0) {
+        generateAllPapers();
+      } else {
+        container.innerHTML = `
+          <div class="paper-empty-state">
+            <i class="fas fa-folder-open" style="font-size: 2rem; margin-bottom: 10px; color: #666666;"></i>
+            <h4 style="font-size: 1.1rem; color: #000000; margin-bottom: 6px;">Questions not added yet</h4>
+            <p style="font-size: 0.9rem; color: #555555; max-width: 460px; margin: 0 auto;">
+              Questions for ${SUBJECT_METADATA[subjectKey].name} will appear once added.
+            </p>
+          </div>
+        `;
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // DOT MATRIX LOADER CONTROLLER (from killload.html)
+    // ═══════════════════════════════════════════════════════════════
+    const COLS = 14;
+    const ROWS = 9;
+
+    const STATUS_STEPS = [
+      { at: 0,  text: 'Connecting to Question Bank' },
+      { at: 18, text: 'Fetching module chapters' },
+      { at: 42, text: 'Sampling syllabus distribution' },
+      { at: 68, text: 'Compiling 5 unique model sets' },
+      { at: 88, text: 'Validating mark quotas' },
+      { at: 100, text: 'Question Papers Ready' }
+    ];
+
+    function buildMatrix() {
+      const matrix = document.getElementById('matrix');
+      if (!matrix) return;
+      matrix.innerHTML = '';
+      const frag = document.createDocumentFragment();
+      for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+          const dot = document.createElement('span');
+          dot.className = 'matrix__dot';
+          const diagonal = r + c;
+          dot.style.animationDelay = (diagonal * 0.085) + 's';
+          frag.appendChild(dot);
+        }
+      }
+      matrix.appendChild(frag);
+    }
+
+    let loaderCurrentPct = 0;
+    function setProgress(value) {
+      loaderCurrentPct = Math.max(0, Math.min(100, Math.round(value)));
+      const pctEl = document.getElementById('pct');
+      const barFill = document.getElementById('barFill');
+      const statusEl = document.getElementById('status');
+      if (pctEl) pctEl.textContent = loaderCurrentPct + '%';
+      if (barFill) barFill.style.width = loaderCurrentPct + '%';
+      if (statusEl) {
+        let label = STATUS_STEPS[0].text;
+        for (const step of STATUS_STEPS) {
+          if (loaderCurrentPct >= step.at) label = step.text;
+        }
+        if (statusEl.textContent !== label) statusEl.textContent = label;
+      }
+    }
+
+    let loaderTimer = null;
+    function triggerLoadingScreen(onComplete) {
+      const loader = document.getElementById('loader');
+      const pane = document.getElementById('paperPreviewPane');
+      if (!loader) {
+        if (onComplete) onComplete();
+        return;
+      }
+      clearInterval(loaderTimer);
+      loaderCurrentPct = 0;
+      setProgress(0);
+
+      // Lock pane scroll and hide previous paper content
+      if (pane) {
+        pane.scrollTop = 0;
+        pane.classList.add('is-loading');
+      }
+      loader.classList.remove('is-done');
+
+      loaderTimer = setInterval(() => {
+        // Ease out: big jumps early, small at the end (exact formula from killload.html)
+        const step = loaderCurrentPct < 55 ? Math.random() * 9 + 3
+                   : loaderCurrentPct < 85 ? Math.random() * 4 + 1.2
+                   : Math.random() * 1.6 + 0.4;
+        if (loaderCurrentPct + step >= 100) {
+          clearInterval(loaderTimer);
+          setProgress(100);
+          setTimeout(() => {
+            if (onComplete) onComplete();
+            setTimeout(() => {
+              loader.classList.add('is-done');
+              if (pane) {
+                pane.classList.remove('is-loading');
+                pane.scrollTop = 0;
+              }
+            }, 380);
+          }, 120);
+        } else {
+          setProgress(loaderCurrentPct + step);
+        }
+      }, 230);
+    }
+
+    // ── GENERATE 5 DISTINCT SETS ──
+    function generateAllPapers(showLoader = true) {
+      if (!currentQuestions.length) {
+        loadSubjectCSV(currentSubjectKey);
+        return;
+      }
+
+      if (showLoader) {
+        triggerLoadingScreen(() => {
+          executePaperGeneration();
+        });
+      } else {
+        executePaperGeneration();
+      }
+    }
+
+    function executePaperGeneration() {
+      generatedSetsData = {};
+      for (let s = 1; s <= 5; s++) {
+        generatedSetsData[s] = buildSetHTML(s, currentExamMode);
+      }
+
+      renderSidebarSetsList();
+      displayActivePaperSet();
+
+      // On mobile & tablet (<= 1024px), auto-close sidebar so user immediately views the generated paper
+      if (window.innerWidth <= 1024) {
+        toggleSidebar(false);
+      }
+    }
+
+    // Build HTML for a single Set
+    function buildSetHTML(setNumber, examMode) {
+      if (examMode === 'mid') {
+        // MID-SEM (20 MARKS)
+        // Part A: 5 questions x 2 marks = 10 marks
+        // Exactly 2 from Ch 1, 2 from Ch 2, 1 random from Ch 1 or Ch 2
+        const pool2M_Ch1 = currentQuestions.filter(q => q.chapter === 1 && q.mark === 2);
+        const pool2M_Ch2 = currentQuestions.filter(q => q.chapter === 2 && q.mark === 2);
+
+        const ch1_picked = shuffleArray(pool2M_Ch1).slice(0, 2);
+        const ch2_picked = shuffleArray(pool2M_Ch2).slice(0, 2);
+
+        const remaining2M = currentQuestions.filter(q => 
+          (q.chapter === 1 || q.chapter === 2) && 
+          q.mark === 2 && 
+          !ch1_picked.includes(q) && 
+          !ch2_picked.includes(q)
+        );
+
+        const random5th = shuffleArray(remaining2M).slice(0, 1);
+        const shuffled2M = shuffleArray([...ch1_picked, ...ch2_picked, ...random5th]);
+
+        // Part B: 2 questions x 5 marks = 10 marks (1 from Ch 1, 1 from Ch 2)
+        const pool5M_Ch1 = currentQuestions.filter(q => q.chapter === 1 && q.mark === 5);
+        const poolLong_Ch1 = pool5M_Ch1.length ? pool5M_Ch1 : currentQuestions.filter(q => q.chapter === 1 && q.mark === 7);
+
+        const pool5M_Ch2 = currentQuestions.filter(q => q.chapter === 2 && q.mark === 5);
+        const poolLong_Ch2 = pool5M_Ch2.length ? pool5M_Ch2 : currentQuestions.filter(q => q.chapter === 2 && q.mark === 7);
+
+        const q6 = shuffleArray(poolLong_Ch1)[0];
+        const q7 = shuffleArray(poolLong_Ch2)[0];
+        const longQs = [q6, q7].filter(Boolean);
+
+        let html = `
+          <div class="paper-section">
+            <div class="paper-section-head">
+              <span>Part — A (Short Answer Questions &bull; Compulsory)</span>
+              <span class="paper-section-marks">[5 &times; 2 = 10 Marks]</span>
+            </div>
+            <ul class="question-list">
+        `;
+        shuffled2M.forEach((q, idx) => {
+          html += `
+            <li class="question-item">
+              <span class="q-number">Q${idx + 1}.</span>
+              <span class="q-text">${q.question}</span>
+              <span class="q-meta">[Ch-${q.chapter}] [2M]</span>
+            </li>
+          `;
+        });
+        html += `</ul></div>`;
+
+        html += `
+          <div class="paper-section">
+            <div class="paper-section-head">
+              <span>Part — B (Long Answer Questions)</span>
+              <span class="paper-section-marks">[2 &times; 5 = 10 Marks]</span>
+            </div>
+            <ul class="question-list">
+        `;
+        longQs.forEach((q, idx) => {
+          html += `
+            <li class="question-item">
+              <span class="q-number">Q${shuffled2M.length + idx + 1}.</span>
+              <span class="q-text">${q.question}</span>
+              <span class="q-meta">[Ch-${q.chapter}] [5M]</span>
+            </li>
+          `;
+        });
+        html += `</ul></div>`;
+
+        return html;
+
+      } else {
+        // END-SEM (100 MARKS: 70-30 SPLIT)
+        // Part A (30 Marks): 15 questions x 2 Marks (3 from each module I to V)
+        const partAQuestions = [];
+        for (let ch = 1; ch <= 5; ch++) {
+          const chPool2M = currentQuestions.filter(q => q.chapter === ch && q.mark === 2);
+          const picked2M = shuffleArray(chPool2M).slice(0, 3);
+          partAQuestions.push(...picked2M);
+        }
+
+        function getLongQuestions(chapter, count) {
+          const pool7M = currentQuestions.filter(q => q.chapter === chapter && q.mark === 7);
+          if (pool7M.length >= count) return shuffleArray(pool7M).slice(0, count);
+          const pool5M = currentQuestions.filter(q => q.chapter === chapter && q.mark === 5);
+          return shuffleArray([...pool7M, ...pool5M]).slice(0, count);
+        }
+
+        const q16_sub = getLongQuestions(1, 3);
+        const q17_sub = getLongQuestions(2, 3);
+        const q18_sub = getLongQuestions(3, 3);
+        const q19_sub = getLongQuestions(4, 2);
+        const q20_sub = getLongQuestions(5, 2);
+
+        const subLabels = ['(a)', '(b)', '(c)'];
+        let html = '';
+
+        // Part A
+        html += `
+          <div class="paper-section">
+            <div class="paper-section-head">
+              <span>Part — A (Short Answer Questions &bull; Compulsory)</span>
+              <span class="paper-section-marks">[15 &times; 2 = 30 Marks]</span>
+            </div>
+            <p style="font-size: 0.86rem; color: #444444; margin-bottom: 14px; font-style: italic;">
+              Answer ALL fifteen questions. (3 questions from each Module I to V).
+            </p>
+            <ul class="question-list">
+        `;
+        partAQuestions.forEach((q, idx) => {
+          html += `
+            <li class="question-item">
+              <span class="q-number">Q${idx + 1}.</span>
+              <span class="q-text">${q.question}</span>
+              <span class="q-meta">[Ch-${q.chapter}] [2M]</span>
+            </li>
+          `;
+        });
+        html += `</ul></div>`;
+
+        // Part B
+        html += `
+          <div class="paper-section">
+            <div class="paper-section-head">
+              <span>Part — B (Long Answer Questions)</span>
+              <span class="paper-section-marks">[5 &times; 14 = 70 Marks]</span>
+            </div>
+        `;
+
+        function renderChoiceBlock(qNum, modRoman, chNum, subList) {
+          let blockHtml = `
+            <div class="main-question-block" style="margin-bottom: 22px; padding-bottom: 12px; border-bottom: 1px dashed #cccccc;">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; font-weight: 800; font-family: 'Inter', system-ui, sans-serif; font-size: 0.98rem; margin-bottom: 10px; color: #000000;">
+                <span>Q${qNum}. [Module — ${modRoman}] Answer any TWO of the following:</span>
+                <span style="font-size: 0.88rem; color: #333333;">[2 &times; 7 = 14 Marks]</span>
+              </div>
+              <ul class="sub-question-list" style="list-style: none; padding-left: 14px; margin: 0;">
+          `;
+          subList.forEach((q, sIdx) => {
+            blockHtml += `
+              <li class="question-item" style="margin-bottom: 10px;">
+                <span class="q-number" style="font-weight: 700; color: #000000;">${subLabels[sIdx]}</span>
+                <span class="q-text">${q.question}</span>
+                <span class="q-meta">[Ch-${q.chapter}] [7M]</span>
+              </li>
+            `;
+          });
+          blockHtml += `</ul></div>`;
+          return blockHtml;
+        }
+
+        function renderCompulsoryBlock(qNum, modRoman, chNum, subList) {
+          let blockHtml = `
+            <div class="main-question-block" style="margin-bottom: 22px; padding-bottom: 12px; border-bottom: 1px dashed #cccccc;">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; font-weight: 800; font-family: 'Inter', system-ui, sans-serif; font-size: 0.98rem; margin-bottom: 10px; color: #000000;">
+                <span>Q${qNum}. [Module — ${modRoman}] Answer BOTH of the following (Compulsory):</span>
+                <span style="font-size: 0.88rem; color: #333333;">[2 &times; 7 = 14 Marks]</span>
+              </div>
+              <ul class="sub-question-list" style="list-style: none; padding-left: 14px; margin: 0;">
+          `;
+          subList.forEach((q, sIdx) => {
+            blockHtml += `
+              <li class="question-item" style="margin-bottom: 10px;">
+                <span class="q-number" style="font-weight: 700; color: #000000;">${subLabels[sIdx]}</span>
+                <span class="q-text">${q.question}</span>
+                <span class="q-meta">[Ch-${q.chapter}] [7M]</span>
+              </li>
+            `;
+          });
+          blockHtml += `</ul></div>`;
+          return blockHtml;
+        }
+
+        html += renderChoiceBlock(16, 'I', 1, q16_sub);
+        html += renderChoiceBlock(17, 'II', 2, q17_sub);
+        html += renderChoiceBlock(18, 'III', 3, q18_sub);
+        html += renderCompulsoryBlock(19, 'IV', 4, q19_sub);
+        html += renderCompulsoryBlock(20, 'V', 5, q20_sub);
+
+        html += `</div>`;
+        return html;
+      }
+    }
+
+    // ── RENDER SIDEBAR 5 SETS BUTTONS ──
+    function renderSidebarSetsList() {
+      const marksLabel = currentExamMode === 'mid' ? '20M' : '100M';
+      document.getElementById('setsPatternLabel').textContent = currentExamMode === 'mid' ? 'Mid-Sem (20M)' : 'End-Sem (100M)';
+      
+      const container = document.getElementById('setsListContainer');
+      let html = '';
+      for (let s = 1; s <= 5; s++) {
+        const isActive = s === currentSetIndex ? 'active' : '';
+        html += `
+          <button type="button" class="paper-set-item ${isActive}" data-set="${s}" onclick="switchPaperSet(${s})">
+            <div class="set-left">
+              <span class="set-pill">SET ${s}</span>
+              <span class="set-title">Model Paper ${s}</span>
+            </div>
+            <span class="set-meta">${marksLabel}</span>
+          </button>
+        `;
+      }
+      container.innerHTML = html;
+    }
+
+    // ── SWITCH ACTIVE SET ──
+    function switchPaperSet(setNumber) {
+      currentSetIndex = setNumber;
+      
+      // Update sidebar active buttons
+      const buttons = document.querySelectorAll('.paper-set-item');
+      buttons.forEach(btn => {
+        btn.classList.toggle('active', parseInt(btn.getAttribute('data-set')) === setNumber);
+      });
+
+      displayActivePaperSet();
+
+      // On mobile & tablet (<= 1024px), auto-close sidebar drawer so user immediately views their chosen set
+      if (window.innerWidth <= 1024) {
+        toggleSidebar(false);
+      }
+    }
+
+    // ── SIDEBAR TOGGLE (OPEN / CLOSE) WITH LOCALSTORAGE PERSISTENCE ──
+    function toggleSidebar(forceState) {
+      const sidebar = document.getElementById('paperSidebar');
+      const toggleBtn = document.getElementById('btnSidebarToggle');
+      const navBtn = document.getElementById('navbarSidebarToggle');
+      const backdrop = document.getElementById('sidebarBackdrop');
+      if (!sidebar) return;
+      
+      const isCollapsed = sidebar.classList.contains('collapsed');
+      const shouldOpen = forceState !== undefined ? forceState : isCollapsed;
+      const isMobileOrTablet = window.innerWidth <= 1024;
+      
+      if (shouldOpen) {
+        sidebar.classList.remove('collapsed');
+        if (toggleBtn) toggleBtn.setAttribute('title', 'Close Sidebar');
+        if (navBtn) {
+          navBtn.classList.add('active');
+          navBtn.innerHTML = '<i class="fas fa-times"></i> <span>Close</span>';
+        }
+        if (backdrop && isMobileOrTablet) backdrop.classList.add('active');
+        try { localStorage.setItem('btechx_paper_sidebar', 'open'); } catch(e) {}
+      } else {
+        sidebar.classList.add('collapsed');
+        if (toggleBtn) toggleBtn.setAttribute('title', 'Open Sidebar');
+        if (navBtn) {
+          navBtn.classList.remove('active');
+          navBtn.innerHTML = '<i class="fas fa-sliders-h"></i> <span>Options</span>';
+        }
+        if (backdrop) backdrop.classList.remove('active');
+        try { localStorage.setItem('btechx_paper_sidebar', 'closed'); } catch(e) {}
+      }
+    }
+
+    function initSidebarState() {
+      const sidebar = document.getElementById('paperSidebar');
+      const toggleBtn = document.getElementById('btnSidebarToggle');
+      const navBtn = document.getElementById('navbarSidebarToggle');
+      const backdrop = document.getElementById('sidebarBackdrop');
+      if (!sidebar) return;
+
+      const isMobileOrTablet = window.innerWidth <= 1024;
+      let savedState = null;
+      try {
+        savedState = localStorage.getItem('btechx_paper_sidebar');
+      } catch(e) {}
+
+      // If user specifically closed it, or on small screens if not set yet, keep collapsed
+      if (savedState === 'closed' || (savedState === null && isMobileOrTablet)) {
+        sidebar.classList.add('collapsed');
+        if (toggleBtn) toggleBtn.setAttribute('title', 'Open Sidebar');
+        if (navBtn) {
+          navBtn.classList.remove('active');
+          navBtn.innerHTML = '<i class="fas fa-sliders-h"></i> <span>Options</span>';
+        }
+        if (backdrop) backdrop.classList.remove('active');
+      } else {
+        sidebar.classList.remove('collapsed');
+        if (toggleBtn) toggleBtn.setAttribute('title', 'Close Sidebar');
+        if (navBtn) {
+          navBtn.classList.add('active');
+          navBtn.innerHTML = '<i class="fas fa-times"></i> <span>Close</span>';
+        }
+        if (backdrop && isMobileOrTablet) backdrop.classList.add('active');
+      }
+    }
+
+    // ── DISPLAY ACTIVE PAPER ON CANVAS ──
+    function displayActivePaperSet() {
+      const meta = SUBJECT_METADATA[currentSubjectKey] || { name: 'Subject', code: 'Course' };
+      const romanSet = ROMAN_NUMERALS[currentSetIndex] || currentSetIndex;
+
+      // Update Paper Sheet Header (Clean authentic university layout)
+      const subDetailsEl = document.getElementById('sheetSubjectDetails');
+      if (subDetailsEl) subDetailsEl.textContent = `Course: ${meta.name} (${meta.code})`;
+
+      const badgeEl = document.getElementById('sheetSetBadge');
+      if (badgeEl) badgeEl.textContent = `SET — ${romanSet}`;
+
+      const examNameEl = document.getElementById('sheetExamName');
+      const timeAllowedEl = document.getElementById('sheetTimeAllowed');
+      const maxMarksEl = document.getElementById('sheetMaxMarks');
+      const instructionsEl = document.getElementById('sheetInstructions');
+
+      if (currentExamMode === 'mid') {
+        if (examNameEl) examNameEl.textContent = 'MID-SEMESTER EXAMINATION — 2026';
+        if (timeAllowedEl) timeAllowedEl.textContent = '1 Hour';
+        if (maxMarksEl) maxMarksEl.textContent = '20 Marks';
+        if (instructionsEl) {
+          instructionsEl.textContent = 
+            'Instructions: Part-A (10 Marks): Answer ALL 5 questions (2 marks each). Part-B (10 Marks): Answer ALL questions (5 marks each).';
+        }
+      } else {
+        if (examNameEl) examNameEl.textContent = 'END-SEMESTER EXAMINATION — 2026';
+        if (timeAllowedEl) timeAllowedEl.textContent = '3 Hours';
+        if (maxMarksEl) maxMarksEl.textContent = '100 Marks';
+        if (instructionsEl) {
+          instructionsEl.textContent = 
+            'Instructions: Part-A (30 Marks): Answer ALL 15 questions (2 marks each). Part-B (70 Marks): Answer any TWO sub-questions from Q16, Q17, Q18 (7M each); Q19 and Q20 are COMPULSORY (2 x 7M each).';
+        }
+      }
+
+      // Inject generated content
+      const container = document.getElementById('paperSectionsContainer');
+      if (container && generatedSetsData[currentSetIndex]) {
+        container.innerHTML = generatedSetsData[currentSetIndex];
+      }
+    }
+
+    // ── DIRECT CLIENT-SIDE PDF DOWNLOAD ──
+    async function downloadPaperPDF() {
+      const sheet = document.getElementById('examPaperSheet');
+      const btn = document.getElementById('btnDownloadPDF');
+      if (!sheet) return;
+
+      const originalTransform = sheet.style.transform;
+      const originalMargin = sheet.style.marginBottom;
+      const originalBoxShadow = sheet.style.boxShadow;
+
+      try {
+        if (btn) {
+          btn.classList.add('is-downloading');
+          btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Preparing PDF...';
+        }
+
+        // Temporarily reset visual zoom scaling for 1:1 crisp high-DPI export
+        sheet.style.transform = 'none';
+        sheet.style.marginBottom = '0';
+        sheet.style.boxShadow = 'none';
+
+        const meta = SUBJECT_METADATA[currentSubjectKey] || { code: 'Exam' };
+        const examMode = currentExamMode === 'mid' ? 'MidSem' : 'EndSem';
+        const romanSet = ROMAN_NUMERALS[currentSetIndex] || currentSetIndex;
+        const filename = `BTechX_${meta.code}_${examMode}_Set-${romanSet}_2026.pdf`;
+
+        const opt = {
+          margin: [8, 8, 8, 8],
+          filename: filename,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: {
+            scale: 2,
+            useCORS: true,
+            letterRendering: true,
+            backgroundColor: '#ffffff'
+          },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+        };
+
+        if (window.html2pdf) {
+          await html2pdf().set(opt).from(sheet).save();
+        } else {
+          window.print();
+        }
+      } catch (err) {
+        console.error('PDF generation error, falling back to print dialog:', err);
+        window.print();
+      } finally {
+        // Restore user zoom
+        sheet.style.transform = originalTransform;
+        sheet.style.marginBottom = originalMargin;
+        sheet.style.boxShadow = originalBoxShadow;
+
+        if (btn) {
+          btn.classList.remove('is-downloading');
+          btn.innerHTML = '<i class="fas fa-file-pdf"></i> Download PDF';
+        }
+      }
+    }
+
+    // ── ZOOM CONTROLS ──
+    function changeZoom(delta) {
+      currentZoom = Math.min(1.5, Math.max(0.35, Math.round((currentZoom + delta) * 10) / 10));
+      applyZoom();
+    }
+
+    function resetZoom() {
+      // Auto fit on small screens or 1.0 on desktop
+      if (window.innerWidth <= 1024) {
+        const availableWidth = window.innerWidth - 24;
+        currentZoom = Math.min(1.0, Math.max(0.38, Math.floor((availableWidth / 840) * 100) / 100));
+      } else {
+        currentZoom = 1.0;
+      }
+      applyZoom();
+    }
+
+    function applyZoom() {
+      const sheet = document.getElementById('examPaperSheet');
+      if (!sheet) return;
+      sheet.style.transform = `scale(${currentZoom})`;
+      const zoomDisplay = document.getElementById('zoomDisplay');
+      if (zoomDisplay) zoomDisplay.textContent = `${Math.round(currentZoom * 100)}%`;
+      
+      if (currentZoom > 1.0) {
+        const extra = (currentZoom - 1.0) * sheet.offsetHeight;
+        sheet.style.marginBottom = `${Math.max(40, extra + 40)}px`;
+      } else {
+        sheet.style.marginBottom = '40px';
+      }
+    }
+
+    // ── SWITCH SUBJECT ──
+    function onSubjectChange() {
+      currentSubjectKey = document.getElementById('subjectSelect').value;
+      currentSetIndex = 1;
+      loadSubjectCSV(currentSubjectKey);
+    }
+
+    // ── SWITCH EXAM MODE ──
+    function switchExam(mode) {
+      if (currentExamMode === mode) return;
+      currentExamMode = mode;
+      currentSetIndex = 1;
+      document.getElementById('btnMidSem').classList.toggle('active', mode === 'mid');
+      document.getElementById('btnEndSem').classList.toggle('active', mode === 'end');
+      generateAllPapers();
+    }
+
+    // ── DOM READY ──
+    window.addEventListener('DOMContentLoaded', () => {
+      initSidebarState();
+      buildMatrix();
+
+      // On mobile / tablet, auto-fit sheet zoom so entire A4 sheet fits viewport width cleanly
+      if (window.innerWidth <= 1024) {
+        const availableWidth = window.innerWidth - 24;
+        const autoZoom = Math.min(1.0, Math.max(0.38, Math.floor((availableWidth / 840) * 100) / 100));
+        currentZoom = autoZoom;
+        applyZoom();
+      }
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const subParam = urlParams.get('sub');
+      if (subParam && SUBJECT_METADATA[subParam.toLowerCase()]) {
+        currentSubjectKey = subParam.toLowerCase();
+        document.getElementById('subjectSelect').value = currentSubjectKey;
+      }
+      loadSubjectCSV(currentSubjectKey);
+    });
+  </script>
+</body>
+</html>

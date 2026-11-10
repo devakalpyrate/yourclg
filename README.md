@@ -14,7 +14,7 @@
 
 **BTechX** is a state-of-the-art, open-source web application designed to simplify learning for undergraduate B.Tech engineering students. It provides instant access to organized branch-wise notes, syllabus documents, unit-wise reference PDFs, and custom developer/AI tools—all wrapped in a sleek, ultra-smooth monochrome dark interface.
 
-🌐 **Live Website**: [btechx.online](https://btechx.online)
+🌐 **Live Website**: [btechx.online](https://btechx-eight.vercel.app)
 
 ---
 

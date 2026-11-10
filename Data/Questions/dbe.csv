@@ -1,0 +1,59 @@
+Chapter,Mark,Question
+1,2,Define DBMS and list two key advantages over traditional file processing systems.
+1,2,What is data abstraction? Name the three levels of data abstraction.
+1,2,Distinguish between Physical Data Independence and Logical Data Independence.
+1,2,What is a Data Dictionary and what metadata does it store?
+1,2,Define DDL and DML with one SQL command example for each.
+1,2,What are the primary roles and responsibilities of a Database Administrator (DBA)?
+1,2,Differentiate between Database Schema and Database Instance.
+1,5,Explain the Three-Schema Architecture of DBMS with a neat block diagram.
+1,5,Describe the overall system architecture and functional components of a DBMS.
+1,5,"Compare Relational, Hierarchical, and Network data models with their merits and demerits."
+1,5,Explain the functions of Storage Manager and Query Processor in DBMS.
+1,7,Discuss DBMS system structure in detail. Explain how data independence is achieved through different architectural layers.
+1,7,"Explain the various categories of DBMS users. Describe the duties of DBA in database design, security, and maintenance."
+2,2,"Define Primary Key, Candidate Key, and Super Key with suitable examples."
+2,2,What is Referential Integrity Constraint? Explain using foreign key syntax.
+2,2,What are weak entity sets? How are they represented and identified in an ER diagram?
+2,2,Define Cardinality Ratio and Participation Constraint in ER modeling.
+2,2,What is an identifying relationship in an ER model?
+2,2,Distinguish between Simple vs Composite attributes and Single-valued vs Multi-valued attributes.
+2,5,Explain different types of attributes in an ER model with suitable examples and standard notations.
+2,5,"Explain Specialization, Generalization, and Aggregation in Extended ER (EER) modeling with examples."
+2,5,Discuss the step-by-step rules for converting an ER diagram into Relational Tables.
+2,5,"What are integrity constraints? Explain Domain Constraints, Entity Integrity, and Key Constraints."
+2,7,"Construct a complete ER diagram for a University Management System showing entities (Student, Department, Course, Instructor), attributes, and relationship constraints. Map it to relational schema."
+2,7,"Draw an ER diagram for a Hospital Management System with Doctor, Patient, Ward, and Treatment entities. Demonstrate the conversion into relational tables."
+3,2,What is Relational Algebra? List any four fundamental operations.
+3,2,Differentiate between Natural Join and Theta Join with an example.
+3,2,What is Tuple Relational Calculus (TRC)? Write its general syntax.
+3,2,Explain the Select (sigma) and Project (pi) operations in Relational Algebra with examples.
+3,2,Define Cartesian Product in relational algebra with an example.
+3,5,"Explain Set operations (Union, Intersection, Set Difference, Cartesian Product) in Relational Algebra with examples."
+3,5,"Explain different types of Outer Joins (Left Outer, Right Outer, Full Outer Join) with sample relations and results."
+3,5,Explain Division (/) operation in Relational Algebra with an illustrative scenario.
+3,7,"Given relations: Student(RollNo, Name, Branch, CGPA), Course(CourseId, CName, Credits), Enrolls(RollNo, CourseId, Sem). Formulate relational algebra queries for 5 distinct analytical requests."
+3,7,Explain the equivalence rules for relational algebra expressions and discuss their role in query optimization.
+4,2,What is Functional Dependency? Give a formal definition and an example.
+4,2,"What are Insertion, Deletion, and Update anomalies in unnormalized relations?"
+4,2,Define First Normal Form (1NF) and state how multi-valued attributes are eliminated.
+4,2,Define Second Normal Form (2NF) and explain partial dependency.
+4,2,What is Boyce-Codd Normal Form (BCNF)? How does it differ from 3NF?
+4,2,What is transitive dependency? Illustrate with an example.
+4,5,State and prove Armstrong's Axioms for functional dependencies.
+4,5,Explain Third Normal Form (3NF) with a detailed example showing removal of transitive dependencies.
+4,5,Explain Boyce-Codd Normal Form (BCNF) and demonstrate step-by-step decomposition of a relation into BCNF.
+4,5,Explain Lossless-Join Decomposition and Dependency Preservation with mathematical conditions.
+4,7,"Consider relation R(A, B, C, D, E) with FDs {A->BC, CD->E, B->D, E->A}. Find all candidate keys and determine the highest normal form of R. Decompose into 3NF if necessary."
+4,7,"Explain 1NF, 2NF, 3NF, and BCNF comprehensively with a complete student-faculty-department database normalization walk-through."
+5,2,What is a Database Transaction? State the ACID properties.
+5,2,Define Serializability and Conflict Serializability.
+5,2,What is Deadlock in DBMS? Mention two deadlock prevention strategies.
+5,2,What is the Dirty Read (Temporary Update) problem in concurrent executions?
+5,2,Explain Write-Ahead Logging (WAL) protocol.
+5,5,Explain the ACID properties of a transaction in detail with a banking fund-transfer example.
+5,5,"Explain Two-Phase Locking (2PL) protocol. Compare Basic 2PL, Strict 2PL, and Rigorous 2PL."
+5,5,Describe Log-Based Recovery techniques (Deferred Update vs Immediate Update).
+5,5,Explain how a Precedence (Serialization) Graph is constructed to test conflict serializability with an example schedule.
+5,7,"Discuss Concurrency Control techniques in detail: Lock-based protocols, Timestamp-ordering protocols, and Validation-based protocols."
+5,7,"Discuss Database Recovery Management in detail: Checkpointing, Shadow Paging, and the ARIES recovery algorithm."

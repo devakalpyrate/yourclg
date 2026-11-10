@@ -1,9 +1,9 @@
 // BTechX - Non-Intrusive Smart Auto-Update & Cache Syncer (v16.7)
 (function() {
   // Ignore local file:/// testing
-  if (window.location.protocol.startsWith('file')) return;
+  if (window.location.protocol.startsWith('file') || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') return;
 
-  const APP_VERSION = 16.7;
+  const APP_VERSION = 17.2;
   const isViewer = window.location.pathname.includes('viewer.html');
   const CHECK_INTERVAL_MS = 60 * 1000; // Check every 60 seconds
 
@@ -61,7 +61,7 @@
       console.log(`🚀 New version v${remoteVersion} synced. Reloading to latest...`);
       window.location.reload();
     } catch (e) {
-      window.location.reload();
+      console.warn('Update check failed:', e);
     }
   }
 
