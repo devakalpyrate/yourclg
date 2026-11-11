@@ -117,38 +117,53 @@
       transform: rotate(180deg);
     }
 
-    /* ══ DOT MATRIX LOADING SCREEN (from killload.html) ══ */
+    /* ══ FULL-BLEED DOT MATRIX LOADING SCREEN ══ */
     :root {
       --dot: #33d96f;
       --loader-bg: #070a08;
-      --loader-font: "JetBrains Mono", ui-monospace, monospace;
-      --dot-size: 11px;
-      --dot-gap: 13px;
-      --cols: 14;
-      --rows: 9;
+      --dot-size: 8px;
+      --cols: 70;
+      --rows: 35;
     }
 
+    /* Covers ONLY the Right PDF Section (Fills Entire Preview Pane edge-to-edge) */
     .loader {
       position: absolute;
       inset: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       width: 100%;
       height: 100%;
       min-height: 100%;
-      z-index: 30; /* Inside preview pane, below sidebar z-index 500 */
+      z-index: 100;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
       background:
         radial-gradient(60% 55% at 50% 45%, rgba(51, 217, 111, .07), transparent 70%),
         var(--loader-bg);
-      transition: opacity .6s cubic-bezier(.4, 0, .2, 1), transform .6s cubic-bezier(.4, 0, .2, 1), visibility .6s;
-      font-family: var(--loader-font);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity .45s ease, visibility .45s;
+      overflow: hidden;
     }
 
+    /* Active: Smooth Fade-In */
+    .loader.is-active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    /* Done: Smooth Fade-Out */
     .loader.is-done {
       opacity: 0;
-      transform: scale(1.03);
       visibility: hidden;
       pointer-events: none;
     }
@@ -166,20 +181,17 @@
       pointer-events: none;
     }
 
-    .loader__inner {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 34px;
-      padding: 32px;
-    }
-
     .matrix {
+      width: 100%;
+      height: 100%;
       display: grid;
-      grid-template-columns: repeat(var(--cols), var(--dot-size));
-      gap: var(--dot-gap);
+      grid-template-columns: repeat(var(--cols), 1fr);
+      grid-template-rows: repeat(var(--rows), 1fr);
+      place-items: center;
+      padding: 10px 14px;
+      box-sizing: border-box;
       filter: drop-shadow(0 0 10px rgba(51, 217, 111, .18));
+      overflow: hidden;
     }
 
     .matrix__dot {
@@ -187,124 +199,23 @@
       height: var(--dot-size);
       border-radius: 50%;
       background: var(--dot);
-      opacity: .1;
-      transform: scale(.62);
-      animation: matrixSweep 2.6s cubic-bezier(.45, 0, .55, 1) infinite;
+      opacity: .08;
+      transform: scale(.6);
+      animation: matrixSweep 2.4s cubic-bezier(.45, 0, .55, 1) infinite;
       will-change: opacity, transform;
     }
 
+    /* a bright band travels diagonally across the grid */
     @keyframes matrixSweep {
-      0%   { opacity: .1;  transform: scale(.62); }
+      0%   { opacity: .08; transform: scale(.6); }
       14%  { opacity: 1;   transform: scale(1); }
       30%  { opacity: .28; transform: scale(.82); }
       55%  { opacity: .08; transform: scale(.6); }
-      100% { opacity: .1;  transform: scale(.62); }
-    }
-
-    .readout {
-      width: min(340px, 78vw);
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .readout__row {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 16px;
-      font-size: 11px;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      font-family: var(--loader-font);
-    }
-
-    .readout__label { color: #d6e6da; }
-
-    .readout__pct {
-      color: var(--dot);
-      font-variant-numeric: tabular-nums;
-      letter-spacing: .06em;
-      font-weight: 500;
-      font-family: var(--loader-font);
-    }
-
-    .bar {
-      position: relative;
-      height: 3px;
-      width: 100%;
-      background: rgba(255, 255, 255, .09);
-      overflow: hidden;
-    }
-
-    .bar__fill {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 0%;
-      background: var(--dot);
-      box-shadow: 0 0 10px rgba(51, 217, 111, .55);
-      transition: width 0.15s ease-out;
-    }
-
-    .bar__fill::after {
-      content: "";
-      position: absolute;
-      top: -4px; right: 0; bottom: -4px;
-      width: 26px;
-      background: linear-gradient(90deg, transparent, rgba(51, 217, 111, .55));
-    }
-
-    .status {
-      font-size: 10.5px;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      color: #6d7f73;
-      height: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: opacity .25s ease;
-      font-family: var(--loader-font);
-    }
-
-    .status::before {
-      content: "";
-      width: 5px;
-      height: 5px;
-      background: var(--dot);
-      border-radius: 50%;
-      animation: matrixBlink 1.4s steps(1, end) infinite;
-      flex: none;
-    }
-
-    @keyframes matrixBlink {
-      0%, 55% { opacity: 1; }
-      56%, 100% { opacity: .15; }
-    }
-
-    .loader__foot {
-      position: absolute;
-      bottom: 28px;
-      left: 0;
-      right: 0;
-      text-align: center;
-      font-size: 9.5px;
-      letter-spacing: .3em;
-      text-transform: uppercase;
-      color: rgba(109, 127, 115, .6);
-      font-family: var(--loader-font);
-    }
-
-    @media (max-width: 520px) {
-      :root { --dot-size: 9px; --dot-gap: 10px; }
-      .matrix { grid-template-columns: repeat(var(--cols), var(--dot-size)); }
+      100% { opacity: .08; transform: scale(.6); }
     }
 
     @media (prefers-reduced-motion: reduce) {
       .matrix__dot { animation: none; opacity: .55; transform: none; }
-      .status::before { animation: none; }
       .loader { transition-duration: .01s; }
     }
 
@@ -355,6 +266,48 @@
       display: flex;
       align-items: center;
       gap: 6px;
+    }
+
+    /* ── ACADEMIC YEAR CIRCULAR SELECTOR (1, 2, 3, 4) ── */
+    .year-circles-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: #121212;
+      padding: 6px 10px;
+      border-radius: 30px;
+      border: 1px solid #242424;
+    }
+    .year-circle-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid #2b2b2b;
+      background: #181818;
+      color: #999999;
+      font-size: 0.95rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      font-family: 'Inter', system-ui, sans-serif;
+      user-select: none;
+    }
+    .year-circle-btn:hover {
+      background: #252525;
+      color: #ffffff;
+      border-color: #444444;
+      transform: translateY(-1px);
+    }
+    .year-circle-btn.active {
+      background: #ffffff !important;
+      color: #000000 !important;
+      border-color: #ffffff !important;
+      box-shadow: 0 0 14px rgba(255, 255, 255, 0.35) !important;
+      transform: scale(1.06);
     }
 
     /* ── SUBJECT DROPDOWN ── */
@@ -619,13 +572,16 @@
       padding: 20px 24px 80px;
       scroll-behavior: smooth;
     }
-    /* Lock scrolling and hide paper sheet completely while generating */
+    /* Lock scrolling and hide paper sheet completely while generating so loader fills exact viewport */
     .paper-preview-pane.is-loading {
       overflow: hidden !important;
+      padding: 0 !important;
     }
     .paper-preview-pane.is-loading .preview-canvas {
       visibility: hidden !important;
       opacity: 0 !important;
+      height: 0 !important;
+      overflow: hidden !important;
     }
     .paper-preview-pane.is-loading .fixed-zoom-bar {
       opacity: 0 !important;
@@ -690,27 +646,87 @@
       text-align: center;
     }
 
-    /* ── THE PAPER SHEET (BLACK & WHITE PRINT LOOK) ── */
+    /* ── THE PAPER SHEET (EXACT A4 794px IDENTICAL DESKTOP & MOBILE) ── */
     .preview-canvas {
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
       width: 100%;
+      min-width: 0;
+      padding-bottom: 80px;
+    }
+    .paper-stage-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      overflow: visible;
+      min-width: 0;
+    }
+    .paper-stage {
+      transform-origin: top center;
+      transition: transform 0.12s ease-out;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     .exam-paper-sheet {
-      width: 820px;
-      max-width: 820px;
+      width: 794px;
+      min-width: 794px;
+      max-width: 794px;
       background: #ffffff;
       color: #000000;
-      border-radius: 4px;
-      padding: 44px 50px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 0 1px #222222;
+      border-radius: 2px;
+      padding: 38px 44px 44px;
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.85), 0 0 0 1px #222222;
       font-family: 'Times New Roman', Times, serif;
-      line-height: 1.6;
-      transition: transform 0.15s ease-out;
-      transform-origin: top center;
+      line-height: 1.55;
+      box-sizing: border-box;
+      text-align: left;
     }
     .exam-paper-sheet * {
       box-sizing: border-box;
+    }
+    .question-item, .main-question-block, .paper-section-head, .paper-uni-header, .paper-header-grid {
+      break-inside: avoid !important;
+      page-break-inside: avoid !important;
+    }
+
+    /* ── HTML2PDF CLEAN ENGINE (PIXEL-PERFECT A4 EXPORT) ── */
+    .html2pdf__overlay {
+      position: fixed !important;
+      left: 0 !important;
+      top: 0 !important;
+      width: 100% !important;
+      min-width: 800px !important;
+      height: 100% !important;
+      overflow: visible !important;
+      z-index: 999999 !important;
+      background: #ffffff !important;
+    }
+    .html2pdf__container {
+      position: absolute !important;
+      left: 0 !important;
+      top: 0 !important;
+      right: auto !important;
+      bottom: auto !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 794px !important;
+      min-width: 794px !important;
+      max-width: 794px !important;
+      box-shadow: none !important;
+      border: none !important;
+      background: #ffffff !important;
+    }
+    .html2pdf__container .exam-paper-sheet {
+      width: 794px !important;
+      min-width: 794px !important;
+      max-width: 794px !important;
+      margin: 0 !important;
+      transform: none !important;
+      box-shadow: none !important;
+      border: none !important;
     }
 
     .paper-uni-header {
@@ -935,6 +951,38 @@
 
     /* ── TABLET & MOBILE DRAWER VIEW (<= 1024px, including 824x732) ── */
     @media (max-width: 1024px) {
+      /* Squeezed compact mobile top navbar */
+      .navbar {
+        padding: 6px 0 !important;
+      }
+      .logo-text {
+        font-size: 1.55rem !important;
+        padding: 0 2px !important;
+      }
+      .nav-toggle {
+        display: flex !important;
+        width: 36px !important;
+        height: 36px !important;
+        padding: 7px 8px !important;
+        gap: 4px !important;
+        border-radius: 8px !important;
+      }
+      .nav-toggle span {
+        width: 18px !important;
+        height: 2px !important;
+      }
+      .nav-toggle.active span:nth-child(1) {
+        transform: translateY(6px) rotate(45deg) !important;
+      }
+      .nav-toggle.active span:nth-child(3) {
+        transform: translateY(-6px) rotate(-45deg) !important;
+      }
+      .mobile-apps-btn {
+        width: 32px !important;
+        height: 32px !important;
+        margin-right: 6px !important;
+      }
+
       .paper-workspace {
         position: relative !important;
         overflow: hidden !important;
@@ -970,7 +1018,7 @@
         gap: 12px !important;
       }
       .paper-preview-pane {
-        padding: 14px 10px 70px !important;
+        padding: 10px 8px 70px !important;
       }
       .fixed-zoom-bar {
         right: 14px !important;
@@ -989,21 +1037,24 @@
       }
     }
 
-    @media (max-width: 520px) {
-      :root {
-        --dot-size: 8px;
-        --dot-gap: 8px;
-      }
+    @media (max-width: 768px) {
       .matrix {
-        grid-template-columns: repeat(var(--cols), var(--dot-size));
+        padding: 6px 8px;
       }
-      .readout {
-        width: 86vw;
+    }
+
+    @media (max-width: 480px) {
+      .matrix {
+        padding: 4px 6px;
       }
     }
 
     /* ── PRINT MEDIA (CLEAN A4 PAPER ONLY) ── */
     @media print {
+      @page {
+        size: A4 portrait;
+        margin: 10mm 12mm;
+      }
       html, body {
         overflow: visible !important;
         height: auto !important;
@@ -1023,18 +1074,41 @@
         width: 100% !important;
         max-width: 100% !important;
         margin: 0 !important;
-        padding: 16px 20px !important;
+        padding: 0 !important;
         box-shadow: none !important;
         border-radius: 0 !important;
         transform: none !important;
       }
-      .paper-sidebar, .sidebar-edge-toggle, .navbar, .mobile-menu, .preview-toolbar, .fixed-zoom-bar, .sidebar-expand-btn, .loader {
+      .paper-stage-wrapper, .paper-stage {
+        display: block !important;
+        width: 100% !important;
+        height: auto !important;
+        transform: none !important;
+      }
+      .paper-sidebar, .sidebar-edge-toggle, .navbar, .mobile-menu, .preview-toolbar, .fixed-zoom-bar, .sidebar-expand-btn, .loader, .paper-placeholder-card {
         display: none !important;
       }
     }
   </style>
 </head>
 <body>
+
+  <!-- Global Shared SVG Defs (Ensures gradients always render on Desktop & Mobile without duplicate ID collisions) -->
+  <svg width="0" height="0" style="position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none;" aria-hidden="true">
+    <defs>
+      <linearGradient id="neonGradientNav" x1="120" y1="30" x2="955" y2="520" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#00f2fe" />
+        <stop offset="35%" stop-color="#2563eb" />
+        <stop offset="72%" stop-color="#d946ef" />
+        <stop offset="100%" stop-color="#ec4899" />
+      </linearGradient>
+      <linearGradient id="coreGradientNav" x1="120" y1="30" x2="955" y2="520" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#ffffff" />
+        <stop offset="50%" stop-color="#e0e7ff" />
+        <stop offset="100%" stop-color="#ffffff" />
+      </linearGradient>
+    </defs>
+  </svg>
 
   <!-- ══ MAIN NAVBAR ══ -->
   <nav class="navbar">
@@ -1055,13 +1129,18 @@
             </svg>
             <svg class="apps-neon-icon" width="16" height="16" viewBox="7 -35 1060 1060" fill="none" aria-hidden="true">
               <path d="M 124 35 L 124 195 C 124 275, 165 305, 255 335 C 420 390, 560 442, 692 484 C 560 526, 420 582, 255 645 C 165 680, 124 715, 122 800 L 122 955 C 330 890, 535 765, 622 685 C 785 595, 895 520, 916 499 L 952 484 L 916 469 C 895 440, 785 350, 622 252 C 535 190, 330 95, 124 35 Z" stroke="url(#neonGradientNav)" stroke-width="70" stroke-opacity="0.25" stroke-linejoin="round" />
+              <path class="neon-laser-path" pathLength="1000" d="M 124 35 L 124 195 C 124 275, 165 305, 255 335 C 420 390, 560 442, 692 484 C 560 526, 420 582, 255 645 C 165 680, 124 715, 122 800 L 122 955 C 330 890, 535 765, 622 685 C 785 595, 895 520, 916 499 L 952 484 L 916 469 C 895 440, 785 350, 622 252 C 535 190, 330 95, 124 35 Z" stroke="url(#neonGradientNav)" stroke-width="120" stroke-linecap="round" stroke-linejoin="round" />
+              <path class="neon-core-path" pathLength="1000" d="M 124 35 L 124 195 C 124 275, 165 305, 255 335 C 420 390, 560 442, 692 484 C 560 526, 420 582, 255 645 C 165 680, 124 715, 122 800 L 122 955 C 330 890, 535 765, 622 685 C 785 595, 895 520, 916 499 L 952 484 L 916 469 C 895 440, 785 350, 622 252 C 535 190, 330 95, 124 35 Z" stroke="url(#coreGradientNav)" stroke-width="50" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </span>
         </button>
         <a href="index.html" style="text-decoration: none; display: flex; align-items: center;">
           <span class="logo-text">BTechX</span>
         </a>
-
+        <span style="height: 18px; width: 1px; background: rgba(255, 255, 255, 0.15); margin: 0 10px; align-self: center;"></span>
+        <a href="https://itsme-blush.vercel.app" target="_blank" title="BTechX is powered by DLM" style="display: flex; align-items: center;">
+          <img src="images/dlm.png" alt="DLM Logo" style="height: 24px; width: auto; opacity: 0.9; align-self: center; display: block;" />
+        </a>
       </div>
       <div class="navbar-links">
         <a href="index.html">Home</a>
@@ -1082,6 +1161,11 @@
                 <circle cx="2.5" cy="13.5" r="1.6"></circle>
                 <circle cx="8" cy="13.5" r="1.6"></circle>
                 <circle cx="13.5" cy="13.5" r="1.6"></circle>
+              </svg>
+              <svg class="apps-neon-icon" width="16" height="16" viewBox="7 -35 1060 1060" fill="none" aria-hidden="true">
+                <path d="M 124 35 L 124 195 C 124 275, 165 305, 255 335 C 420 390, 560 442, 692 484 C 560 526, 420 582, 255 645 C 165 680, 124 715, 122 800 L 122 955 C 330 890, 535 765, 622 685 C 785 595, 895 520, 916 499 L 952 484 L 916 469 C 895 440, 785 350, 622 252 C 535 190, 330 95, 124 35 Z" stroke="url(#neonGradientNav)" stroke-width="70" stroke-opacity="0.25" stroke-linejoin="round" />
+                <path class="neon-laser-path" pathLength="1000" d="M 124 35 L 124 195 C 124 275, 165 305, 255 335 C 420 390, 560 442, 692 484 C 560 526, 420 582, 255 645 C 165 680, 124 715, 122 800 L 122 955 C 330 890, 535 765, 622 685 C 785 595, 895 520, 916 499 L 952 484 L 916 469 C 895 440, 785 350, 622 252 C 535 190, 330 95, 124 35 Z" stroke="url(#neonGradientNav)" stroke-width="120" stroke-linecap="round" stroke-linejoin="round" />
+                <path class="neon-core-path" pathLength="1000" d="M 124 35 L 124 195 C 124 275, 165 305, 255 335 C 420 390, 560 442, 692 484 C 560 526, 420 582, 255 645 C 165 680, 124 715, 122 800 L 122 955 C 330 890, 535 765, 622 685 C 785 595, 895 520, 916 499 L 952 484 L 916 469 C 895 440, 785 350, 622 252 C 535 190, 330 95, 124 35 Z" stroke="url(#coreGradientNav)" stroke-width="50" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </span>
           </button>
@@ -1136,7 +1220,13 @@
   <div class="mobile-menu" id="mobileMenu">
     <div class="mobile-menu-panel">
       <div class="sidebar-header" style="display: flex; align-items: center;">
-        <span class="logo-text">BTechX</span>
+        <a href="index.html" style="text-decoration: none; display: flex; align-items: center;">
+          <span class="logo-text">BTechX</span>
+        </a>
+        <span style="height: 18px; width: 1px; background: rgba(255, 255, 255, 0.15); margin: 0 8px; align-self: center;"></span>
+        <a href="https://itsme-blush.vercel.app" target="_blank" title="BTechX is powered by DLM" style="display: flex; align-items: center;">
+          <img src="images/dlm.png" alt="DLM Logo" style="height: 22px; width: auto; opacity: 0.9; align-self: center; display: block;" />
+        </a>
         <button class="close-btn" id="closeMenu">&times;</button>
       </div>
       <a href="index.html">Home</a>
@@ -1160,6 +1250,19 @@
       </button>
 
       <div class="sidebar-body">
+        <!-- Academic Year (1, 2, 3, 4 circular buttons) -->
+        <div class="sidebar-group">
+          <label class="sidebar-label">
+            <i class="fas fa-layer-group"></i> Academic Year
+          </label>
+          <div class="year-circles-row" id="yearCirclesRow" role="radiogroup" aria-label="Academic Year">
+            <button type="button" class="year-circle-btn" data-year="1" onclick="selectYear(1)" title="1st Year">1</button>
+            <button type="button" class="year-circle-btn active" data-year="2" onclick="selectYear(2)" title="2nd Year">2</button>
+            <button type="button" class="year-circle-btn" data-year="3" onclick="selectYear(3)" title="3rd Year">3</button>
+            <button type="button" class="year-circle-btn" data-year="4" onclick="selectYear(4)" title="4th Year">4</button>
+          </div>
+        </div>
+
         <!-- Subject Selection -->
         <div class="sidebar-group">
           <label class="sidebar-label" for="subjectSelect">
@@ -1170,7 +1273,6 @@
             <option value="dbe">Database Engineering (CS202)</option>
             <option value="dccn">Data Communication & Network (CS201)</option>
             <option value="dmgt">Discrete Mathematics & Graph Theory (MA203)</option>
-            <option value="bee">Basic Electrical Engineering (EE102)</option>
           </select>
         </div>
 
@@ -1223,68 +1325,60 @@
 
     <!-- RIGHT PANE: SCROLLABLE PDF DOCUMENT PREVIEW -->
     <main class="paper-preview-pane" id="paperPreviewPane">
-      <!-- ══ DOT MATRIX LOADING SCREEN (ONLY LOADS OVER PDF SECTION) ══ -->
+      <!-- ══ FULL-BLEED DOT MATRIX LOADING SCREEN (COVERS RIGHT PREVIEW PANE ONLY) ══ -->
       <div class="loader is-done" id="loader" role="status" aria-live="polite" aria-label="Generating exam papers">
-        <div class="loader__inner">
-          <div class="matrix" id="matrix" aria-hidden="true"></div>
-          <div class="readout">
-            <div class="readout__row">
-              <span class="readout__label">GENERATING PAPERS</span>
-              <span class="readout__pct" id="pct">0%</span>
-            </div>
-            <div class="bar" aria-hidden="true">
-              <div class="bar__fill" id="barFill"></div>
-            </div>
-            <div class="status" id="status">Connecting</div>
-          </div>
-        </div>
-        <div class="loader__foot">BTechX Question Engine &middot; RAM Generator</div>
+        <div class="matrix" id="matrix" aria-hidden="true"></div>
       </div>
 
       <!-- The A4 Paper Canvas -->
       <div class="preview-canvas" id="previewCanvasWrapper">
         <!-- Default Empty Placeholder (Before Generation) -->
         <div class="paper-placeholder-card" id="paperPlaceholderCard">
-          <div class="placeholder-icon">
+          <div class="placeholder-icon" id="placeholderIcon">
             <i class="fas fa-file-invoice"></i>
           </div>
-          <h3 class="placeholder-title">Select Subject &amp; Generate Paper</h3>
-          <p class="placeholder-desc">
+          <h3 class="placeholder-title" id="placeholderTitle">Select Subject &amp; Generate Paper</h3>
+          <p class="placeholder-desc" id="placeholderDesc">
             Choose your subject and examination pattern from the sidebar, then click <strong>Generate Paper</strong> to create 5 randomized model question papers.
           </p>
-          <button type="button" class="placeholder-generate-btn" onclick="generateAllPapers()">
+          <button type="button" class="placeholder-generate-btn" id="placeholderGenBtn" onclick="generateAllPapers()">
             <i class="fas fa-bolt"></i> Generate Paper Now
           </button>
         </div>
 
-        <div class="exam-paper-sheet" id="examPaperSheet" style="display: none;">
-          <div class="paper-uni-header">
-            <div class="paper-uni-title">BTechX MODEL QUESTION PAPER</div>
-            <div class="paper-exam-name" id="sheetExamName">MID-SEMESTER EXAMINATION — 2026</div>
-          </div>
+        <!-- The Paper Scaler Stage (Preserves Exact A4 Dimensions 794px on all screens) -->
+        <div class="paper-stage-wrapper" id="paperStageWrapper" style="display: none;">
+          <div class="paper-stage" id="paperStage">
+            <div class="exam-paper-sheet" id="examPaperSheet">
+              <div class="paper-uni-header">
+                <div class="paper-uni-title">BTechX MODEL QUESTION PAPER</div>
+                <div class="paper-exam-name" id="sheetExamName">MID-SEMESTER EXAMINATION — 2026</div>
+              </div>
 
-          <div class="paper-header-grid">
-            <div class="paper-header-details">
-              <div class="ph-course" id="sheetSubjectDetails">Course: Universal Human Values (HS201)</div>
-              <div class="ph-branch">B.Tech &bull; 2nd Year (All Branches)</div>
-            </div>
-            <div class="paper-set-badge" id="sheetSetBadge">SET — I</div>
-          </div>
+              <div class="paper-header-grid">
+                <div class="paper-header-details">
+                  <div class="ph-course" id="sheetSubjectDetails">Course: Universal Human Values (HS201)</div>
+                  <div class="ph-branch" id="sheetBranchDetails">B.Tech &bull; 2nd Year (All Branches)</div>
+                </div>
+                <div class="paper-set-badge" id="sheetSetBadge">SET — I</div>
+              </div>
 
-          <div class="paper-meta-row">
-            <span>Time Allowed: <span id="sheetTimeAllowed">1 Hour</span></span>
-            <span>Full Marks: <span id="sheetMaxMarks">20 Marks</span></span>
-          </div>
+              <div class="paper-meta-row">
+                <span>Time Allowed: <span id="sheetTimeAllowed">1 Hour</span></span>
+                <span>Full Marks: <span id="sheetMaxMarks">20 Marks</span></span>
+              </div>
 
-          <div class="paper-instructions" id="sheetInstructions">
-            Instructions: Part-A (10 Marks): Answer ALL 5 questions (2 marks each). Part-B (10 Marks): Answer ALL questions (5 marks each).
-          </div>
+              <div class="paper-instructions" id="sheetInstructions">
+                Instructions: Part-A (10 Marks): Answer ALL 5 questions (2 marks each). Part-B (10 Marks): Answer ALL questions (5 marks each).
+              </div>
 
-          <!-- Dynamic Questions Container -->
-          <div id="paperSectionsContainer">
-            <div class="paper-empty-state">
-              <i class="fas fa-spinner fa-spin" style="font-size: 1.5rem; margin-bottom: 10px; color: #888888;"></i>
-              <p>Loading question sets...</p>
+              <!-- Dynamic Questions Container -->
+              <div id="paperSectionsContainer">
+                <div class="paper-empty-state">
+                  <i class="fas fa-spinner fa-spin" style="font-size: 1.5rem; margin-bottom: 10px; color: #888888;"></i>
+                  <p>Loading question sets...</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1295,11 +1389,11 @@
         <button type="button" class="zoom-btn" onclick="changeZoom(-0.1)" title="Zoom Out">
           <i class="fas fa-minus"></i>
         </button>
-        <span class="zoom-text" id="zoomDisplay" onclick="resetZoom()" title="Click to Reset Zoom">100%</span>
+        <span class="zoom-text" id="zoomDisplay" onclick="toggleFitZoom()" title="Click to Toggle Fit to Screen">100%</span>
         <button type="button" class="zoom-btn" onclick="changeZoom(0.1)" title="Zoom In">
           <i class="fas fa-plus"></i>
         </button>
-        <button type="button" class="zoom-btn" onclick="resetZoom()" title="Reset to 100%">
+        <button type="button" class="zoom-btn" onclick="toggleFitZoom()" title="Fit to Screen / 100%">
           <i class="fas fa-expand"></i>
         </button>
       </div>
@@ -1313,11 +1407,14 @@
     // DYNAMIC PAPER GENERATOR ENGINE (Pure Client-side, Dynamic CSV)
     // ═══════════════════════════════════════════════════════════════
     const SUBJECT_METADATA = {
-      uhv: { code: "HS201", name: "Universal Human Values", csv: "Data/Questions/uhv.csv" },
-      dbe: { code: "CS202", name: "Database Engineering", csv: "Data/Questions/dbe.csv" },
-      dccn: { code: "CS201", name: "Data Communication & Network", csv: "Data/Questions/dccn.csv" },
-      dmgt: { code: "MA203", name: "Discrete Mathematics & Graph Theory", csv: "Data/Questions/dmgt.csv" },
-      bee: { code: "EE102", name: "Basic Electrical Engineering", csv: "Data/Questions/bee.csv" }
+      // 1st Year
+      bee:  { code: "EE102", name: "Basic Electrical Engineering", year: 1, branch: "B.Tech &bull; 1st Year (All Branches)", csv: "Data/Questions/bee.csv" },
+
+      // 2nd Year
+      uhv:  { code: "HS201", name: "Universal Human Values", year: 2, branch: "B.Tech &bull; 2nd Year (All Branches)", csv: "Data/Questions/uhv.csv" },
+      dbe:  { code: "CS202", name: "Database Engineering", year: 2, branch: "B.Tech &bull; 2nd Year (CSE/IT)", csv: "Data/Questions/dbe.csv" },
+      dccn: { code: "CS201", name: "Data Communication & Network", year: 2, branch: "B.Tech &bull; 2nd Year (CSE/IT)", csv: "Data/Questions/dccn.csv" },
+      dmgt: { code: "MA203", name: "Discrete Mathematics & Graph Theory", year: 2, branch: "B.Tech &bull; 2nd Year (CSE/IT)", csv: "Data/Questions/dmgt.csv" }
     };
 
     // Offline fallback for direct file:/// (File Explorer) opening where browser blocks fetch()
@@ -1381,6 +1478,7 @@
     }
 
     // ── STATE MANAGEMENT ──
+    let currentYear = 2;
     let currentSubjectKey = 'uhv';
     let currentExamMode = 'mid'; // 'mid' or 'end'
     let currentQuestions = [];
@@ -1391,25 +1489,128 @@
 
     const ROMAN_NUMERALS = ['', 'I', 'II', 'III', 'IV', 'V'];
 
+    // ── ACADEMIC YEAR SELECTION (1, 2, 3, 4) ──
+    function selectYear(yearNum, targetSubject = null) {
+      currentYear = parseInt(yearNum, 10);
+
+      // Update Year circles active UI
+      const circleBtns = document.querySelectorAll('.year-circle-btn');
+      circleBtns.forEach(btn => {
+        btn.classList.toggle('active', parseInt(btn.getAttribute('data-year'), 10) === currentYear);
+      });
+
+      const selectEl = document.getElementById('subjectSelect');
+      if (!selectEl) return;
+      selectEl.innerHTML = '';
+
+      // Get subjects for this year
+      const yearSubjects = Object.keys(SUBJECT_METADATA).filter(k => SUBJECT_METADATA[k].year === currentYear);
+
+      if (yearSubjects.length > 0) {
+        selectEl.disabled = false;
+        yearSubjects.forEach(key => {
+          const opt = document.createElement('option');
+          opt.value = key;
+          opt.textContent = `${SUBJECT_METADATA[key].name} (${SUBJECT_METADATA[key].code})`;
+          selectEl.appendChild(opt);
+        });
+
+        // If targetSubject is valid for this year, select it; else pick first subject
+        if (targetSubject && yearSubjects.includes(targetSubject)) {
+          selectEl.value = targetSubject;
+        } else {
+          selectEl.value = yearSubjects[0];
+        }
+        currentSubjectKey = selectEl.value;
+
+        resetToPlaceholder();
+        loadSubjectCSV(currentSubjectKey, false);
+      } else {
+        // Year 3 or Year 4 (Coming Soon / No Questions Yet)
+        selectEl.disabled = true;
+        const opt = document.createElement('option');
+        opt.value = '';
+        opt.disabled = true;
+        opt.selected = true;
+        opt.textContent = `No subjects available yet for Year ${currentYear}`;
+        selectEl.appendChild(opt);
+
+        currentSubjectKey = null;
+        currentQuestions = [];
+        showYearComingSoon(currentYear);
+      }
+    }
+
+    function showYearComingSoon(year) {
+      hasGeneratedPapers = false;
+      generatedSetsData = {};
+
+      const placeholder = document.getElementById('paperPlaceholderCard');
+      const stageWrapper = document.getElementById('paperStageWrapper');
+      const zoomBar = document.getElementById('fixedZoomBar');
+      const setsContainer = document.getElementById('setsListContainer');
+
+      if (stageWrapper) stageWrapper.style.display = 'none';
+      if (zoomBar) zoomBar.style.display = 'none';
+
+      if (setsContainer) {
+        setsContainer.innerHTML = `<div class="sets-placeholder-msg">No question banks for Year ${year} yet</div>`;
+      }
+
+      if (placeholder) {
+        placeholder.style.display = 'flex';
+        const iconEl = document.getElementById('placeholderIcon');
+        const titleEl = document.getElementById('placeholderTitle');
+        const descEl = document.getElementById('placeholderDesc');
+        const btnEl = document.getElementById('placeholderGenBtn');
+
+        if (iconEl) iconEl.innerHTML = year === 3 ? '<i class="fas fa-layer-group"></i>' : '<i class="fas fa-graduation-cap"></i>';
+        if (titleEl) titleEl.textContent = `${year === 3 ? '3rd' : '4th'} Year Question Banks in Progress`;
+        if (descEl) {
+          descEl.textContent = year === 3
+            ? 'Lecture notes, question banks, and model papers for 5th & 6th semester subjects are currently being prepared. Check back in an upcoming update!'
+            : 'Electives, project notes, and model papers for 7th & 8th semester subjects are currently being prepared. Check back in an upcoming update!';
+        }
+        if (btnEl) btnEl.style.display = 'none';
+      }
+    }
+
     // Reset Canvas and Sets list back to clean default placeholder
     function resetToPlaceholder() {
       hasGeneratedPapers = false;
       generatedSetsData = {};
 
       const placeholder = document.getElementById('paperPlaceholderCard');
-      const sheet = document.getElementById('examPaperSheet');
+      const stageWrapper = document.getElementById('paperStageWrapper');
       const zoomBar = document.getElementById('fixedZoomBar');
       const setsContainer = document.getElementById('setsListContainer');
       const setsLabel = document.getElementById('setsPatternLabel');
 
-      if (placeholder) placeholder.style.display = 'flex';
-      if (sheet) sheet.style.display = 'none';
+      if (stageWrapper) stageWrapper.style.display = 'none';
       if (zoomBar) zoomBar.style.display = 'none';
       if (setsLabel) {
         setsLabel.textContent = currentExamMode === 'mid' ? 'Mid-Sem (20M)' : 'End-Sem (100M)';
       }
       if (setsContainer) {
         setsContainer.innerHTML = '<div class="sets-placeholder-msg">Select options &amp; click &ldquo;Generate Paper&rdquo;</div>';
+      }
+
+      if (placeholder) {
+        placeholder.style.display = 'flex';
+        const iconEl = document.getElementById('placeholderIcon');
+        const titleEl = document.getElementById('placeholderTitle');
+        const descEl = document.getElementById('placeholderDesc');
+        const btnEl = document.getElementById('placeholderGenBtn');
+
+        if (iconEl) iconEl.innerHTML = '<i class="fas fa-file-invoice"></i>';
+        if (titleEl) titleEl.textContent = 'Select Subject & Generate Paper';
+        const meta = currentSubjectKey ? SUBJECT_METADATA[currentSubjectKey] : null;
+        if (descEl) {
+          descEl.innerHTML = meta 
+            ? `Selected: <strong>${meta.name} (${meta.code})</strong> &bull; ${meta.year === 1 ? '1st' : '2nd'} Year.<br>Click <strong>Generate Paper</strong> to create 5 randomized model question papers.`
+            : 'Choose your subject and examination pattern from the sidebar, then click <strong>Generate Paper</strong> to create 5 randomized model question papers.';
+        }
+        if (btnEl) btnEl.style.display = 'inline-flex';
       }
     }
 
@@ -1446,52 +1647,64 @@
     }
 
     // ═══════════════════════════════════════════════════════════════
-    // DOT MATRIX LOADER CONTROLLER (from killload.html)
+    // FULL-BLEED DOT MATRIX LOADER CONTROLLER
     // ═══════════════════════════════════════════════════════════════
-    const COLS = 14;
-    const ROWS = 9;
-
-    const STATUS_STEPS = [
-      { at: 0,  text: 'Connecting to Question Bank' },
-      { at: 18, text: 'Fetching module chapters' },
-      { at: 42, text: 'Sampling syllabus distribution' },
-      { at: 68, text: 'Compiling 5 unique model sets' },
-      { at: 88, text: 'Validating mark quotas' },
-      { at: 100, text: 'Question Papers Ready' }
-    ];
-
     function buildMatrix() {
       const matrix = document.getElementById('matrix');
+      const pane = document.getElementById('paperPreviewPane');
       if (!matrix) return;
+
+      const isMobile = window.innerWidth <= 1024;
+      const sidebar = document.getElementById('paperSidebar');
+      const isSidebarCollapsed = !sidebar || sidebar.classList.contains('collapsed') || isMobile;
+      const fallbackW = window.innerWidth - (isSidebarCollapsed ? 0 : 320);
+      const fallbackH = window.innerHeight - 60;
+
+      // Exact live rendered width & height of the preview pane (on mobile, always full viewport width)
+      const paneRect = pane ? pane.getBoundingClientRect() : null;
+      const paneW = isMobile ? window.innerWidth : ((paneRect && paneRect.width > 50) ? paneRect.width : (pane && pane.clientWidth > 50 ? pane.clientWidth : fallbackW));
+      const paneH = isMobile ? (window.innerHeight - 60) : ((paneRect && paneRect.height > 50) ? paneRect.height : (pane && pane.clientHeight > 50 ? pane.clientHeight : fallbackH));
+
+      // Desired dot spacing optimized for mobile and desktop screens
+      let targetCellSize = 20;
+      let dotSize = 8;
+      if (paneW <= 380) {
+        targetCellSize = 10;
+        dotSize = 4.5;
+      } else if (paneW <= 480) {
+        targetCellSize = 11;
+        dotSize = 5;
+      } else if (paneW <= 768) {
+        targetCellSize = 14;
+        dotSize = 6;
+      } else if (paneW <= 1100) {
+        targetCellSize = 17;
+        dotSize = 7.5;
+      }
+
+      // Dynamic columns and rows spanning 100% edge-to-edge
+      const dynamicCols = Math.max(12, Math.floor(paneW / targetCellSize));
+      const dynamicRows = Math.max(8, Math.floor(paneH / targetCellSize));
+
+      matrix.style.setProperty('--cols', dynamicCols);
+      matrix.style.setProperty('--rows', dynamicRows);
+      matrix.style.setProperty('--dot-size', dotSize + 'px');
+
+      const totalDiagonals = (dynamicRows - 1) + (dynamicCols - 1);
+      const delayStep = Math.max(0.012, Math.min(0.04, 2.3 / Math.max(1, totalDiagonals)));
+
       matrix.innerHTML = '';
       const frag = document.createDocumentFragment();
-      for (let r = 0; r < ROWS; r++) {
-        for (let c = 0; c < COLS; c++) {
+      for (let r = 0; r < dynamicRows; r++) {
+        for (let c = 0; c < dynamicCols; c++) {
           const dot = document.createElement('span');
           dot.className = 'matrix__dot';
           const diagonal = r + c;
-          dot.style.animationDelay = (diagonal * 0.085) + 's';
+          dot.style.animationDelay = (diagonal * delayStep).toFixed(4) + 's';
           frag.appendChild(dot);
         }
       }
       matrix.appendChild(frag);
-    }
-
-    let loaderCurrentPct = 0;
-    function setProgress(value) {
-      loaderCurrentPct = Math.max(0, Math.min(100, Math.round(value)));
-      const pctEl = document.getElementById('pct');
-      const barFill = document.getElementById('barFill');
-      const statusEl = document.getElementById('status');
-      if (pctEl) pctEl.textContent = loaderCurrentPct + '%';
-      if (barFill) barFill.style.width = loaderCurrentPct + '%';
-      if (statusEl) {
-        let label = STATUS_STEPS[0].text;
-        for (const step of STATUS_STEPS) {
-          if (loaderCurrentPct >= step.at) label = step.text;
-        }
-        if (statusEl.textContent !== label) statusEl.textContent = label;
-      }
     }
 
     let loaderTimer = null;
@@ -1503,42 +1716,62 @@
         return;
       }
       clearInterval(loaderTimer);
-      loaderCurrentPct = 0;
-      setProgress(0);
 
       // Lock pane scroll and hide previous paper content
       if (pane) {
         pane.scrollTop = 0;
         pane.classList.add('is-loading');
       }
-      loader.classList.remove('is-done');
 
+      // Rebuild matrix to exact current pane dimensions before animating
+      buildMatrix();
+
+      // Smooth Fade-In
+      loader.classList.remove('is-done');
+      requestAnimationFrame(() => {
+        loader.classList.add('is-active');
+      });
+
+      let progress = 0;
       loaderTimer = setInterval(() => {
-        // Ease out: big jumps early, small at the end (exact formula from killload.html)
-        const step = loaderCurrentPct < 55 ? Math.random() * 9 + 3
-                   : loaderCurrentPct < 85 ? Math.random() * 4 + 1.2
-                   : Math.random() * 1.6 + 0.4;
-        if (loaderCurrentPct + step >= 100) {
+        const step = progress < 55 ? Math.random() * 14 + 7
+                   : progress < 85 ? Math.random() * 9 + 4
+                   : Math.random() * 5 + 2;
+        progress += step;
+        if (progress >= 100) {
           clearInterval(loaderTimer);
-          setProgress(100);
           setTimeout(() => {
+            if (pane) {
+              pane.classList.remove('is-loading');
+              pane.scrollTop = 0;
+            }
             if (onComplete) onComplete();
-            setTimeout(() => {
-              loader.classList.add('is-done');
-              if (pane) {
-                pane.classList.remove('is-loading');
-                pane.scrollTop = 0;
-              }
-            }, 380);
+            if (window.innerWidth <= 1024) {
+              fitZoomToScreen();
+            } else {
+              applyZoom();
+            }
+
+            // Smooth Fade-Out
+            loader.classList.remove('is-active');
+            loader.classList.add('is-done');
           }, 120);
-        } else {
-          setProgress(loaderCurrentPct + step);
         }
-      }, 230);
+      }, 160);
     }
 
     // ── GENERATE 5 DISTINCT SETS ──
     async function generateAllPapers(showLoader = true) {
+      // Auto-close sidebar drawer on mobile/tablet when generating begins so loader is instantly visible
+      if (window.innerWidth <= 1024) {
+        toggleSidebar(false);
+      }
+
+      if (!currentSubjectKey) {
+        alert(`Question banks for Year ${currentYear} are currently in progress and will be available in an upcoming update.`);
+        return;
+      }
+
       if (!currentQuestions || !currentQuestions.length) {
         await loadSubjectCSV(currentSubjectKey, false);
       }
@@ -1561,10 +1794,12 @@
       hasGeneratedPapers = true;
 
       const placeholder = document.getElementById('paperPlaceholderCard');
+      const stageWrapper = document.getElementById('paperStageWrapper');
       const sheet = document.getElementById('examPaperSheet');
       const zoomBar = document.getElementById('fixedZoomBar');
 
       if (placeholder) placeholder.style.display = 'none';
+      if (stageWrapper) stageWrapper.style.display = 'flex';
       if (sheet) sheet.style.display = 'block';
       if (zoomBar) zoomBar.style.display = 'flex';
 
@@ -1575,7 +1810,14 @@
 
       renderSidebarSetsList();
       displayActivePaperSet();
-      applyZoom();
+
+      // Fit zoom on small screens or 1.0 on desktop
+      if (window.innerWidth <= 1024) {
+        fitZoomToScreen();
+      } else {
+        currentZoom = 1.0;
+        applyZoom();
+      }
 
       // On mobile & tablet (<= 1024px), auto-close sidebar so user immediately views the generated paper
       if (window.innerWidth <= 1024) {
@@ -1831,6 +2073,7 @@
         if (backdrop) backdrop.classList.remove('active');
         try { localStorage.setItem('btechx_paper_sidebar', 'closed'); } catch(e) {}
       }
+      setTimeout(buildMatrix, 220);
     }
 
     function initSidebarState() {
@@ -1892,6 +2135,9 @@
         }
       }
 
+      const branchEl = document.getElementById('sheetBranchDetails');
+      if (branchEl) branchEl.textContent = meta.branch || 'B.Tech • 2nd Year (All Branches)';
+
       // Inject generated content
       const container = document.getElementById('paperSectionsContainer');
       if (container && generatedSetsData[currentSetIndex]) {
@@ -1915,12 +2161,14 @@
         return;
       }
       const sheet = document.getElementById('examPaperSheet');
+      const stage = document.getElementById('paperStage');
       const btn = document.getElementById('btnDownloadPDF');
       if (!sheet) return;
 
-      const originalTransform = sheet.style.transform;
-      const originalMargin = sheet.style.marginBottom;
-      const originalBoxShadow = sheet.style.boxShadow;
+      const savedStageTransform = stage ? stage.style.transform : '';
+      const savedStageWidth = stage ? stage.style.width : '';
+      const savedStageHeight = stage ? stage.style.height : '';
+      const savedSheetBoxShadow = sheet.style.boxShadow;
 
       try {
         if (btn) {
@@ -1928,28 +2176,62 @@
           btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Preparing PDF...';
         }
 
-        // Temporarily reset visual zoom scaling for 1:1 crisp high-DPI export
-        sheet.style.transform = 'none';
-        sheet.style.marginBottom = '0';
+        // Temporarily reset stage transform to 1:1 unscaled for crisp export
+        if (stage) {
+          stage.style.transform = 'none';
+          stage.style.width = '794px';
+          stage.style.height = 'auto';
+        }
         sheet.style.boxShadow = 'none';
 
-        const meta = SUBJECT_METADATA[currentSubjectKey] || { code: 'Exam' };
+        const meta = (currentSubjectKey && SUBJECT_METADATA[currentSubjectKey]) ? SUBJECT_METADATA[currentSubjectKey] : { code: 'Exam' };
         const examMode = currentExamMode === 'mid' ? 'MidSem' : 'EndSem';
         const romanSet = ROMAN_NUMERALS[currentSetIndex] || currentSetIndex;
         const filename = `BTechX_${meta.code}_${examMode}_Set-${romanSet}_2026.pdf`;
 
+        // Exact A4 dimensions: 210mm x 297mm.
+        // 794px element with margin: 0 fits exactly onto 210mm A4 width with zero right/left cutoff
         const opt = {
-          margin: [8, 8, 8, 8],
+          margin: [0, 0, 0, 0],
           filename: filename,
           image: { type: 'jpeg', quality: 0.98 },
           html2canvas: {
             scale: 2,
             useCORS: true,
             letterRendering: true,
-            backgroundColor: '#ffffff'
+            backgroundColor: '#ffffff',
+            windowWidth: 1200,
+            onclone: (clonedDoc) => {
+              const b = clonedDoc.body;
+              const h = clonedDoc.documentElement;
+              if (b) {
+                b.style.overflow = 'visible';
+                b.style.height = 'auto';
+              }
+              if (h) {
+                h.style.overflow = 'visible';
+                h.style.height = 'auto';
+              }
+              const clonedSheet = clonedDoc.getElementById('examPaperSheet');
+              if (clonedSheet) {
+                clonedSheet.style.transform = 'none';
+                clonedSheet.style.boxShadow = 'none';
+                clonedSheet.style.margin = '0';
+                clonedSheet.style.width = '794px';
+              }
+              const clonedStage = clonedDoc.getElementById('paperStage');
+              if (clonedStage) {
+                clonedStage.style.transform = 'none';
+                clonedStage.style.width = '794px';
+                clonedStage.style.height = 'auto';
+              }
+            }
           },
           jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+          pagebreak: {
+            mode: ['avoid-all', 'css', 'legacy'],
+            avoid: ['.question-item', '.main-question-block', '.paper-section-head', '.paper-header-grid', '.paper-uni-header', '.paper-meta-row']
+          }
         };
 
         if (window.html2pdf) {
@@ -1962,9 +2244,13 @@
         window.print();
       } finally {
         // Restore user zoom
-        sheet.style.transform = originalTransform;
-        sheet.style.marginBottom = originalMargin;
-        sheet.style.boxShadow = originalBoxShadow;
+        if (stage) {
+          stage.style.transform = savedStageTransform;
+          stage.style.width = savedStageWidth;
+          stage.style.height = savedStageHeight;
+        }
+        sheet.style.boxShadow = savedSheetBoxShadow;
+        applyZoom();
 
         if (btn) {
           btn.classList.remove('is-downloading');
@@ -1973,41 +2259,62 @@
       }
     }
 
-    // ── ZOOM CONTROLS ──
+    // ── ZOOM CONTROLS (A4 STAGE SCALER) ──
     function changeZoom(delta) {
       currentZoom = Math.min(1.5, Math.max(0.35, Math.round((currentZoom + delta) * 10) / 10));
       applyZoom();
     }
 
-    function resetZoom() {
-      // Auto fit on small screens or 1.0 on desktop
-      if (window.innerWidth <= 1024) {
-        const availableWidth = window.innerWidth - 24;
-        currentZoom = Math.min(1.0, Math.max(0.38, Math.floor((availableWidth / 840) * 100) / 100));
-      } else {
-        currentZoom = 1.0;
-      }
+    function fitZoomToScreen() {
+      const pane = document.getElementById('paperPreviewPane');
+      const availableWidth = pane ? (pane.clientWidth - 20) : (window.innerWidth - 20);
+      currentZoom = Math.min(1.0, Math.max(0.35, Math.floor((availableWidth / 794) * 100) / 100));
       applyZoom();
     }
 
-    function applyZoom() {
-      const sheet = document.getElementById('examPaperSheet');
-      if (!sheet) return;
-      sheet.style.transform = `scale(${currentZoom})`;
-      const zoomDisplay = document.getElementById('zoomDisplay');
-      if (zoomDisplay) zoomDisplay.textContent = `${Math.round(currentZoom * 100)}%`;
-      
-      if (currentZoom > 1.0) {
-        const extra = (currentZoom - 1.0) * sheet.offsetHeight;
-        sheet.style.marginBottom = `${Math.max(40, extra + 40)}px`;
+    function toggleFitZoom() {
+      if (currentZoom >= 0.95 && window.innerWidth <= 1024) {
+        fitZoomToScreen();
       } else {
-        sheet.style.marginBottom = '40px';
+        currentZoom = 1.0;
+        applyZoom();
+      }
+    }
+
+    function resetZoom() {
+      if (window.innerWidth <= 1024) {
+        fitZoomToScreen();
+      } else {
+        currentZoom = 1.0;
+        applyZoom();
+      }
+    }
+
+    function applyZoom() {
+      const stage = document.getElementById('paperStage');
+      const sheet = document.getElementById('examPaperSheet');
+      const zoomDisplay = document.getElementById('zoomDisplay');
+      if (!stage || !sheet) return;
+
+      stage.style.transform = `scale(${currentZoom})`;
+
+      // Dynamic layout bounding box matching the scale so no clipped edges or bottom dead space
+      const scaledWidth = 794 * currentZoom;
+      const sheetH = (sheet && sheet.offsetHeight > 0) ? sheet.offsetHeight : 1123;
+      const scaledHeight = sheetH * currentZoom;
+      stage.style.width = `${scaledWidth}px`;
+      stage.style.height = `${scaledHeight}px`;
+
+      if (zoomDisplay) {
+        zoomDisplay.textContent = `${Math.round(currentZoom * 100)}%`;
       }
     }
 
     // ── SWITCH SUBJECT ──
     function onSubjectChange() {
-      currentSubjectKey = document.getElementById('subjectSelect').value;
+      const selectEl = document.getElementById('subjectSelect');
+      if (!selectEl || !selectEl.value) return;
+      currentSubjectKey = selectEl.value;
       currentSetIndex = 1;
       resetToPlaceholder();
       loadSubjectCSV(currentSubjectKey, false);
@@ -2035,22 +2342,42 @@
     window.addEventListener('DOMContentLoaded', () => {
       initSidebarState();
       buildMatrix();
-      resetToPlaceholder();
-
-      // On mobile / tablet, auto-fit sheet zoom so entire A4 sheet fits viewport width cleanly
-      if (window.innerWidth <= 1024) {
-        const availableWidth = window.innerWidth - 24;
-        const autoZoom = Math.min(1.0, Math.max(0.38, Math.floor((availableWidth / 840) * 100) / 100));
-        currentZoom = autoZoom;
-      }
 
       const urlParams = new URLSearchParams(window.location.search);
       const subParam = urlParams.get('sub');
+      let initialSubject = 'uhv';
+      let initialYear = 2;
+
       if (subParam && SUBJECT_METADATA[subParam.toLowerCase()]) {
-        currentSubjectKey = subParam.toLowerCase();
-        document.getElementById('subjectSelect').value = currentSubjectKey;
+        initialSubject = subParam.toLowerCase();
+        initialYear = SUBJECT_METADATA[initialSubject].year;
       }
-      loadSubjectCSV(currentSubjectKey, false);
+
+      selectYear(initialYear, initialSubject);
+    });
+
+    window.addEventListener('resize', () => {
+      buildMatrix();
+      if (hasGeneratedPapers) {
+        if (window.innerWidth <= 1024) {
+          fitZoomToScreen();
+        } else {
+          applyZoom();
+        }
+      }
+    });
+
+    window.addEventListener('orientationchange', () => {
+      setTimeout(() => {
+        buildMatrix();
+        if (hasGeneratedPapers) {
+          if (window.innerWidth <= 1024) {
+            fitZoomToScreen();
+          } else {
+            applyZoom();
+          }
+        }
+      }, 200);
     });
   </script>
 </body>

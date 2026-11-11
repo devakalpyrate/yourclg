@@ -544,11 +544,36 @@ a:hover {
 }
 
 @media (max-width: 900px) {
-    .navbar-links {
-        display: none;
+    .navbar {
+        padding: 6px 0 !important;
+    }
+    .navbar.scrolled {
+        padding: 5px 0 !important;
+    }
+    .logo-text {
+        font-size: 1.55rem !important;
+        padding: 0 2px !important;
     }
     .nav-toggle {
         display: flex;
+        width: 36px !important;
+        height: 36px !important;
+        padding: 7px 8px !important;
+        gap: 4px !important;
+        border-radius: 8px !important;
+    }
+    .nav-toggle span {
+        width: 18px !important;
+        height: 2px !important;
+    }
+    .nav-toggle.active span:nth-child(1) {
+        transform: translateY(6px) rotate(45deg) !important;
+    }
+    .nav-toggle.active span:nth-child(3) {
+        transform: translateY(-6px) rotate(-45deg) !important;
+    }
+    .navbar-links {
+        display: none;
     }
 }
 
