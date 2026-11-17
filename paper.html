@@ -26,7 +26,15 @@
         margin: 0;
         padding: 0;
       }
-      html,
+      html {
+        height: 100%;
+        width: 100%;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow-y: scroll;
+        scrollbar-gutter: stable;
+        background: #000000;
+      }
       body {
         height: 100%;
         width: 100%;
@@ -51,10 +59,16 @@
         left: 0 !important;
         width: 100% !important;
         z-index: 1000 !important;
-        background: #0a0a0a !important;
-        border-bottom: 1px solid #1f1f1f !important;
-        padding: 12px 0 !important;
+        background: rgba(8, 8, 12, 0.78) !important;
+        backdrop-filter: blur(16px) saturate(180%) !important;
+        -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        padding: 14px 0 !important;
         flex-shrink: 0 !important;
+        font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+      }
+      .navbar .container {
+        box-sizing: content-box !important;
       }
 
       /* ── MAIN WORKSPACE CONTAINER ── */
@@ -1023,9 +1037,7 @@
         font-style: italic;
       }
 
-      /* ── TABLET & MOBILE DRAWER VIEW (<= 1024px, including 824x732) ── */
-      @media (max-width: 1024px) {
-        /* Squeezed compact mobile top navbar */
+      @media (max-width: 900px) {
         .navbar {
           padding: 6px 0 !important;
         }
@@ -1051,12 +1063,10 @@
         .nav-toggle.active span:nth-child(3) {
           transform: translateY(-6px) rotate(-45deg) !important;
         }
-        .mobile-apps-btn {
-          width: 32px !important;
-          height: 32px !important;
-          margin-right: 6px !important;
-        }
+      }
 
+      /* ── TABLET & MOBILE DRAWER VIEW (<= 1024px, including 824x732) ── */
+      @media (max-width: 1024px) {
         .paper-workspace {
           position: relative !important;
           overflow: hidden !important;
@@ -1477,15 +1487,24 @@
                   </div>
                   <span class="alp-item-name">BTechX</span>
                 </a>
-                <a href="paper.html" class="alp-item" title="Paper">
+                <a
+                  href="https://app-nine-mu-47.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="alp-item"
+                  title="DukaanAI — Voice Operating System for Retail"
+                >
                   <div class="alp-item-icon">
                     <img
-                      src="images/paper.png"
-                      alt="Paper"
-                      onerror="this.onerror = null"
+                      src="images/dukaan.png"
+                      alt="Dukaan AI"
+                      onerror="
+                        this.onerror = null;
+                        this.src = 'https://app-nine-mu-47.vercel.app/favicon.ico';
+                      "
                     />
                   </div>
-                  <span class="alp-item-name">Paper</span>
+                  <span class="alp-item-name">Dukaan AI</span>
                 </a>
               </div>
               <div

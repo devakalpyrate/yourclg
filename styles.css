@@ -1063,7 +1063,8 @@ a:hover {
 }
 
 .alp-item-icon img[src*="k6.png"],
-.alp-item-icon img[src*="paper.png"] {
+.alp-item-icon img[src*="paper.png"],
+.alp-item-icon img[src*="dukaan.png"] {
   border-radius: 10px;
 }
 
