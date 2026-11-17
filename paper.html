@@ -335,6 +335,11 @@
       background: #0f0f0f;
       color: #ffffff;
     }
+    .sidebar-select option:disabled {
+      color: #71717a !important;
+      background: #141416 !important;
+      cursor: not-allowed !important;
+    }
 
     /* ── EXAM PATTERN TOGGLE (BLACK & WHITE) ── */
     .sidebar-toggle-group {
@@ -1263,16 +1268,22 @@
           </div>
         </div>
 
-        <!-- Subject Selection -->
         <div class="sidebar-group">
           <label class="sidebar-label" for="subjectSelect">
             <i class="fas fa-book"></i> Subject
           </label>
           <select id="subjectSelect" class="sidebar-select" onchange="onSubjectChange()" title="Select Subject">
             <option value="uhv" selected>Universal Human Values (HS201)</option>
-            <option value="dbe">Database Engineering (CS202)</option>
-            <option value="dccn">Data Communication & Network (CS201)</option>
-            <option value="dmgt">Discrete Mathematics & Graph Theory (MA203)</option>
+            <option value="dbe" disabled style="color:#71717a; cursor:not-allowed;">🚫 Database Engineering (CS202)</option>
+            <option value="dccn" disabled style="color:#71717a; cursor:not-allowed;">🚫 Data Communication &amp; Network (CS201)</option>
+            <option value="dmgt" disabled style="color:#71717a; cursor:not-allowed;">🚫 Discrete Mathematics &amp; Graph Theory (MA203)</option>
+            <option value="bevs" disabled style="color:#71717a; cursor:not-allowed;">🚫 Biology &amp; Environmental Studies (CY202)</option>
+            <option value="co" disabled style="color:#71717a; cursor:not-allowed;">🚫 Computer Organization (CS243)</option>
+            <option value="daa" disabled style="color:#71717a; cursor:not-allowed;">🚫 Design &amp; Analysis of Algorithm (CS241)</option>
+            <option value="java" disabled style="color:#71717a; cursor:not-allowed;">🚫 OOP using Java (CS211)</option>
+            <option value="gc" disabled style="color:#71717a; cursor:not-allowed;">🚫 Green Chemistry (CY201)</option>
+            <option value="sde" disabled style="color:#71717a; cursor:not-allowed;">🚫 Skill Development Elective-2 (SDE)</option>
+            <option value="in281" disabled style="color:#71717a; cursor:not-allowed;">🚫 Innovation by Design (IN281)</option>
           </select>
         </div>
 
@@ -1408,13 +1419,20 @@
     // ═══════════════════════════════════════════════════════════════
     const SUBJECT_METADATA = {
       // 1st Year
-      bee:  { code: "EE102", name: "Basic Electrical Engineering", year: 1, branch: "B.Tech &bull; 1st Year (All Branches)", csv: "Data/Questions/bee.csv" },
+      bee:  { code: "EE102", name: "Basic Electrical Engineering", year: 1, branch: "B.Tech &bull; 1st Year (All Branches)", csv: "Data/Questions/bee.csv", disabled: true },
 
       // 2nd Year
-      uhv:  { code: "HS201", name: "Universal Human Values", year: 2, branch: "B.Tech &bull; 2nd Year (All Branches)", csv: "Data/Questions/uhv.csv" },
-      dbe:  { code: "CS202", name: "Database Engineering", year: 2, branch: "B.Tech &bull; 2nd Year (CSE/IT)", csv: "Data/Questions/dbe.csv" },
-      dccn: { code: "CS201", name: "Data Communication & Network", year: 2, branch: "B.Tech &bull; 2nd Year (CSE/IT)", csv: "Data/Questions/dccn.csv" },
-      dmgt: { code: "MA203", name: "Discrete Mathematics & Graph Theory", year: 2, branch: "B.Tech &bull; 2nd Year (CSE/IT)", csv: "Data/Questions/dmgt.csv" }
+      uhv:  { code: "HS201", name: "Universal Human Values", year: 2, branch: "B.Tech &bull; 2nd Year (All Branches)", csv: "Data/Questions/uhv.csv", disabled: false },
+      dbe:  { code: "CS202", name: "Database Engineering", year: 2, branch: "B.Tech &bull; 2nd Year (CSE/IT)", csv: "Data/Questions/dbe.csv", disabled: true },
+      dccn: { code: "CS201", name: "Data Communication & Network", year: 2, branch: "B.Tech &bull; 2nd Year (CSE/IT)", csv: "Data/Questions/dccn.csv", disabled: true },
+      dmgt: { code: "MA203", name: "Discrete Mathematics & Graph Theory", year: 2, branch: "B.Tech &bull; 2nd Year (CSE/IT)", csv: "Data/Questions/dmgt.csv", disabled: true },
+      bevs: { code: "CY202", name: "Biology & Environmental Studies", year: 2, branch: "B.Tech &bull; 2nd Year (All Branches)", disabled: true },
+      co:   { code: "CS243", name: "Computer Organization", year: 2, branch: "B.Tech &bull; 2nd Year (CSE/IT)", disabled: true },
+      daa:  { code: "CS241", name: "Design & Analysis of Algorithm", year: 2, branch: "B.Tech &bull; 2nd Year (CSE/IT)", disabled: true },
+      java: { code: "CS211", name: "OOP using Java", year: 2, branch: "B.Tech &bull; 2nd Year (CSE/IT)", disabled: true },
+      gc:   { code: "CY201", name: "Green Chemistry", year: 2, branch: "B.Tech &bull; 2nd Year (All Branches)", disabled: true },
+      sde:  { code: "SDE",   name: "Skill Development Elective-2", year: 2, branch: "B.Tech &bull; 2nd Year (CSE/IT)", disabled: true },
+      in281:{ code: "IN281", name: "Innovation by Design", year: 2, branch: "B.Tech &bull; 2nd Year (All Branches)", disabled: true }
     };
 
     // Offline fallback for direct file:/// (File Explorer) opening where browser blocks fetch()
@@ -1509,17 +1527,25 @@
       if (yearSubjects.length > 0) {
         selectEl.disabled = false;
         yearSubjects.forEach(key => {
+          const sub = SUBJECT_METADATA[key];
           const opt = document.createElement('option');
           opt.value = key;
-          opt.textContent = `${SUBJECT_METADATA[key].name} (${SUBJECT_METADATA[key].code})`;
+          if (sub && sub.disabled) {
+            opt.disabled = true;
+            opt.textContent = `🚫 ${sub.name} (${sub.code})`;
+            opt.style.color = '#71717a';
+            opt.style.cursor = 'not-allowed';
+          } else {
+            opt.textContent = `${sub.name} (${sub.code})`;
+          }
           selectEl.appendChild(opt);
         });
 
-        // If targetSubject is valid for this year, select it; else pick first subject
-        if (targetSubject && yearSubjects.includes(targetSubject)) {
+        const enabledSubject = yearSubjects.find(k => !SUBJECT_METADATA[k]?.disabled) || yearSubjects[0];
+        if (targetSubject && yearSubjects.includes(targetSubject) && !SUBJECT_METADATA[targetSubject]?.disabled) {
           selectEl.value = targetSubject;
         } else {
-          selectEl.value = yearSubjects[0];
+          selectEl.value = enabledSubject;
         }
         currentSubjectKey = selectEl.value;
 
@@ -2314,6 +2340,15 @@
     function onSubjectChange() {
       const selectEl = document.getElementById('subjectSelect');
       if (!selectEl || !selectEl.value) return;
+      const sub = SUBJECT_METADATA[selectEl.value];
+      if (sub && sub.disabled) {
+        selectEl.value = 'uhv';
+        currentSubjectKey = 'uhv';
+        if (typeof showToast === 'function') {
+          showToast(`Currently only Universal Human Values (HS201) is active for question paper generation.`);
+        }
+        return;
+      }
       currentSubjectKey = selectEl.value;
       currentSetIndex = 1;
       resetToPlaceholder();

@@ -1411,6 +1411,96 @@ a:hover {
     box-shadow: none !important;
 }
 
+.subject-card.card-blurred,
+.coming-soon-card.card-blurred {
+    position: relative;
+    cursor: default !important;
+    pointer-events: none;
+    user-select: none;
+    opacity: 0.75;
+    background: rgba(18, 18, 22, 0.45) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    overflow: hidden;
+}
+
+.subject-card.card-blurred:hover,
+.coming-soon-card.card-blurred:hover {
+    transform: none !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: none !important;
+}
+
+.subject-card.card-blurred .subject-card-head,
+.subject-card.card-blurred p,
+.subject-card.card-blurred .subject-card-footer,
+.coming-soon-card.card-blurred .coming-soon-icon,
+.coming-soon-card.card-blurred p,
+.coming-soon-card.card-blurred .coming-soon-badge {
+    filter: blur(5px);
+    opacity: 0.22;
+    user-select: none;
+}
+
+.subject-card.card-blurred h3,
+.coming-soon-card.card-blurred h3 {
+    filter: blur(0.65px);
+    opacity: 0.95;
+    color: #f4f4f5;
+}
+
+.syl-table tr.row-blurred {
+    cursor: default !important;
+    pointer-events: none;
+    user-select: none;
+    opacity: 0.75;
+}
+
+.syl-table tr.row-blurred:hover td {
+    background: transparent !important;
+}
+
+.syl-table tr.row-blurred .syl-icon,
+.syl-table tr.row-blurred td:nth-child(2),
+.syl-table tr.row-blurred td:nth-child(3),
+.syl-table tr.row-blurred td:nth-child(4) {
+    filter: blur(5px);
+    opacity: 0.22;
+    user-select: none;
+}
+
+.syl-table tr.row-blurred .syl-subject-name {
+    filter: blur(0.65px);
+    opacity: 0.95;
+    color: #f4f4f5;
+}
+
+.syl-blurred-box {
+    padding: 50px 24px;
+    text-align: center;
+    border: 1.5px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: var(--radius-xl);
+    background: rgba(18, 18, 22, 0.45) !important;
+    user-select: none;
+    opacity: 0.75;
+}
+
+.syl-blurred-box .syl-blurred-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #f4f4f5;
+    filter: blur(0.65px);
+    opacity: 0.95;
+    margin-bottom: 8px;
+}
+
+.syl-blurred-box .syl-blurred-text {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    filter: blur(5px);
+    opacity: 0.22;
+    user-select: none;
+}
+
 /* ══ Homepage Hero Section (Clean & Minimal) ══ */
 .home-hero {
     padding: 60px 0 10px;
