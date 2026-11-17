@@ -22,8 +22,10 @@
               // Elegant glow pulse to guide the student's eyes
               const prevTransition = el.style.transition;
               const prevBoxShadow = el.style.boxShadow;
-              el.style.transition = "box-shadow 0.4s ease, border-color 0.4s ease";
-              el.style.boxShadow = "0 0 0 2px var(--primary, #00f2fe), 0 0 24px rgba(0, 242, 254, 0.28)";
+              el.style.transition =
+                "box-shadow 0.4s ease, border-color 0.4s ease";
+              el.style.boxShadow =
+                "0 0 0 2px var(--primary, #00f2fe), 0 0 24px rgba(0, 242, 254, 0.28)";
               setTimeout(() => {
                 el.style.boxShadow = prevBoxShadow;
                 el.style.transition = prevTransition;
@@ -34,7 +36,7 @@
 
           window.scrollTo({
             top: scrollPos,
-            behavior: "smooth"
+            behavior: "smooth",
           });
         };
 
@@ -62,7 +64,9 @@
     const legacyModal = document.getElementById("pdfModal");
     if (legacyModal) legacyModal.remove();
 
-    const pdfLinks = document.querySelectorAll(".syl-link, .download-btn, .view-btn, .qna-btn");
+    const pdfLinks = document.querySelectorAll(
+      ".syl-link, .download-btn, .view-btn, .qna-btn",
+    );
 
     // Determine if a document link has no valid PDF attached or is unavailable
     // Rule: ONLY actual PDF (.pdf) files are supported and clickable.
@@ -81,7 +85,12 @@
       }
 
       // Allow normal page navigation links (e.g. .html or page anchors)
-      if (href.endsWith(".html") || href.includes(".html#") || href.startsWith("#subjects") || href.startsWith("#year-")) {
+      if (
+        href.endsWith(".html") ||
+        href.includes(".html#") ||
+        href.startsWith("#subjects") ||
+        href.startsWith("#year-")
+      ) {
         return false;
       }
 
@@ -95,15 +104,24 @@
     }
 
     // Pre-process all document links: mark non-PDF / un-uploaded / empty links as unclickable and disabled
-    pdfLinks.forEach(link => {
+    pdfLinks.forEach((link) => {
       if (isLinkUnavailable(link)) {
         link.classList.add("disabled", "unavailable");
         link.setAttribute("aria-disabled", "true");
         link.setAttribute("tabindex", "-1");
         if (!link.getAttribute("title")) {
           const href = (link.getAttribute("href") || "").trim().toLowerCase();
-          if (href.endsWith(".docx") || href.endsWith(".doc") || href.endsWith(".pptx") || href.endsWith(".ppt") || href.endsWith(".zip")) {
-            link.setAttribute("title", "Only PDF files are supported (Unavailable)");
+          if (
+            href.endsWith(".docx") ||
+            href.endsWith(".doc") ||
+            href.endsWith(".pptx") ||
+            href.endsWith(".ppt") ||
+            href.endsWith(".zip")
+          ) {
+            link.setAttribute(
+              "title",
+              "Only PDF files are supported (Unavailable)",
+            );
           } else {
             link.setAttribute("title", "PDF not uploaded yet (Unavailable)");
           }
@@ -111,7 +129,7 @@
       }
     });
 
-    pdfLinks.forEach(link => {
+    pdfLinks.forEach((link) => {
       link.addEventListener("click", (e) => {
         // If not a PDF or unavailable, make it strictly unclickable
         if (isLinkUnavailable(link)) {
@@ -123,38 +141,59 @@
         const href = (link.getAttribute("href") || "").trim();
 
         // Allow default navigation for HTML pages or in-page anchor jumps
-        if (href && (href.endsWith(".html") || href.includes(".html#") || href.startsWith("#subjects") || href.startsWith("#year-"))) {
+        if (
+          href &&
+          (href.endsWith(".html") ||
+            href.includes(".html#") ||
+            href.startsWith("#subjects") ||
+            href.startsWith("#year-"))
+        ) {
           return;
         }
 
         e.preventDefault();
 
         // Save current scroll position and containing element ID
-        const scrollY = window.pageYOffset || document.documentElement.scrollTop || window.scrollY || 0;
-        const parentBlock = link.closest(".module-block, tr, .note-card, .subject-card");
-        const elemId = (parentBlock && parentBlock.id) ? parentBlock.id : "";
+        const scrollY =
+          window.pageYOffset ||
+          document.documentElement.scrollTop ||
+          window.scrollY ||
+          0;
+        const parentBlock = link.closest(
+          ".module-block, tr, .note-card, .subject-card",
+        );
+        const elemId = parentBlock && parentBlock.id ? parentBlock.id : "";
 
         let title = "Document Viewer";
-        const subjectEl = link.closest("tr")?.querySelector(".syl-subject-name") || 
-                          link.closest(".module-block")?.querySelector("h3") ||
-                          link.closest(".note-card")?.querySelector("h3");
+        const subjectEl =
+          link.closest("tr")?.querySelector(".syl-subject-name") ||
+          link.closest(".module-block")?.querySelector("h3") ||
+          link.closest(".note-card")?.querySelector("h3");
         if (subjectEl) {
           title = subjectEl.innerText.trim();
-          if (link.classList.contains("qna-btn") || link.innerText.includes("QNA")) {
+          if (
+            link.classList.contains("qna-btn") ||
+            link.innerText.includes("QNA")
+          ) {
             title += " - Question Bank (QNA)";
           }
         }
 
         // Check current page nesting to route to viewer.html properly
         const currentPath = window.location.pathname;
-        const isSubfolder = currentPath.includes("/1stYearSub/") || currentPath.includes("/2ndYearSub/");
+        const isSubfolder =
+          currentPath.includes("/1stYearSub/") ||
+          currentPath.includes("/2ndYearSub/");
         const viewerBase = isSubfolder ? "../viewer.html" : "viewer.html";
 
         // Save originating page URL and scroll state
         const returnUrl = window.location.href;
         try {
           sessionStorage.setItem("btechx_viewer_return_url", returnUrl);
-          sessionStorage.setItem("btechx_viewer_return_scroll", scrollY.toString());
+          sessionStorage.setItem(
+            "btechx_viewer_return_scroll",
+            scrollY.toString(),
+          );
           sessionStorage.setItem("btxLastInternalNav", Date.now().toString());
           if (elemId) {
             sessionStorage.setItem("btechx_viewer_return_elem", elemId);
@@ -165,7 +204,10 @@
 
         // Normalize file path relative to root where viewer.html is located
         let normalizedFile = href;
-        if (!normalizedFile.startsWith("http://") && !normalizedFile.startsWith("https://")) {
+        if (
+          !normalizedFile.startsWith("http://") &&
+          !normalizedFile.startsWith("https://")
+        ) {
           normalizedFile = normalizedFile.replace(/^(\.\.\/)+/, "");
         }
 
