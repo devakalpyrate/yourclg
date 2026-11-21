@@ -320,9 +320,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 <span class="alp-header-title">Apps</span>
             </div>
             <div class="alp-grid">
-                <a href="https://angkor-ai-dlm.vercel.app/" target="_blank" rel="noopener noreferrer" class="alp-item" title="Angkor AI">
+                <a href="https://angkor-ai.vercel.app/" target="_blank" rel="noopener noreferrer" class="alp-item" title="Angkor AI">
                     <div class="alp-item-icon">
-                        <img src="${prefix}images/angkor.png" alt="Angkor AI" onerror="this.onerror=null;this.src='https://angkor-ai-dlm.vercel.app/favicon.ico';" />
+                        <img src="${prefix}images/angkor.png" alt="Angkor AI" onerror="this.onerror=null;this.src='https://angkor-ai.vercel.app/favicon.ico';" />
                     </div>
                     <span class="alp-item-name">Angkor AI</span>
                 </a>
@@ -332,28 +332,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                     <span class="alp-item-name">MetaCleaner</span>
                 </a>
-                <a href="https://k6dlm.vercel.app/" target="_blank" rel="noopener noreferrer" class="alp-item" title="K6 Engine — NIFTY 50 Directional Intelligence">
+                <a href="https://app-nine-mu-47.vercel.app/" target="_blank" rel="noopener noreferrer" class="alp-item" title="DukaanAI — Voice Operating System for Retail">
                     <div class="alp-item-icon">
-                        <img src="${prefix}images/k6.png" alt="K6 Engine" onerror="this.onerror=null;this.src='https://k6dlm.vercel.app/favicon.ico';" />
+                        <img src="${prefix}images/dukaan.png" alt="Dukaan AI" onerror="this.onerror=null;this.src='https://app-nine-mu-47.vercel.app/favicon.ico';" />
                     </div>
-                    <span class="alp-item-name">K6 Engine</span>
-                </a>
-                <a href="${prefix}index.html" class="alp-item" title="BTechX">
-                    <div class="alp-item-icon">
-                        <img src="${prefix}logo.png" alt="BTechX Logo" onerror="this.onerror=null;this.src='${prefix}images/btechx.png';this.onerror=function(){this.src='https://raw.githubusercontent.com/devakalpyrate/yourclg/main/logo.png';};" style="
-                            width: 100%;
-                            height: 100%;
-                            object-fit: cover;
-                            border-radius: 50%;
-                        " />
-                    </div>
-                    <span class="alp-item-name">BTechX</span>
-                </a>
-                <a href="${prefix}paper.html" class="alp-item" title="Paper">
-                    <div class="alp-item-icon">
-                        <img src="${prefix}images/paper.png" alt="Paper" onerror="this.onerror=null;" />
-                    </div>
-                    <span class="alp-item-name">Paper</span>
+                    <span class="alp-item-name">Dukaan AI</span>
                 </a>
             </div>
             <div class="alp-storage-track" id="appsStorageTrack" title="Browser Storage">

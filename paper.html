@@ -1410,7 +1410,7 @@
               </div>
               <div class="alp-grid">
                 <a
-                  href="https://angkor-ai-dlm.vercel.app/"
+                  href="https://angkor-ai.vercel.app/"
                   target="_blank"
                   rel="noopener noreferrer"
                   class="alp-item"
@@ -1423,7 +1423,7 @@
                       onerror="
                         this.onerror = null;
                         this.src =
-                          'https://angkor-ai-dlm.vercel.app/favicon.ico';
+                          'https://angkor-ai.vercel.app/favicon.ico';
                       "
                     />
                   </div>
@@ -1448,44 +1448,6 @@
                     />
                   </div>
                   <span class="alp-item-name">MetaCleaner</span>
-                </a>
-                <a
-                  href="https://k6dlm.vercel.app/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="alp-item"
-                  title="K6 Engine — NIFTY 50 Directional Intelligence"
-                >
-                  <div class="alp-item-icon">
-                    <img
-                      src="images/k6.png"
-                      alt="K6 Engine"
-                      onerror="
-                        this.onerror = null;
-                        this.src = 'https://k6dlm.vercel.app/favicon.ico';
-                      "
-                    />
-                  </div>
-                  <span class="alp-item-name">K6 Engine</span>
-                </a>
-                <a href="index.html" class="alp-item" title="BTechX">
-                  <div class="alp-item-icon">
-                    <img
-                      src="logo.png"
-                      alt="BTechX Logo"
-                      onerror="
-                        this.onerror = null;
-                        this.src = 'images/btechx.png';
-                      "
-                      style="
-                        width: 100%;
-                        height: 100%;
-                        object-fit: cover;
-                        border-radius: 50%;
-                      "
-                    />
-                  </div>
-                  <span class="alp-item-name">BTechX</span>
                 </a>
                 <a
                   href="https://app-nine-mu-47.vercel.app/"
@@ -1962,6 +1924,48 @@
           year: 1,
           branch: "B.Tech &bull; 1st Year (All Branches)",
           csv: "Data/Questions/bee.csv",
+          disabled: false,
+        },
+        math1: {
+          code: "MA101",
+          name: "Engineering Mathematics - I",
+          year: 1,
+          branch: "B.Tech &bull; 1st Year (All Branches)",
+          disabled: true,
+        },
+        math2: {
+          code: "MA102",
+          name: "Engineering Mathematics - II",
+          year: 1,
+          branch: "B.Tech &bull; 1st Year (All Branches)",
+          disabled: true,
+        },
+        physics: {
+          code: "PH101",
+          name: "Engineering Physics",
+          year: 1,
+          branch: "B.Tech &bull; 1st Year (All Branches)",
+          disabled: true,
+        },
+        cse: {
+          code: "CS101",
+          name: "Programming For Problem Solving",
+          year: 1,
+          branch: "B.Tech &bull; 1st Year (All Branches)",
+          disabled: true,
+        },
+        iee: {
+          code: "EC101",
+          name: "Intro to Electronics Engineering",
+          year: 1,
+          branch: "B.Tech &bull; 1st Year (All Branches)",
+          disabled: true,
+        },
+        ime: {
+          code: "ME101",
+          name: "Intro to Mechanical Engineering",
+          year: 1,
+          branch: "B.Tech &bull; 1st Year (All Branches)",
           disabled: true,
         },
 
@@ -2051,6 +2055,1258 @@
 
       // Offline fallback for direct file:/// (File Explorer) opening where browser blocks fetch()
       const FALLBACK_QUESTION_BANKS = {
+        bee: [
+  {
+    "chapter": 1,
+    "mark": 2,
+    "question": "Define an electric circuit. Distinguish between an active element and a passive element, giving one example of each."
+  },
+  {
+    "chapter": 1,
+    "mark": 2,
+    "question": "Define voltage, current and power, and write the SI unit of each."
+  },
+  {
+    "chapter": 1,
+    "mark": 2,
+    "question": "State Ohm's law and write the three forms of the power equation for a resistor."
+  },
+  {
+    "chapter": 1,
+    "mark": 2,
+    "question": "What is an ideal voltage source? Draw its V-I characteristic and state the value of its internal resistance."
+  },
+  {
+    "chapter": 1,
+    "mark": 2,
+    "question": "What is an ideal current source? Draw its V-I characteristic and state the value of its internal resistance."
+  },
+  {
+    "chapter": 1,
+    "mark": 2,
+    "question": "Distinguish between an independent source and a dependent source, and name the four types of dependent sources."
+  },
+  {
+    "chapter": 1,
+    "mark": 2,
+    "question": "For a circuit containing two loops and five elements, define node, branch, loop and mesh, marking each on a sketch of the circuit."
+  },
+  {
+    "chapter": 1,
+    "mark": 2,
+    "question": "State Kirchhoff's Current Law (KCL) and explain its physical significance."
+  },
+  {
+    "chapter": 1,
+    "mark": 2,
+    "question": "State Kirchhoff's Voltage Law (KVL) and explain its physical significance."
+  },
+  {
+    "chapter": 1,
+    "mark": 2,
+    "question": "What is a short circuit and what is an open circuit? State the value of voltage across and current through each."
+  },
+  {
+    "chapter": 1,
+    "mark": 2,
+    "question": "Define a linear element and a bilateral element, giving one example of each."
+  },
+  {
+    "chapter": 1,
+    "mark": 2,
+    "question": "Write the delta-to-star conversion formulae for three unequal resistors connected in delta."
+  },
+  {
+    "chapter": 1,
+    "mark": 2,
+    "question": "Write the star-to-delta conversion formulae for three unequal resistors connected in star."
+  },
+  {
+    "chapter": 1,
+    "mark": 2,
+    "question": "State the superposition theorem and state the condition under which it cannot be applied."
+  },
+  {
+    "chapter": 1,
+    "mark": 2,
+    "question": "State Thevenin's theorem and draw the Thevenin equivalent circuit of a two-terminal network."
+  },
+  {
+    "chapter": 1,
+    "mark": 2,
+    "question": "State Norton's theorem and write the relation between the Thevenin and Norton equivalent parameters."
+  },
+  {
+    "chapter": 1,
+    "mark": 2,
+    "question": "State the maximum power transfer theorem and write the expression for the maximum power delivered to the load."
+  },
+  {
+    "chapter": 1,
+    "mark": 2,
+    "question": "Define the watt-hour and the kilowatt-hour, and express 1 kWh in joules."
+  },
+  {
+    "chapter": 1,
+    "mark": 2,
+    "question": "Why is the internal resistance of an ideal voltage source zero and that of an ideal current source infinite?"
+  },
+  {
+    "chapter": 1,
+    "mark": 2,
+    "question": "What is source transformation? Write the relation for converting a voltage source with a series resistance into an equivalent current source."
+  },
+  {
+    "chapter": 1,
+    "mark": 5,
+    "question": "Derive the expression for the equivalent resistance of three resistors connected in parallel, and explain why the equivalent resistance is always less than the smallest resistance of the combination. Draw the circuit diagram."
+  },
+  {
+    "chapter": 1,
+    "mark": 5,
+    "question": "Two resistors of 6 ohm and 3 ohm are connected in parallel and this combination is connected in series with a 4 ohm resistor across a 12 V supply. Draw the circuit diagram and calculate the total resistance, the supply current and the current in each parallel branch."
+  },
+  {
+    "chapter": 1,
+    "mark": 5,
+    "question": "A 60 V supply feeds a 10 ohm resistor in series with a parallel combination of 20 ohm and 30 ohm. Draw the circuit diagram and find the total current, the voltage across the parallel group and the current through the 20 ohm resistor."
+  },
+  {
+    "chapter": 1,
+    "mark": 5,
+    "question": "State Kirchhoff's laws. For a two-loop network in which the left mesh has a 10 V source with a 2 ohm resistor and a common 3 ohm branch, and the right mesh has the common 3 ohm branch, a 5 ohm resistor and a 4 V source opposing the mesh current, draw the circuit and write the two mesh equations."
+  },
+  {
+    "chapter": 1,
+    "mark": 5,
+    "question": "Explain the step-by-step procedure of mesh analysis with a neat circuit diagram of two meshes sharing a common branch, and write the general mesh equations for the network."
+  },
+  {
+    "chapter": 1,
+    "mark": 5,
+    "question": "Explain the step-by-step procedure of nodal analysis with a circuit diagram having three nodes, and write the nodal equation for the unknown node voltage."
+  },
+  {
+    "chapter": 1,
+    "mark": 5,
+    "question": "Draw the star and the delta networks of three unequal resistors and derive the delta-to-star transformation relations."
+  },
+  {
+    "chapter": 1,
+    "mark": 5,
+    "question": "Explain source transformation with a circuit diagram of a 24 V source in series with a 6 ohm resistor, convert it into an equivalent current source, and verify that the terminal V-I relation remains unchanged."
+  },
+  {
+    "chapter": 1,
+    "mark": 5,
+    "question": "Explain the superposition theorem with a neat circuit diagram containing two voltage sources, and list the steps to be followed while applying it."
+  },
+  {
+    "chapter": 1,
+    "mark": 5,
+    "question": "State and explain Thevenin's theorem with a circuit diagram, and list the steps for determining the Thevenin voltage and the Thevenin resistance."
+  },
+  {
+    "chapter": 1,
+    "mark": 5,
+    "question": "State and explain Norton's theorem with a circuit diagram, and list the steps for determining the Norton current and the Norton resistance."
+  },
+  {
+    "chapter": 1,
+    "mark": 5,
+    "question": "State and explain the maximum power transfer theorem, and derive the condition for maximum power transfer with the help of a circuit diagram."
+  },
+  {
+    "chapter": 1,
+    "mark": 5,
+    "question": "A 12 V battery of internal resistance 2 ohm supplies a variable load resistor. Draw the circuit diagram and calculate the load resistance required for maximum power transfer and the value of that maximum power."
+  },
+  {
+    "chapter": 1,
+    "mark": 5,
+    "question": "Explain with circuit diagrams the charging behaviour of (i) an R-C circuit and (ii) an R-L circuit when a DC source is suddenly switched on, and define the time constant in each case."
+  },
+  {
+    "chapter": 1,
+    "mark": 5,
+    "question": "A 20 ohm resistor carries a current of 5 A for 2 hours. Draw the circuit diagram and calculate the power dissipated, the energy consumed in kWh and the cost of this energy at Rs. 6 per kWh."
+  },
+  {
+    "chapter": 1,
+    "mark": 7,
+    "question": "A 12 V source in series with a 4 ohm resistor and a 6 V source in series with a 2 ohm resistor both feed a common node A, from which a 4 ohm load is connected to the common return. Draw the complete circuit diagram, apply the superposition theorem to find the current through the 4 ohm load, and verify the result by nodal analysis."
+  },
+  {
+    "chapter": 1,
+    "mark": 7,
+    "question": "A 24 V source is connected in series with a 6 ohm resistor to node A; from node A a 12 ohm resistor and a 4 ohm load resistor are both connected to the common return. Draw the original circuit, determine the Thevenin voltage and the Thevenin resistance across the load terminals, draw the Thevenin equivalent circuit, and hence find the current through the 4 ohm load."
+  },
+  {
+    "chapter": 1,
+    "mark": 7,
+    "question": "For the network of the previous type - a 24 V source with a 6 ohm series resistor feeding node A, from which a 12 ohm resistor and a 4 ohm load go to the common return - draw the circuit and solve for the load current using Norton's theorem, showing the Norton current source and the Norton resistance in a neat equivalent circuit."
+  },
+  {
+    "chapter": 1,
+    "mark": 7,
+    "question": "A DC source of 24 V with an internal resistance of 6 ohm supplies a variable load resistor. Draw the circuit diagram, tabulate the power delivered to the load for load resistances of 2, 4, 6, 8 and 12 ohm, plot the power versus load resistance curve, and hence state the load resistance for maximum power transfer and the value of that maximum power."
+  },
+  {
+    "chapter": 1,
+    "mark": 7,
+    "question": "Three resistors of 6 ohm, 12 ohm and 18 ohm are connected in delta. Draw the delta network, derive the delta-to-star conversion formulae, and determine the three resistances of the equivalent star network. Verify that converting the star back gives the original delta resistances."
+  },
+  {
+    "chapter": 1,
+    "mark": 7,
+    "question": "In a bridge-type network the left-hand node C is joined to the top node A by 4 ohm, the top node A to the right-hand node D by 8 ohm, the node C to the bottom node B by 6 ohm, the node B to the node D by 12 ohm, and a 10 ohm resistor is connected between nodes A and B. Draw the circuit diagram and determine the equivalent resistance between the terminals C and D using star-delta conversion."
+  },
+  {
+    "chapter": 1,
+    "mark": 7,
+    "question": "A 12 V source with a 2 ohm resistor forms the first mesh; a common 6 ohm branch is shared with the second mesh, which contains a further 6 ohm resistor. Draw the circuit diagram and determine all the branch currents by mesh analysis, stating clearly the assumed direction of each mesh current."
+  },
+  {
+    "chapter": 1,
+    "mark": 7,
+    "question": "A 12 V source is connected through a 4 ohm resistor to node A, and from node A two resistors of 6 ohm and 12 ohm are connected to the common return. Draw the circuit diagram, apply nodal analysis to determine the node voltage, and hence calculate the current in each of the three resistors and the power supplied by the source."
+  },
+  {
+    "chapter": 1,
+    "mark": 7,
+    "question": "A 24 V source feeds a 4 ohm resistor in series with a parallel combination of 12 ohm and 6 ohm, and this is followed by a 2 ohm resistor in series. Draw the circuit diagram and calculate the total resistance, the supply current, the voltage across the parallel group, the current in each parallel branch and the power dissipated in the 2 ohm resistor."
+  },
+  {
+    "chapter": 1,
+    "mark": 7,
+    "question": "An electric heater rated 1500 W, 230 V is used for 4 hours a day for 30 days. Draw the circuit diagram of the heater connected to the supply, and calculate the current drawn, the resistance of the heating element, the energy consumed in kWh and the electricity bill at Rs. 7 per unit."
+  },
+  {
+    "chapter": 1,
+    "mark": 7,
+    "question": "A 12 V source with a 2 ohm series resistor and a 6 V source with a 3 ohm series resistor both feed a common node, from which a 6 ohm load is connected to the common return. Draw the circuit diagram, determine all the currents by Kirchhoff's laws, and verify the result by showing that the total power supplied equals the total power absorbed."
+  },
+  {
+    "chapter": 1,
+    "mark": 7,
+    "question": "A 10 V source with a 2 ohm series resistor feeds node A; from node A a 6 ohm resistor goes to the return, and a 3 ohm resistor connects node A to node B, from which a 4 ohm resistor goes to the return. Draw the circuit diagram and solve the network by both mesh analysis and nodal analysis, and show that the two methods give the same branch currents."
+  },
+  {
+    "chapter": 1,
+    "mark": 7,
+    "question": "A 20 V source of internal resistance 5 ohm supplies a variable load resistor. Draw the circuit diagram, derive the condition for maximum power transfer, calculate the load resistance for maximum power, the maximum power delivered and the efficiency of power transfer at that point, and explain why the efficiency is only 50 per cent."
+  },
+  {
+    "chapter": 1,
+    "mark": 7,
+    "question": "State and prove the superposition theorem for a linear bilateral network with the help of a circuit diagram containing two independent sources. Explain with a circuit diagram containing a diode why the theorem fails for a non-linear network."
+  },
+  {
+    "chapter": 1,
+    "mark": 7,
+    "question": "A 100 microfarad capacitor is charged to 200 V and an inductor of 0.5 H carries a steady current of 4 A. Draw the circuit diagrams, calculate the energy stored in each element, and find the time constant when the capacitor discharges through a 1 kilo-ohm resistor and when the inductor is connected across a 20 ohm resistor."
+  },
+  {
+    "chapter": 2,
+    "mark": 2,
+    "question": "Define an alternating voltage and an alternating current."
+  },
+  {
+    "chapter": 2,
+    "mark": 2,
+    "question": "Define cycle, time period and frequency, and write the relation between frequency and time period."
+  },
+  {
+    "chapter": 2,
+    "mark": 2,
+    "question": "Define the instantaneous value, the peak value and the peak-to-peak value of an alternating quantity."
+  },
+  {
+    "chapter": 2,
+    "mark": 2,
+    "question": "Define the average value of a sinusoidal quantity and state its relation with the peak value."
+  },
+  {
+    "chapter": 2,
+    "mark": 2,
+    "question": "Define the RMS value of an alternating quantity and state its relation with the peak value for a sine wave."
+  },
+  {
+    "chapter": 2,
+    "mark": 2,
+    "question": "Define form factor and peak factor, and give their values for a pure sine wave."
+  },
+  {
+    "chapter": 2,
+    "mark": 2,
+    "question": "What is a phasor? State two differences between a phasor and a vector."
+  },
+  {
+    "chapter": 2,
+    "mark": 2,
+    "question": "Define the j operator and state the effect of multiplying a phasor by j."
+  },
+  {
+    "chapter": 2,
+    "mark": 2,
+    "question": "What is inductive reactance? Write its expression and state how it varies with frequency."
+  },
+  {
+    "chapter": 2,
+    "mark": 2,
+    "question": "What is capacitive reactance? Write its expression and state how it varies with frequency."
+  },
+  {
+    "chapter": 2,
+    "mark": 2,
+    "question": "Draw the phasor diagram of a pure resistance carrying an alternating current and state the phase difference between the voltage and the current."
+  },
+  {
+    "chapter": 2,
+    "mark": 2,
+    "question": "State the phase relationship between voltage and current in a pure inductor and draw the phasor diagram."
+  },
+  {
+    "chapter": 2,
+    "mark": 2,
+    "question": "State the phase relationship between voltage and current in a pure capacitor and draw the phasor diagram."
+  },
+  {
+    "chapter": 2,
+    "mark": 2,
+    "question": "Define impedance and write its expression for an R-L series circuit."
+  },
+  {
+    "chapter": 2,
+    "mark": 2,
+    "question": "Define real power, reactive power and apparent power, and state the unit of each."
+  },
+  {
+    "chapter": 2,
+    "mark": 2,
+    "question": "Define power factor and state its significance in an AC circuit."
+  },
+  {
+    "chapter": 2,
+    "mark": 2,
+    "question": "Define series resonance and state the condition for resonance in an R-L-C series circuit."
+  },
+  {
+    "chapter": 2,
+    "mark": 2,
+    "question": "Define parallel resonance and state the condition for resonance in a parallel circuit."
+  },
+  {
+    "chapter": 2,
+    "mark": 2,
+    "question": "What is a balanced three-phase supply? State the phase difference between the three phase voltages."
+  },
+  {
+    "chapter": 2,
+    "mark": 2,
+    "question": "Write the relations between line and phase values of voltage and current for balanced star-connected and delta-connected loads."
+  },
+  {
+    "chapter": 2,
+    "mark": 5,
+    "question": "Derive the expressions for the average value and the RMS value of a sinusoidal voltage v = Vm sin(wt), and hence show that the form factor of a sine wave is 1.11."
+  },
+  {
+    "chapter": 2,
+    "mark": 5,
+    "question": "A sinusoidal voltage has a peak value of 325 V and a frequency of 50 Hz. Write its instantaneous equation and calculate its RMS value, average value, form factor, peak factor and the time taken to complete one cycle."
+  },
+  {
+    "chapter": 2,
+    "mark": 5,
+    "question": "Explain with a phasor diagram the behaviour of a pure inductor in an AC circuit, and derive the expression for its inductive reactance."
+  },
+  {
+    "chapter": 2,
+    "mark": 5,
+    "question": "Explain with a phasor diagram the behaviour of a pure capacitor in an AC circuit, and derive the expression for its capacitive reactance."
+  },
+  {
+    "chapter": 2,
+    "mark": 5,
+    "question": "Draw the circuit diagram and the phasor diagram of an R-L series circuit, and derive the expressions for impedance, current and phase angle."
+  },
+  {
+    "chapter": 2,
+    "mark": 5,
+    "question": "Draw the circuit diagram and the phasor diagram of an R-C series circuit, and derive the expressions for impedance, current and phase angle."
+  },
+  {
+    "chapter": 2,
+    "mark": 5,
+    "question": "Draw the circuit diagram and the phasor diagram of an R-L-C series circuit, and derive the expressions for impedance, current and phase angle, stating the conditions for lagging, leading and unity power factor."
+  },
+  {
+    "chapter": 2,
+    "mark": 5,
+    "question": "Derive the expression for the resonant frequency of an R-L-C series circuit and draw its resonance curve, marking the resonant frequency and the current at resonance."
+  },
+  {
+    "chapter": 2,
+    "mark": 5,
+    "question": "Explain parallel resonance in a practical parallel circuit consisting of a coil in parallel with a capacitor, draw the phasor diagram and state the condition for resonance."
+  },
+  {
+    "chapter": 2,
+    "mark": 5,
+    "question": "Derive the expressions for real power, reactive power, apparent power and power factor of an R-L series circuit, and draw the power triangle."
+  },
+  {
+    "chapter": 2,
+    "mark": 5,
+    "question": "Explain the measurement of power in a single-phase AC circuit using a dynamometer wattmeter, with a neat connection diagram and a statement of its working principle."
+  },
+  {
+    "chapter": 2,
+    "mark": 5,
+    "question": "Explain the generation of a three-phase voltage with a neat diagram of three coils displaced by 120 electrical degrees in a magnetic field, and write the equations of the three phase voltages."
+  },
+  {
+    "chapter": 2,
+    "mark": 5,
+    "question": "Draw the circuit diagram and the phasor diagram of a balanced star-connected three-phase load and derive the relations between the line and phase values of voltage and current."
+  },
+  {
+    "chapter": 2,
+    "mark": 5,
+    "question": "Draw the circuit diagram and the phasor diagram of a balanced delta-connected three-phase load and derive the relations between the line and phase values of voltage and current."
+  },
+  {
+    "chapter": 2,
+    "mark": 5,
+    "question": "State the advantages of a three-phase system over a single-phase system, presenting the comparison in a tabular form."
+  },
+  {
+    "chapter": 2,
+    "mark": 7,
+    "question": "A coil of resistance 8 ohm and inductive reactance 6 ohm is connected across a 100 V, 50 Hz supply. Draw the circuit diagram and the phasor diagram, and calculate the impedance, the current, the power factor, the phase angle, the real power, the reactive power and the apparent power."
+  },
+  {
+    "chapter": 2,
+    "mark": 7,
+    "question": "A resistance of 6 ohm is connected in series with a capacitive reactance of 8 ohm across a 100 V, 50 Hz supply. Draw the circuit diagram and the phasor diagram, and calculate the impedance, the current, the phase angle, the power factor, the real power and the reactive power."
+  },
+  {
+    "chapter": 2,
+    "mark": 7,
+    "question": "A coil of resistance 16 ohm, inductive reactance 20 ohm and capacitive reactance 8 ohm are connected in series across a 200 V, 50 Hz supply. Draw the circuit diagram, the phasor diagram and the impedance triangle, and calculate the impedance, the current, the power factor, the real power, the reactive power and the apparent power, stating whether the current lags or leads."
+  },
+  {
+    "chapter": 2,
+    "mark": 7,
+    "question": "A series circuit has R = 5 ohm, L = 0.1 H and C = 10 microfarad and is connected across a variable-frequency supply of 100 V. Draw the circuit diagram, calculate the resonant frequency, the quality factor, the bandwidth, the current at resonance and the voltage across the inductor and the capacitor at resonance."
+  },
+  {
+    "chapter": 2,
+    "mark": 7,
+    "question": "A coil of resistance 10 ohm and inductance 0.1 H is connected in parallel with a capacitor of 10 microfarad across a 230 V supply. Draw the circuit diagram, calculate the resonant frequency, the impedance and the current drawn from the supply at resonance, and state why such a circuit is called a rejector circuit."
+  },
+  {
+    "chapter": 2,
+    "mark": 7,
+    "question": "Three identical resistors of 10 ohm each are connected in star across a 400 V, 50 Hz, three-phase supply. Draw the circuit diagram and the phasor diagram, and calculate the phase voltage, the phase current, the line current and the total power consumed."
+  },
+  {
+    "chapter": 2,
+    "mark": 7,
+    "question": "Three identical resistors of 30 ohm each are connected in delta across a 400 V, 50 Hz, three-phase supply. Draw the circuit diagram and the phasor diagram, and calculate the phase voltage, the phase current, the line current and the total power consumed, and compare the line current with that obtained for the same resistors in star."
+  },
+  {
+    "chapter": 2,
+    "mark": 7,
+    "question": "In a three-phase circuit the two wattmeters connected to measure the total power read 10 kW and 5 kW. Draw the connection diagram of the two-wattmeter method, calculate the total power, the power factor and the reactive power of the load, and state the sign convention when the power factor falls below 0.5."
+  },
+  {
+    "chapter": 2,
+    "mark": 7,
+    "question": "A 230 V, 50 Hz single-phase motor draws a current of 10 A at a power factor of 0.6 lagging. Draw the circuit diagram, calculate the capacitor required in parallel to improve the power factor to 0.9 lagging, and state the value of the current drawn from the supply after improvement."
+  },
+  {
+    "chapter": 2,
+    "mark": 7,
+    "question": "Two voltages v1 = 100 sin(wt) V and v2 = 100 sin(wt + 60 degrees) V are connected in series. Draw the phasor diagram, determine the resultant voltage in phasor form and in the time domain, and verify the result by resolving the phasors into rectangular components."
+  },
+  {
+    "chapter": 2,
+    "mark": 7,
+    "question": "An alternating voltage is given by v = 141.4 sin(314t) V. Draw the waveform, and determine the peak value, the RMS value, the average value, the form factor, the frequency, the time period and the instantaneous value at t = 5 ms."
+  },
+  {
+    "chapter": 2,
+    "mark": 7,
+    "question": "Explain the generation of a three-phase EMF with a neat diagram, and derive the relations between the line and phase values of voltage and current for star and delta connections with the help of phasor diagrams."
+  },
+  {
+    "chapter": 2,
+    "mark": 7,
+    "question": "Explain series resonance and parallel resonance, draw their resonance curves on the same axes, and compare the two with respect to impedance, current, power factor and selectivity, presenting the comparison in a table."
+  },
+  {
+    "chapter": 2,
+    "mark": 7,
+    "question": "Explain the power flow in an AC circuit with the help of the power triangle. Explain why a low power factor is undesirable, state its effects on the consumer and on the supply authority, and describe the methods used for power factor improvement with a circuit diagram."
+  },
+  {
+    "chapter": 2,
+    "mark": 7,
+    "question": "Explain the measurement of power in a three-phase circuit by the two-wattmeter method with a neat connection diagram, derive the expressions for the total power and the power factor in terms of the two wattmeter readings, and state the advantages of the method."
+  },
+  {
+    "chapter": 3,
+    "mark": 2,
+    "question": "Define magnetic field and magnetic force."
+  },
+  {
+    "chapter": 3,
+    "mark": 2,
+    "question": "State Coulomb's first law of magnetism."
+  },
+  {
+    "chapter": 3,
+    "mark": 2,
+    "question": "Define magnetic flux, state its unit and give its three important properties."
+  },
+  {
+    "chapter": 3,
+    "mark": 2,
+    "question": "Define magnetic flux density, state its unit and write its relation with the magnetic flux."
+  },
+  {
+    "chapter": 3,
+    "mark": 2,
+    "question": "Define magnetomotive force (MMF) and state its unit."
+  },
+  {
+    "chapter": 3,
+    "mark": 2,
+    "question": "Define magnetic field strength (magnetising force) and write its relation with the MMF and the length of the magnetic path."
+  },
+  {
+    "chapter": 3,
+    "mark": 2,
+    "question": "Define absolute permeability and relative permeability of a magnetic material."
+  },
+  {
+    "chapter": 3,
+    "mark": 2,
+    "question": "Define the reluctance of a magnetic circuit and write its expression in terms of length, area and permeability."
+  },
+  {
+    "chapter": 3,
+    "mark": 2,
+    "question": "State any four points of analogy between an electric circuit and a magnetic circuit."
+  },
+  {
+    "chapter": 3,
+    "mark": 2,
+    "question": "What is an electromagnet? State any two of its applications."
+  },
+  {
+    "chapter": 3,
+    "mark": 2,
+    "question": "State the rule used to determine the direction of the magnetic field produced around a straight current-carrying conductor, and sketch the field."
+  },
+  {
+    "chapter": 3,
+    "mark": 2,
+    "question": "What is a solenoid? How does its magnetic field differ from that of a straight current-carrying conductor?"
+  },
+  {
+    "chapter": 3,
+    "mark": 2,
+    "question": "What is a B-H curve and what does it represent?"
+  },
+  {
+    "chapter": 3,
+    "mark": 2,
+    "question": "What is hysteresis? Define hysteresis loss."
+  },
+  {
+    "chapter": 3,
+    "mark": 2,
+    "question": "State Faraday's two laws of electromagnetic induction."
+  },
+  {
+    "chapter": 3,
+    "mark": 2,
+    "question": "State Lenz's law and explain its physical significance."
+  },
+  {
+    "chapter": 3,
+    "mark": 2,
+    "question": "Distinguish between statically induced EMF and dynamically induced EMF."
+  },
+  {
+    "chapter": 3,
+    "mark": 2,
+    "question": "Define self-inductance and mutual inductance, and state the unit of each."
+  },
+  {
+    "chapter": 3,
+    "mark": 2,
+    "question": "Classify DC machines on the basis of the direction of energy conversion."
+  },
+  {
+    "chapter": 3,
+    "mark": 2,
+    "question": "State the principle of operation of a DC generator."
+  },
+  {
+    "chapter": 3,
+    "mark": 2,
+    "question": "Name the essential parts of a DC machine and state the function of the commutator."
+  },
+  {
+    "chapter": 3,
+    "mark": 2,
+    "question": "Write the EMF equation of a DC generator and state the meaning of each symbol used."
+  },
+  {
+    "chapter": 3,
+    "mark": 2,
+    "question": "What is back EMF in a DC motor and why is it called the counter EMF?"
+  },
+  {
+    "chapter": 3,
+    "mark": 2,
+    "question": "State the significance of Fleming's left-hand rule in a DC motor."
+  },
+  {
+    "chapter": 3,
+    "mark": 2,
+    "question": "Name the two types of armature winding used in DC machines and state where each is used."
+  },
+  {
+    "chapter": 3,
+    "mark": 7,
+    "question": "Define MMF, magnetic flux and reluctance, and derive the expression for the reluctance of a uniform magnetic core. Show that the magnetic circuit obeys a law analogous to Ohm's law, and draw the analogous electric and magnetic circuits side by side."
+  },
+  {
+    "chapter": 3,
+    "mark": 7,
+    "question": "A magnetic circuit has a mean length of 40 cm, a cross-sectional area of 4 square cm and a relative permeability of 1000, and is wound with a coil of 500 turns carrying a current of 2 A. Draw the magnetic circuit, and calculate the reluctance, the flux and the flux density produced in the core."
+  },
+  {
+    "chapter": 3,
+    "mark": 7,
+    "question": "A ring-shaped iron core of mean length 30 cm and cross-sectional area 5 square cm has a relative permeability of 800 and an air gap of 2 mm cut in it. The core is wound with 400 turns carrying 1 A. Draw the composite magnetic circuit, and calculate the reluctance of the iron path, the reluctance of the air gap, the total reluctance, the flux and the flux density in the air gap."
+  },
+  {
+    "chapter": 3,
+    "mark": 7,
+    "question": "Explain the B-H curve of a magnetic material with a neat labelled diagram, marking the initial region, the knee point and the saturation region. Define saturation, and explain the shape of the hysteresis loop and how hysteresis loss depends on the area of the loop."
+  },
+  {
+    "chapter": 3,
+    "mark": 7,
+    "question": "Explain with neat diagrams the magnetic field produced by (i) a straight current-carrying conductor, (ii) a circular coil and (iii) a solenoid, stating the rule used to find the direction of the field in each case and the nature of the field inside a solenoid."
+  },
+  {
+    "chapter": 3,
+    "mark": 7,
+    "question": "State and explain Faraday's laws of electromagnetic induction and Lenz's law with neat diagrams, and derive the expression e = -N d(phi)/dt for the induced EMF in a coil."
+  },
+  {
+    "chapter": 3,
+    "mark": 7,
+    "question": "Distinguish between dynamically induced EMF and statically induced EMF with neat diagrams, and derive the expression e = B l v sin(theta) for the EMF induced in a conductor moving in a magnetic field, explaining each term."
+  },
+  {
+    "chapter": 3,
+    "mark": 7,
+    "question": "Explain the construction of a DC machine with a neat labelled diagram, describing the yoke, pole shoes, field winding, armature core, armature winding, commutator and brushes, and state the material and function of each part."
+  },
+  {
+    "chapter": 3,
+    "mark": 7,
+    "question": "Derive the EMF equation of a DC generator, E = phi Z N P / (60 A), starting from the flux cut by one conductor, and state the meaning of every symbol used in the expression."
+  },
+  {
+    "chapter": 3,
+    "mark": 7,
+    "question": "Explain lap winding and wave winding with neat diagrams, state the relation between the number of parallel paths and the number of poles in each case, and state where each type of winding is used."
+  },
+  {
+    "chapter": 3,
+    "mark": 7,
+    "question": "Explain the principle of operation of a DC generator with a neat diagram showing a single coil rotating between the poles, and explain with the help of the commutator action why the output of a DC generator is unidirectional."
+  },
+  {
+    "chapter": 3,
+    "mark": 7,
+    "question": "Explain the different types of DC generators - separately excited, shunt, series and compound - with neat circuit diagrams, and state one application of each type."
+  },
+  {
+    "chapter": 3,
+    "mark": 7,
+    "question": "Explain the principle of operation of a DC motor with a neat diagram, state Fleming's left-hand rule, and derive the torque equation T = phi I Z P / (2 pi A) of a DC motor."
+  },
+  {
+    "chapter": 3,
+    "mark": 7,
+    "question": "Explain the concept of back EMF in a DC motor, derive the expression Eb = V - Ia Ra, and show how the back EMF regulates the armature current as the mechanical load on the motor changes."
+  },
+  {
+    "chapter": 3,
+    "mark": 7,
+    "question": "A 4-pole, lap-wound DC generator has 500 armature conductors and a flux per pole of 0.02 Wb, and runs at 1200 rpm. Draw the connection diagram of the winding, and calculate the generated EMF. State what the generated EMF would be if the same machine were wave-wound."
+  },
+  {
+    "chapter": 3,
+    "mark": 7,
+    "question": "A 6-pole, wave-wound DC generator has 400 conductors, a flux per pole of 0.03 Wb and runs at 1000 rpm. Draw the winding diagram, calculate the generated EMF and the EMF per conductor, and state the effect on the EMF if the speed is reduced to 800 rpm."
+  },
+  {
+    "chapter": 3,
+    "mark": 7,
+    "question": "A 220 V DC shunt motor has an armature resistance of 0.5 ohm and draws an armature current of 20 A while running at 1000 rpm. Draw the circuit diagram, and calculate the back EMF, the torque developed and the mechanical power developed by the armature."
+  },
+  {
+    "chapter": 3,
+    "mark": 7,
+    "question": "A 4-pole DC motor has 600 armature conductors, a flux per pole of 0.025 Wb and an armature current of 40 A in a lap winding. Draw the circuit diagram and calculate the torque developed. State the torque if the winding is changed to wave."
+  },
+  {
+    "chapter": 3,
+    "mark": 7,
+    "question": "Explain the force experienced by a current-carrying conductor placed in a magnetic field with a neat diagram, derive F = B I l sin(theta), and state Fleming's left-hand rule with an illustration of the direction of force."
+  },
+  {
+    "chapter": 3,
+    "mark": 7,
+    "question": "Explain the principle and applications of DC shunt motors, DC series motors and DC compound motors, and state with reasons which motor is selected for a domestic fan, a crane and a machine tool drive."
+  },
+  {
+    "chapter": 3,
+    "mark": 7,
+    "question": "Explain magnetic leakage and fringing in a magnetic circuit with neat diagrams, state their effect on the useful flux, and explain why fringing is significant at the air gap of a machine."
+  },
+  {
+    "chapter": 3,
+    "mark": 7,
+    "question": "Explain the magnetisation curve of a ferromagnetic material and explain why the permeability of the material is not constant. State the effect of saturation on the performance of an electrical machine."
+  },
+  {
+    "chapter": 3,
+    "mark": 7,
+    "question": "A magnetic circuit consists of an iron path of length 30 cm and an air gap of 1 mm, both of the same cross-sectional area of 4 square cm, with a relative permeability of 1000 for iron. Draw the circuit, calculate the reluctance of the iron path and of the air gap, and hence explain why the air gap dominates the total reluctance although it is only 1 mm long."
+  },
+  {
+    "chapter": 3,
+    "mark": 7,
+    "question": "Explain eddy current loss in a magnetic core with a neat diagram, state how it depends on the thickness of the core, and explain how laminated cores and the use of silicon steel reduce this loss."
+  },
+  {
+    "chapter": 3,
+    "mark": 7,
+    "question": "Explain the phenomenon of electromagnetic induction using a coil and a bar magnet, draw the arrangement for each direction of motion of the magnet, and apply Lenz's law to determine the direction of the induced current in each case."
+  },
+  {
+    "chapter": 4,
+    "mark": 2,
+    "question": "Define a transformer and state its main function in a power system."
+  },
+  {
+    "chapter": 4,
+    "mark": 2,
+    "question": "Why is a transformer called a static device?"
+  },
+  {
+    "chapter": 4,
+    "mark": 2,
+    "question": "State the principle of operation of a transformer."
+  },
+  {
+    "chapter": 4,
+    "mark": 2,
+    "question": "Define mutual induction."
+  },
+  {
+    "chapter": 4,
+    "mark": 2,
+    "question": "Why does a transformer not work on a DC supply?"
+  },
+  {
+    "chapter": 4,
+    "mark": 2,
+    "question": "Write the EMF equation of a transformer and state the meaning of each term."
+  },
+  {
+    "chapter": 4,
+    "mark": 2,
+    "question": "Define the transformation ratio of a transformer."
+  },
+  {
+    "chapter": 4,
+    "mark": 2,
+    "question": "Distinguish between a step-up and a step-down transformer."
+  },
+  {
+    "chapter": 4,
+    "mark": 2,
+    "question": "What is an ideal transformer? State its two properties."
+  },
+  {
+    "chapter": 4,
+    "mark": 2,
+    "question": "Name the two types of construction used for a single-phase transformer."
+  },
+  {
+    "chapter": 4,
+    "mark": 2,
+    "question": "Why is the core of a transformer laminated?"
+  },
+  {
+    "chapter": 4,
+    "mark": 2,
+    "question": "Name the two types of losses occurring in a transformer."
+  },
+  {
+    "chapter": 4,
+    "mark": 2,
+    "question": "Define copper loss and state how it varies with the load current."
+  },
+  {
+    "chapter": 4,
+    "mark": 2,
+    "question": "Define iron loss and name its two components."
+  },
+  {
+    "chapter": 4,
+    "mark": 2,
+    "question": "Define the efficiency of a transformer and write its expression."
+  },
+  {
+    "chapter": 4,
+    "mark": 2,
+    "question": "State the condition for maximum efficiency of a transformer."
+  },
+  {
+    "chapter": 4,
+    "mark": 2,
+    "question": "Define the all-day efficiency of a distribution transformer."
+  },
+  {
+    "chapter": 4,
+    "mark": 2,
+    "question": "What is an autotransformer? State one advantage over a two-winding transformer."
+  },
+  {
+    "chapter": 4,
+    "mark": 2,
+    "question": "State the principle of operation of a three-phase induction motor."
+  },
+  {
+    "chapter": 4,
+    "mark": 2,
+    "question": "What is a rotating magnetic field? State its speed of rotation in terms of supply frequency and number of poles."
+  },
+  {
+    "chapter": 4,
+    "mark": 2,
+    "question": "Define synchronous speed and write its expression."
+  },
+  {
+    "chapter": 4,
+    "mark": 2,
+    "question": "Define slip of a three-phase induction motor and write its expression."
+  },
+  {
+    "chapter": 4,
+    "mark": 2,
+    "question": "Name the two types of rotor construction used in a three-phase induction motor."
+  },
+  {
+    "chapter": 4,
+    "mark": 2,
+    "question": "Why can a three-phase induction motor never run at synchronous speed?"
+  },
+  {
+    "chapter": 4,
+    "mark": 2,
+    "question": "State one application each of a squirrel-cage and a slip-ring induction motor."
+  },
+  {
+    "chapter": 4,
+    "mark": 7,
+    "question": "Explain the construction of a single-phase transformer with neat labelled diagrams of the core type and the shell type, describing the core, the windings, the insulation and the tank, and state the advantage of each type of construction."
+  },
+  {
+    "chapter": 4,
+    "mark": 7,
+    "question": "Explain the principle of operation of a transformer on the basis of mutual induction with a neat diagram, and derive its EMF equation E = 4.44 f N phi(m). State why the EMF is proportional to the number of turns."
+  },
+  {
+    "chapter": 4,
+    "mark": 7,
+    "question": "Derive the EMF equation of a transformer from Faraday's law of electromagnetic induction, and hence show that the voltage per turn is the same in the primary and the secondary winding."
+  },
+  {
+    "chapter": 4,
+    "mark": 7,
+    "question": "A 50 kVA, 2000/200 V, 50 Hz single-phase transformer has 100 secondary turns. Draw the circuit diagram, and calculate the number of primary turns, the maximum flux in the core, the primary current and the secondary current at full load."
+  },
+  {
+    "chapter": 4,
+    "mark": 7,
+    "question": "A 500 kVA single-phase transformer has an iron loss of 2 kW and a full-load copper loss of 5 kW. Draw the equivalent circuit, and calculate the efficiency at full load and at half load for a load power factor of 0.8 lagging."
+  },
+  {
+    "chapter": 4,
+    "mark": 7,
+    "question": "A transformer has an iron loss of 2 kW and a full-load copper loss of 5 kW. Derive the condition for maximum efficiency, and calculate the load (in kVA) at which the efficiency is maximum for a 500 kVA rating, and the value of that maximum efficiency at unity power factor."
+  },
+  {
+    "chapter": 4,
+    "mark": 7,
+    "question": "A 100 kVA, 11000/415 V, 50 Hz single-phase transformer is to be operated at full load. Draw the circuit diagram, and calculate the transformation ratio, the primary and secondary full-load currents, and the voltage per turn if the primary has 1000 turns."
+  },
+  {
+    "chapter": 4,
+    "mark": 7,
+    "question": "Explain the various losses occurring in a transformer with a neat diagram, and explain why the iron loss is practically constant at all loads while the copper loss varies with the square of the load current."
+  },
+  {
+    "chapter": 4,
+    "mark": 7,
+    "question": "Explain the all-day efficiency of a distribution transformer with a typical daily load cycle, and explain why the all-day efficiency is more important than the ordinary efficiency for such a transformer. Include a worked example with a load cycle of 4 hours at full load, 8 hours at half load and 12 hours on no load."
+  },
+  {
+    "chapter": 4,
+    "mark": 7,
+    "question": "Explain the construction and working of an autotransformer with a neat diagram, state its advantages and disadvantages compared with a two-winding transformer, and state two applications."
+  },
+  {
+    "chapter": 4,
+    "mark": 7,
+    "question": "Explain the construction of a three-phase induction motor with neat labelled diagrams of the stator and of both the squirrel-cage and the slip-ring rotor, and state the function of each part."
+  },
+  {
+    "chapter": 4,
+    "mark": 7,
+    "question": "Explain the production of a rotating magnetic field in a three-phase induction motor with a neat diagram showing the three pulsating fields and the resultant field at different instants, and derive the expression Ns = 120 f / P."
+  },
+  {
+    "chapter": 4,
+    "mark": 7,
+    "question": "Explain the principle of operation of a three-phase induction motor with a neat diagram, explaining how the relative speed between the rotating field and the rotor produces the rotor EMF, the rotor current and the torque."
+  },
+  {
+    "chapter": 4,
+    "mark": 7,
+    "question": "Define slip and derive the expressions for the rotor frequency, the rotor EMF and the rotor reactance as functions of slip, and state the value of the rotor frequency at standstill and at synchronous speed."
+  },
+  {
+    "chapter": 4,
+    "mark": 7,
+    "question": "A 4-pole, 50 Hz, three-phase induction motor runs at 1440 rpm at full load. Draw the torque-slip characteristic, and calculate the synchronous speed, the slip, the rotor frequency and the speed of the rotating field with respect to the rotor."
+  },
+  {
+    "chapter": 4,
+    "mark": 7,
+    "question": "A 6-pole, 50 Hz, three-phase induction motor operates with a slip of 3 per cent. Draw the circuit diagram and calculate the synchronous speed, the actual rotor speed and the frequency of the rotor EMF."
+  },
+  {
+    "chapter": 4,
+    "mark": 7,
+    "question": "A three-phase induction motor develops an air-gap power of 20 kW at a slip of 5 per cent. Draw the power flow diagram, and calculate the rotor copper loss, the gross mechanical power developed and the rotor efficiency."
+  },
+  {
+    "chapter": 4,
+    "mark": 7,
+    "question": "Explain the torque-slip characteristic of a three-phase induction motor with a neat curve, marking the starting torque, the maximum torque and the full-load operating point, and explain why the motor is designed to run with a small slip."
+  },
+  {
+    "chapter": 4,
+    "mark": 7,
+    "question": "A 25 kVA, 2000/250 V, 50 Hz single-phase transformer has 200 secondary turns. Draw the circuit diagram, and calculate the number of primary turns, the maximum flux in the core, the voltage per turn and the full-load currents on both sides."
+  },
+  {
+    "chapter": 4,
+    "mark": 7,
+    "question": "Explain the difference between core-type and shell-type construction of a transformer with neat diagrams, comparing them with respect to the winding arrangement, the leakage reactance, the mechanical strength and the suitability for high voltage."
+  },
+  {
+    "chapter": 4,
+    "mark": 7,
+    "question": "Explain eddy current loss and hysteresis loss in a transformer core with neat diagrams, state how each depends on the supply frequency and the flux density, and explain how laminated cores and silicon steel reduce these losses."
+  },
+  {
+    "chapter": 4,
+    "mark": 7,
+    "question": "Draw and explain the phasor diagram of a transformer on no load, showing the magnetising current, the core loss current and the no-load current, and explain why the no-load current is only a small percentage of the full-load current."
+  },
+  {
+    "chapter": 4,
+    "mark": 7,
+    "question": "A 100 kVA transformer has an iron loss of 1.5 kW and a full-load copper loss of 3.5 kW. Draw the equivalent circuit, and calculate the efficiency at full load for power factors of unity, 0.8 lagging and 0.6 lagging, and state the effect of the power factor on the efficiency."
+  },
+  {
+    "chapter": 4,
+    "mark": 7,
+    "question": "Explain why a three-phase induction motor is called a rotating transformer, drawing the analogy between the transformer and the induction motor with respect to the magnetic circuit, the induced EMF and the current transfer, and state the main differences between the two."
+  },
+  {
+    "chapter": 4,
+    "mark": 7,
+    "question": "Explain the starting methods used for a three-phase squirrel-cage induction motor, including the direct-on-line, star-delta and autotransformer starters, with neat circuit diagrams, and state the condition for selecting each method."
+  },
+  {
+    "chapter": 5,
+    "mark": 2,
+    "question": "How are electrical measuring instruments broadly classified? Give one example of each class."
+  },
+  {
+    "chapter": 5,
+    "mark": 2,
+    "question": "Define an absolute instrument and state one example."
+  },
+  {
+    "chapter": 5,
+    "mark": 2,
+    "question": "Define a secondary instrument and name its three types based on the function performed."
+  },
+  {
+    "chapter": 5,
+    "mark": 2,
+    "question": "Name the three essential torques required for the satisfactory operation of an indicating instrument."
+  },
+  {
+    "chapter": 5,
+    "mark": 2,
+    "question": "What is deflecting torque and on what factors does its magnitude depend?"
+  },
+  {
+    "chapter": 5,
+    "mark": 2,
+    "question": "What is controlling torque and why is it necessary in an indicating instrument?"
+  },
+  {
+    "chapter": 5,
+    "mark": 2,
+    "question": "Name the two methods of providing controlling torque in an indicating instrument."
+  },
+  {
+    "chapter": 5,
+    "mark": 2,
+    "question": "What is damping torque and why is it required?"
+  },
+  {
+    "chapter": 5,
+    "mark": 2,
+    "question": "Name the two types of damping commonly used in indicating instruments."
+  },
+  {
+    "chapter": 5,
+    "mark": 2,
+    "question": "State the working principle of a permanent-magnet moving-coil (PMMC) instrument."
+  },
+  {
+    "chapter": 5,
+    "mark": 2,
+    "question": "Why does a PMMC instrument read only direct current and not alternating current?"
+  },
+  {
+    "chapter": 5,
+    "mark": 2,
+    "question": "State two advantages and two disadvantages of a PMMC instrument."
+  },
+  {
+    "chapter": 5,
+    "mark": 2,
+    "question": "Why is the scale of a PMMC instrument uniform?"
+  },
+  {
+    "chapter": 5,
+    "mark": 2,
+    "question": "State the working principle of a moving-iron instrument."
+  },
+  {
+    "chapter": 5,
+    "mark": 2,
+    "question": "Name the two types of moving-iron instruments."
+  },
+  {
+    "chapter": 5,
+    "mark": 2,
+    "question": "State one advantage and one disadvantage of a moving-iron instrument."
+  },
+  {
+    "chapter": 5,
+    "mark": 2,
+    "question": "Why is a low resistance shunt connected in parallel with an ammeter?"
+  },
+  {
+    "chapter": 5,
+    "mark": 2,
+    "question": "Why is a high resistance multiplier connected in series with a voltmeter?"
+  },
+  {
+    "chapter": 5,
+    "mark": 2,
+    "question": "Name the instrument used for the measurement of power in a circuit and state the principle on which it works."
+  },
+  {
+    "chapter": 5,
+    "mark": 2,
+    "question": "What is an energy meter and in which unit does it record the energy consumed?"
+  },
+  {
+    "chapter": 5,
+    "mark": 2,
+    "question": "Name the four main sections of an electric power system, from generation to the consumer."
+  },
+  {
+    "chapter": 5,
+    "mark": 2,
+    "question": "Why is electrical energy transmitted at high voltage?"
+  },
+  {
+    "chapter": 5,
+    "mark": 2,
+    "question": "What is the standard low-voltage supply available in India for a domestic consumer and for a three-phase consumer?"
+  },
+  {
+    "chapter": 5,
+    "mark": 2,
+    "question": "What is the function of a miniature circuit breaker (MCB) and what is its main advantage over a fuse?"
+  },
+  {
+    "chapter": 5,
+    "mark": 2,
+    "question": "What is earthing and why is it necessary in an electrical installation?"
+  },
+  {
+    "chapter": 5,
+    "mark": 7,
+    "question": "Explain the essentials of an indicating instrument with the help of a block diagram, describing the deflecting system, the controlling system and the damping system, and state the requirement that must be satisfied by the three torques for a steady reading."
+  },
+  {
+    "chapter": 5,
+    "mark": 7,
+    "question": "Explain spring control and gravity control with neat diagrams, stating the expression for the controlling torque in each case, and compare the two methods with respect to the scale, the position of the instrument and the cost."
+  },
+  {
+    "chapter": 5,
+    "mark": 7,
+    "question": "Explain air friction damping and fluid friction damping with neat diagrams, state the expression for the damping torque, and explain why eddy current damping cannot be used in a moving-iron instrument."
+  },
+  {
+    "chapter": 5,
+    "mark": 7,
+    "question": "Explain the construction and working of a permanent-magnet moving-coil (PMMC) instrument with a neat labelled diagram, and derive the expression for its deflecting torque T = N B I A."
+  },
+  {
+    "chapter": 5,
+    "mark": 7,
+    "question": "Explain why a PMMC instrument cannot be used directly for the measurement of alternating current, and explain with a circuit diagram how a rectifier-type instrument overcomes this limitation."
+  },
+  {
+    "chapter": 5,
+    "mark": 7,
+    "question": "Explain the construction and working of an attraction-type moving-iron instrument with a neat diagram, derive the expression for its deflecting torque, and state its advantages and disadvantages."
+  },
+  {
+    "chapter": 5,
+    "mark": 7,
+    "question": "Explain the construction and working of a repulsion-type moving-iron instrument with a neat diagram, and state why this type is preferred over the attraction type for the measurement of high currents."
+  },
+  {
+    "chapter": 5,
+    "mark": 7,
+    "question": "Explain with neat circuit diagrams how a PMMC instrument is converted into an ammeter and into a voltmeter, and derive the expressions for the shunt resistance and the multiplier resistance."
+  },
+  {
+    "chapter": 5,
+    "mark": 7,
+    "question": "A PMMC instrument has a full-scale deflection current of 50 mA and a coil resistance of 20 ohm. Draw the circuit diagrams, and calculate the shunt resistance required to extend its range to 5 A and the multiplier resistance required to extend its range to 100 V."
+  },
+  {
+    "chapter": 5,
+    "mark": 7,
+    "question": "Explain the construction and working of a dynamometer-type wattmeter with a neat connection diagram, state why the pressure coil is connected across the supply, and explain the errors caused by the connection of the two coils."
+  },
+  {
+    "chapter": 5,
+    "mark": 7,
+    "question": "Explain the construction and working of an induction-type energy meter with a neat diagram, describing the driving system, the braking system and the registering mechanism, and explain why it can be used only on AC supply."
+  },
+  {
+    "chapter": 5,
+    "mark": 7,
+    "question": "An energy meter is connected to a 230 V, 5 A load which operates for 10 hours a day for 30 days. Draw the connection diagram, and calculate the energy consumed in kWh, the monthly bill at Rs. 6 per unit and the reading of the meter if its constant is 1200 revolutions per kWh."
+  },
+  {
+    "chapter": 5,
+    "mark": 7,
+    "question": "Explain the single-line diagram of an electric power system from the generating station to the consumer, describing generation, primary transmission, secondary transmission, primary distribution and secondary distribution, and state the typical voltage level at each stage."
+  },
+  {
+    "chapter": 5,
+    "mark": 7,
+    "question": "Explain the primary and secondary transmission of electrical energy with a neat block diagram, and explain with reasons why transmission is carried out at high voltage and distribution at low voltage."
+  },
+  {
+    "chapter": 5,
+    "mark": 7,
+    "question": "Explain the low-voltage distribution system with a neat diagram, describing the 400 V three-phase four-wire and the 230 V single-phase supply, and state how the neutral conductor is used in a domestic installation."
+  },
+  {
+    "chapter": 5,
+    "mark": 7,
+    "question": "Explain the components of low-tension switchgear - switch fuse unit, miniature circuit breaker, moulded-case circuit breaker and earth-leakage circuit breaker - with neat diagrams, and state the function and the field of application of each."
+  },
+  {
+    "chapter": 5,
+    "mark": 7,
+    "question": "Explain the construction and working of a miniature circuit breaker with a neat diagram, describing the thermal and the magnetic tripping mechanisms, and state why an MCB is preferred over a rewirable fuse."
+  },
+  {
+    "chapter": 5,
+    "mark": 7,
+    "question": "Explain the construction and working of an earth-leakage circuit breaker with a neat circuit diagram, state the principle of its operation, and explain why it is essential for the safety of a domestic installation."
+  },
+  {
+    "chapter": 5,
+    "mark": 7,
+    "question": "Explain the different types of wires and cables used in domestic and industrial installations, describing the conductor material, the insulation used and the application of each type, with neat sketches of a few cross-sections."
+  },
+  {
+    "chapter": 5,
+    "mark": 7,
+    "question": "Explain the necessity of earthing with a neat diagram, describe pipe earthing and plate earthing, and state the recommended values of earth resistance for domestic and substation installations."
+  },
+  {
+    "chapter": 5,
+    "mark": 7,
+    "question": "Explain the construction and working of a lead-acid battery with a neat diagram, write the chemical reactions taking place during charging and discharging, and state its advantages, disadvantages and applications."
+  },
+  {
+    "chapter": 5,
+    "mark": 7,
+    "question": "Explain the construction and working of a nickel-cadmium battery and a lithium-ion battery, compare them with a lead-acid battery with respect to energy density, life, cost and maintenance, and state where each is used."
+  },
+  {
+    "chapter": 5,
+    "mark": 7,
+    "question": "A 12 V, 100 Ah battery supplies a 500 W inverter which operates at an efficiency of 90 per cent. Draw the circuit diagram, and calculate the current drawn from the battery, the backup time available and the energy stored in the battery in kWh."
+  },
+  {
+    "chapter": 5,
+    "mark": 7,
+    "question": "Explain the difference between an MCB and a moulded-case circuit breaker, and between a fuse and a circuit breaker, presenting the comparison in a table, and state the criteria used for selecting the rating of a protective device for a domestic circuit."
+  },
+  {
+    "chapter": 5,
+    "mark": 7,
+    "question": "Explain the classification of secondary instruments into indicating, integrating and recording instruments with one example of each, and state the essential requirement that the scale of each type must satisfy."
+  }
+],
         uhv: [
           {
             chapter: 1,
@@ -5203,6 +6459,9 @@
       // ── ACADEMIC YEAR SELECTION (1, 2, 3, 4) ──
       function selectYear(yearNum, targetSubject = null) {
         currentYear = parseInt(yearNum, 10);
+        try {
+          localStorage.setItem("btechx_selected_year", `year-${currentYear}`);
+        } catch (e) {}
 
         // Update Year circles active UI
         const circleBtns = document.querySelectorAll(".year-circle-btn");
@@ -5943,8 +7202,8 @@
 
         const branchEl = document.getElementById("sheetBranchDetails");
         if (branchEl)
-          branchEl.textContent =
-            meta.branch || "B.Tech • 2nd Year (All Branches)";
+          branchEl.innerHTML =
+            meta.branch || (meta.year === 1 ? "B.Tech &bull; 1st Year (All Branches)" : "B.Tech &bull; 2nd Year (All Branches)");
 
         // Inject generated content
         const container = document.getElementById("paperSectionsContainer");
@@ -6151,13 +7410,14 @@
         if (!selectEl || !selectEl.value) return;
         const sub = SUBJECT_METADATA[selectEl.value];
         if (sub && sub.disabled) {
-          selectEl.value = "uhv";
-          currentSubjectKey = "uhv";
-          if (typeof showToast === "function") {
-            showToast(
-              `Currently only Universal Human Values (HS201) is active for question paper generation.`,
-            );
-          }
+          const yearSubjects = Object.keys(SUBJECT_METADATA).filter(
+            (k) => SUBJECT_METADATA[k].year === currentYear,
+          );
+          const fallback =
+            yearSubjects.find((k) => !SUBJECT_METADATA[k]?.disabled) ||
+            (currentYear === 1 ? "bee" : "uhv");
+          selectEl.value = fallback;
+          currentSubjectKey = fallback;
           return;
         }
         currentSubjectKey = selectEl.value;
@@ -6196,15 +7456,45 @@
 
         const urlParams = new URLSearchParams(window.location.search);
         const subParam = urlParams.get("sub");
-        let initialSubject = "uhv";
-        let initialYear = 2;
+        const yearParam = urlParams.get("year");
+        let initialSubject = null;
+        let initialYear = null;
 
         if (subParam && SUBJECT_METADATA[subParam.toLowerCase()]) {
           initialSubject = subParam.toLowerCase();
           initialYear = SUBJECT_METADATA[initialSubject].year;
+        } else if (yearParam) {
+          const y = parseInt(yearParam, 10);
+          if (y >= 1 && y <= 4) initialYear = y;
+        }
+
+        if (!initialYear) {
+          try {
+            const savedYear = localStorage.getItem("btechx_selected_year");
+            if (savedYear) {
+              const y = parseInt(savedYear.replace("year-", ""), 10);
+              if (y >= 1 && y <= 4) initialYear = y;
+            }
+          } catch (e) {}
+        }
+
+        if (!initialYear) initialYear = 1;
+
+        if (!initialSubject) {
+          if (initialYear === 1) initialSubject = "bee";
+          else if (initialYear === 2) initialSubject = "uhv";
         }
 
         selectYear(initialYear, initialSubject);
+      });
+
+      window.addEventListener("storage", (e) => {
+        if (e.key === "btechx_selected_year" && e.newValue) {
+          const y = parseInt(e.newValue.replace("year-", ""), 10);
+          if (y >= 1 && y <= 4 && y !== currentYear) {
+            selectYear(y);
+          }
+        }
       });
 
       window.addEventListener("resize", () => {
