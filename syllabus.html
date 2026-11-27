@@ -4,6 +4,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+      (function () {
+        try {
+          var z = localStorage.getItem("btechx_page_zoom");
+          if (z && z !== "1") {
+            document.documentElement.style.zoom = z;
+          }
+        } catch (e) {}
+      })();
+    </script>
   <title>BTech Syllabus - BTechX</title>
   <meta name="description" content="Subject-wise syllabus for BTech engineering curriculum.">
   <meta name="keywords" content="BTech syllabus, BTech curriculum, BTechX">
@@ -732,6 +742,7 @@
             <li><a href="index.html">Home</a></li>
             <li><a href="index.html#subjects">Subjects</a></li>
             <li><a href="syllabus.html">Syllabus</a></li>
+            <li><a href="paper.html">Model Paper</a></li>
             <li><a href="about.html">About & Contact</a></li>
           </ul>
         </div>

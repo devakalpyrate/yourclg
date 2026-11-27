@@ -4,6 +4,16 @@
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script>
+      (function () {
+        try {
+          var z = localStorage.getItem("btechx_page_zoom");
+          if (z && z !== "1") {
+            document.documentElement.style.zoom = z;
+          }
+        } catch (e) {}
+      })();
+    </script>
     <title>Intro to Electronics (IEE) Notes - BTechX</title>
     <meta
       content="Introduction to Electronics Engineering notes on semiconductor diodes, BJT transistors, digital electronics, and communication systems for BTech."
@@ -180,6 +190,7 @@
           <a href="../index.html">Home</a>
           <a class="active" href="../index.html#subjects">Subjects</a>
           <a href="../syllabus.html">Syllabus</a>
+          <a href="../paper.html">Model Paper</a>
           <a href="../about.html">About &amp; Contact</a>
           <div class="apps-launcher-wrapper" id="appsLauncherWrapper">
             <button
@@ -268,8 +279,7 @@
                       alt="Angkor AI"
                       onerror="
                         this.onerror = null;
-                        this.src =
-                          'https://angkor-ai.vercel.app/favicon.ico';
+                        this.src = 'https://angkor-ai.vercel.app/favicon.ico';
                       "
                     />
                   </div>
@@ -308,7 +318,8 @@
                       alt="Dukaan AI"
                       onerror="
                         this.onerror = null;
-                        this.src = 'https://app-nine-mu-47.vercel.app/favicon.ico';
+                        this.src =
+                          'https://app-nine-mu-47.vercel.app/favicon.ico';
                       "
                     />
                   </div>
@@ -343,6 +354,7 @@
         <a href="../index.html">Home</a>
         <a class="active" href="../index.html#subjects">Subjects</a>
         <a href="../syllabus.html">Syllabus</a>
+        <a href="../paper.html">Model Paper</a>
         <a href="../about.html">About &amp; Contact</a>
       </div>
     </div>
@@ -576,6 +588,7 @@
               <li><a href="../index.html">Home</a></li>
               <li><a href="../index.html#subjects">Subjects</a></li>
               <li><a href="../syllabus.html">Syllabus</a></li>
+              <li><a href="../paper.html">Model Paper</a></li>
               <li><a href="../about.html">About &amp; Contact</a></li>
             </ul>
           </div>

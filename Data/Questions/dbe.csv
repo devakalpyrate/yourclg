@@ -1,59 +1,572 @@
-Chapter,Mark,Question
-1,2,Define DBMS and list two key advantages over traditional file processing systems.
-1,2,What is data abstraction? Name the three levels of data abstraction.
-1,2,Distinguish between Physical Data Independence and Logical Data Independence.
-1,2,What is a Data Dictionary and what metadata does it store?
-1,2,Define DDL and DML with one SQL command example for each.
-1,2,What are the primary roles and responsibilities of a Database Administrator (DBA)?
-1,2,Differentiate between Database Schema and Database Instance.
-1,5,Explain the Three-Schema Architecture of DBMS with a neat block diagram.
-1,5,Describe the overall system architecture and functional components of a DBMS.
-1,5,"Compare Relational, Hierarchical, and Network data models with their merits and demerits."
-1,5,Explain the functions of Storage Manager and Query Processor in DBMS.
-1,7,Discuss DBMS system structure in detail. Explain how data independence is achieved through different architectural layers.
-1,7,"Explain the various categories of DBMS users. Describe the duties of DBA in database design, security, and maintenance."
-2,2,"Define Primary Key, Candidate Key, and Super Key with suitable examples."
-2,2,What is Referential Integrity Constraint? Explain using foreign key syntax.
-2,2,What are weak entity sets? How are they represented and identified in an ER diagram?
-2,2,Define Cardinality Ratio and Participation Constraint in ER modeling.
-2,2,What is an identifying relationship in an ER model?
-2,2,Distinguish between Simple vs Composite attributes and Single-valued vs Multi-valued attributes.
-2,5,Explain different types of attributes in an ER model with suitable examples and standard notations.
-2,5,"Explain Specialization, Generalization, and Aggregation in Extended ER (EER) modeling with examples."
-2,5,Discuss the step-by-step rules for converting an ER diagram into Relational Tables.
-2,5,"What are integrity constraints? Explain Domain Constraints, Entity Integrity, and Key Constraints."
-2,7,"Construct a complete ER diagram for a University Management System showing entities (Student, Department, Course, Instructor), attributes, and relationship constraints. Map it to relational schema."
-2,7,"Draw an ER diagram for a Hospital Management System with Doctor, Patient, Ward, and Treatment entities. Demonstrate the conversion into relational tables."
-3,2,What is Relational Algebra? List any four fundamental operations.
-3,2,Differentiate between Natural Join and Theta Join with an example.
-3,2,What is Tuple Relational Calculus (TRC)? Write its general syntax.
-3,2,Explain the Select (sigma) and Project (pi) operations in Relational Algebra with examples.
-3,2,Define Cartesian Product in relational algebra with an example.
-3,5,"Explain Set operations (Union, Intersection, Set Difference, Cartesian Product) in Relational Algebra with examples."
-3,5,"Explain different types of Outer Joins (Left Outer, Right Outer, Full Outer Join) with sample relations and results."
-3,5,Explain Division (/) operation in Relational Algebra with an illustrative scenario.
-3,7,"Given relations: Student(RollNo, Name, Branch, CGPA), Course(CourseId, CName, Credits), Enrolls(RollNo, CourseId, Sem). Formulate relational algebra queries for 5 distinct analytical requests."
-3,7,Explain the equivalence rules for relational algebra expressions and discuss their role in query optimization.
-4,2,What is Functional Dependency? Give a formal definition and an example.
-4,2,"What are Insertion, Deletion, and Update anomalies in unnormalized relations?"
-4,2,Define First Normal Form (1NF) and state how multi-valued attributes are eliminated.
-4,2,Define Second Normal Form (2NF) and explain partial dependency.
-4,2,What is Boyce-Codd Normal Form (BCNF)? How does it differ from 3NF?
-4,2,What is transitive dependency? Illustrate with an example.
-4,5,State and prove Armstrong's Axioms for functional dependencies.
-4,5,Explain Third Normal Form (3NF) with a detailed example showing removal of transitive dependencies.
-4,5,Explain Boyce-Codd Normal Form (BCNF) and demonstrate step-by-step decomposition of a relation into BCNF.
-4,5,Explain Lossless-Join Decomposition and Dependency Preservation with mathematical conditions.
-4,7,"Consider relation R(A, B, C, D, E) with FDs {A->BC, CD->E, B->D, E->A}. Find all candidate keys and determine the highest normal form of R. Decompose into 3NF if necessary."
-4,7,"Explain 1NF, 2NF, 3NF, and BCNF comprehensively with a complete student-faculty-department database normalization walk-through."
-5,2,What is a Database Transaction? State the ACID properties.
-5,2,Define Serializability and Conflict Serializability.
-5,2,What is Deadlock in DBMS? Mention two deadlock prevention strategies.
-5,2,What is the Dirty Read (Temporary Update) problem in concurrent executions?
-5,2,Explain Write-Ahead Logging (WAL) protocol.
-5,5,Explain the ACID properties of a transaction in detail with a banking fund-transfer example.
-5,5,"Explain Two-Phase Locking (2PL) protocol. Compare Basic 2PL, Strict 2PL, and Rigorous 2PL."
-5,5,Describe Log-Based Recovery techniques (Deferred Update vs Immediate Update).
-5,5,Explain how a Precedence (Serialization) Graph is constructed to test conflict serializability with an example schedule.
-5,7,"Discuss Concurrency Control techniques in detail: Lock-based protocols, Timestamp-ordering protocols, and Validation-based protocols."
-5,7,"Discuss Database Recovery Management in detail: Checkpointing, Shadow Paging, and the ARIES recovery algorithm."
+Chapter,Question,Marks,Diagram,ExpectedMarks
+1,"A university stores student, examination and fee data in separate files. Discuss any five problems that may arise and explain how a DBMS can solve them.",2,,2
+1,Answer any one [5x2=10] (a) List out various integrity constraints in Database Management system. (b) Discuss about different types of keys in a database system with appropriate example of each.,2,,2
+1,Answer any one. [5x2=10].,2,,2
+1,"Compare and contrast Generalization, Specialization, and Aggregation.",2,,2
+1,Compare composite and multivalued attributes.,2,,2
+1,Define DBMS and list two key advantages over traditional file processing systems.,2,,2
+1,Define DBMS.,2,,2
+1,Define DDL and DML with one SQL command example for each.,2,,2
+1,Define cardinality ratio and name its four types.,2,,2
+1,Define data abstraction.,2,,2
+1,Define data dictionary and state its purpose.,2,,2
+1,Define data independence and name its two types.,2,,2
+1,Define data model.,2,,2
+1,"Define data, database and DBMS.",2,,2
+1,Define database.,2,,2
+1,Define degree of a relationship.,2,,2
+1,Define entity and entity set with an example.,2,,2
+1,Define generalization and specialization.,2,,2
+1,Define the following ER component: i) Weak and strong entity Set ii) Generalization and Specialization.,2,,2
+1,Describe the differences between the ER model and the relational model.,2,,2
+1,Differentiate between Database Schema and Database Instance.,2,,2
+1,Differentiate between data and information.,2,,2
+1,Differentiate between data and metadata.,2,,2
+1,"Differentiate between primary index, secondary index and clustering index.",2,,2
+1,"Differentiate single-valued and multivalued, stored and derived attributes.",2,,2
+1,Distinguish between Physical Data Independence and Logical Data Independence.,2,,2
+1,Distinguish between physical and logical data independence.,2,,2
+1,Explain DBMS architecture with a suitable diagram.,2,,2
+1,Explain exhaustive relationship in an ER model with an example.,2,,2
+1,"Explain sequential, indexed and hashed file organization.",2,,2
+1,Explain the meaning of a composite attribute in an ER model with an example.,2,,2
+1,Explain the significance of descriptive attributes and NULL attributes in a database with suitable example.,2,,2
+1,Explain the significance of descriptive attributes and NULL attributes.,2,,2
+1,"Explain the term ""exhaustive relationship"" in an ER model.",2,,2
+1,Give an example of a one-to-many relationship.,2,,2
+1,List any two steps for mapping an ER model into a relational model.,2,,2
+1,List different types of degrees of relationships in an ER model.,2,,2
+1,List the different types of degrees of relationships.,2,,2
+1,List the features of the extended ER (EER) model.,2,,2
+1,List the responsibilities of a Database Administrator.,2,,2
+1,Mention the basic difference between physical and logical data independence. Draw a labelled diagram of three- schema architecture of database system.,2,,2
+1,Mention the significance of descriptive attributes in an ER model with proper examples.,2,,2
+1,Name any two disadvantages of a file processing system.,2,,2
+1,Name four types of data models.,2,,2
+1,State the concept of data integrity.,2,,2
+1,What are the primary roles and responsibilities of a Database Administrator (DBA)?,2,,2
+1,What is RAID?,2,,2
+1,What is a B+ Tree?,2,,2
+1,What is a DBMS?,2,,2
+1,What is a Data Dictionary and what metadata does it store?,2,,2
+1,What is a Data Dictionary?,2,,2
+1,What is a NULL value?,2,,2
+1,What is a composite attribute? Give an example.,2,,2
+1,What is a data model? Name four types.,2,,2
+1,What is a database system?,2,,2
+1,What is a database system? How is it different from a DBMS?,2,,2
+1,What is a derived attribute?,2,,2
+1,What is a file processing system? Mention any two disadvantages.,2,,2
+1,What is a key attribute?,2,,2
+1,What is a multivalued attribute?,2,,2
+1,What is a participation constraint? Distinguish total from partial.,2,,2
+1,What is a relationship and a relationship set?,2,,2
+1,What is a schema diagram?,2,,2
+1,What is a schema?,2,,2
+1,What is a weak entity set?,2,,2
+1,What is aggregation in the ER model?,2,,2
+1,What is an EER model?,2,,2
+1,What is an EER model? Name its features.,2,,2
+1,What is an identifying relationship? What is a partial key?,2,,2
+1,What is an index in a database?,2,,2
+1,What is an object-oriented data model?,2,,2
+1,What is concurrent access?,2,,2
+1,What is data abstraction?,2,,2
+1,What is data abstraction? Name the three levels of data abstraction.,2,,2
+1,What is data inconsistency?,2,,2
+1,What is data independence? Name its types.,2,,2
+1,What is database security?,2,,2
+1,What is logical data independence?,2,,2
+1,What is metadata? Give an example.,2,,2
+1,What is metadata? Give one example.,2,,2
+1,What is ordered indexing?,2,,2
+1,What is partial participation?,2,,2
+1,What is participation constraint?,2,,2
+1,What is physical data independence?,2,,2
+1,What is role in a relationship? What is a recursive relationship?,2,,2
+1,Who are the users of a DBMS?,2,,2
+1,Why are indices used?,2,,2
+1,Why is B+ Tree generally preferred to B Tree for database indexing?,2,,2
+1,Why is data redundancy undesirable?,2,,2
+1,Write about the anomalies of the hierarchical data model.,2,,2
+1,Write the fundamental differences between Network and hierarchical model.,2,,2
+1,Write the fundamental differences between the network and hierarchical model.,2,,2
+1,"Compare Relational, Hierarchical, and Network data models with their merits and demerits.",5,,5
+1,Describe the overall system architecture and functional components of a DBMS.,5,,5
+1,"Differentiate among Database, Database System and DBMS.",5,,5
+1,"Differentiate between strong entity and weak entity, and between total participation and partial participation.",5,,5
+1,Differentiate logical and physical data independence with examples.,5,,5
+1,Draw and explain the system architecture of a DBMS.,5,,5
+1,"Explain EER features including specialization, generalization and inheritance.",5,,5
+1,Explain aggregation and category (union type) in the EER model.,5,,5
+1,Explain file organization and record organization in database systems.,5,,5
+1,Explain logical and physical data independence with suitable examples.,5,,5
+1,Explain metadata and its role in a database system.,5,,5
+1,"Explain simple, composite, single-valued, multivalued, stored, derived and key attributes with examples.",5,,5
+1,Explain the ER diagram symbols.,5,,5
+1,Explain the Three-Schema Architecture of DBMS with a neat block diagram.,5,,5
+1,Explain the basic organization of magnetic disk storage in a DBMS.,5,,5
+1,Explain the characteristics of the relational model.,5,,5
+1,Explain the classification of data models.,5,,5
+1,Explain the constraints on generalization and specialization.,5,,5
+1,Explain the data dictionary and its contents.,5,,5
+1,Explain the disadvantages of a traditional file processing system.,5,,5
+1,Explain the disadvantages of a traditional file processing system. How does a DBMS overcome these problems?,5,,5
+1,Explain the functions of Storage Manager and Query Processor in DBMS.,5,,5
+1,Explain the functions of a DBMS.,5,,5
+1,Explain the hierarchical model with its advantages and disadvantages.,5,,5
+1,Explain the need for a DBMS using a university database as an example.,5,,5
+1,Explain the need for a DBMS.,5,,5
+1,Explain the network model with its advantages and disadvantages.,5,,5
+1,"Explain the three levels of data abstraction: physical level, logical level and view level.",5,,5
+1,Explain the users of a DBMS.,5,,5
+1,What is RAID? Explain its purpose in database storage.,5,,5
+1,"Briefly explain data atomicity and isolation with data inconsistency in DBMS, using examples.",7,,5
+1,"Compare strong and weak entity sets, with an example. Explain identifying relationship and partial key.",7,,5
+1,Compare the ER model with the EER model and explain the EER features.,7,,5
+1,"Construct a neat ER diagram for the hospital database using the following information: A hospital has multiple specialized wards each identified by a unique name and tracking the total count of current patients. A patient has a unique ID, name, address (place, city, pin), and phone numbers. Patients undergo multiple tests, and each test has a unique test number, category, and final result. Not all patients are advised for tests. A Ward hosts multiple patients. The admission date and time are recorded upon entry. Each ward must have at least one patient. A doctor specialized to/ belongs to one specific ward but each ward can have multiple doctors.Not all wards have specialized doctors. Each patient is assigned to one specific doctor/leading consultants, but other doctors may examine them if needed. Only some doctors are acting as leading consultant for the patients.",7,,7
+1,"Construct a neat ER diagram using the following information. No-Town Recording studio has decided maintain database about its musicians, albums and instruments as follows.Each musician has an unique id, a name, an address, and a phone number, where no address has more than one phone number. Each instrument that is used in songs has a name and a musical key.Each album that is recorded has a title, a copyright date, a format (e.g., CD or MC), and an album identifier. Each song recorded at No-town studio has a title and an author. Each musician may play several instruments, and a given instrument may be played by several musicians. Some instruments are there which are not played by any musician. Each album can contain multiple songs along with each album must contain at least one song, and each song must belong to exactly one album.Each song is performed by one or more musicians, and a musician may perform a number of songs where some musicians might not perform any songs . Each album is produced by exactly one musician. A musician may produce zero or more albums.",7,,7
+1,Convert the hospital ER model into relational tables.,7,,7
+1,Design an ER diagram for a banking database and map it to relational tables.,7,,7
+1,"Design an ER diagram for a company database (departments, projects, employees, dependents).",7,,7
+1,Design an ER diagram for a hotel management system and map it to tables.,7,,7
+1,Design an ER diagram for a university database and map it to relational tables.,7,,7
+1,Design an ER diagram for a university registrar's office and map it to tables.,7,,7
+1,Discuss DBMS system structure in detail. Explain how data independence is achieved through different architectural layers.,7,,7
+1,Explain B Tree and B+ Tree indexing. Compare them and justify why B+ Tree is commonly used for database indexing.,7,,5
+1,Explain cardinality ratios and participation constraints with an ER diagram.,7,,5
+1,Explain data integrity and the various integrity constraints.,7,,5
+1,"Explain generalization, specialization and aggregation with suitable diagrams.",7,,5
+1,Explain the anomalies of the hierarchical and network models.,7,,5
+1,Explain the different record-based data models with examples and state the advantages of the relational model.,7,,5
+1,Explain the disadvantages of a traditional file processing system and the need for a DBMS.,7,,5
+1,"Explain the major components of the ER model: entities, attributes, relationships and keys, with relationship types.",7,,5
+1,Explain the users of a DBMS and the responsibilities of a Database Administrator.,7,,5
+1,"Explain the various categories of DBMS users. Describe the duties of DBA in database design, security, and maintenance.",7,,7
+1,Explain the various types of attributes in the ER model with suitable examples.,7,,5
+1,Explain the working of B+ Tree insertion using a suitable example.,7,,5
+1,Explain weak entity sets in the ER model: (i) difference from strong entity; (ii) identifying relationship and partial key; (iii) suitable example such as Student-Dependent or Building-Apartment.,7,,7
+1,Illustrate the three-schema levels of database architecture and explain how data abstraction helps.,7,,5
+2,"""All primary keys are candidate keys."" Justify.",2,,2
+2,Can a composite primary key contain two foreign keys? Explain using ENROLLMENT or ORDER_ITEM.,2,,2
+2,Can a composite primary key contain two foreign keys? Explain with an example.,2,,2
+2,Can a foreign key be NULL? Can it contain duplicate values?,2,,2
+2,Can a foreign key be NULL? Explain with an appropriate relationship.,2,,2
+2,Can a foreign key contain duplicate values?,2,,2
+2,Can a foreign key contain duplicate values? Justify using EMPLOYEE and DEPARTMENT.,2,,2
+2,Can a primary key consist of more than one attribute? Explain.,2,,2
+2,Can a table have more than one candidate key?,2,,2
+2,Can a table have more than one candidate key? Which becomes primary?,2,,2
+2,Can every super key be a candidate key? Justify with an example.,2,,2
+2,"Can two candidate keys exist in the same relation? If yes, which one becomes the primary key?",2,,2
+2,"Compare B Tree and B+ Tree. Additional Practice: Finding Keys in Relations Problem 1: STUDENT(StudentID, RollNo, Name, Email, Department) StudentID, RollNo and Email are individually unique. Find candidate keys, primary key, alternate keys and examples of super keys. Problem 2: EMPLOYEE(EmpID, AadhaarNo, Email, Name, Department) EmpID, AadhaarNo and Email are individually unique. Find all candidate keys and suitable alternate keys. Problem 3: BOOK(BookID, ISBN, Title, Author, Publisher) BookID and ISBN are unique. Find candidate keys and at least eight super keys. Problem 4: PRODUCT(ProductID, SKU, Barcode, Name, CategoryID) ProductID, SKU and Barcode are unique. Find candidate keys, primary key and alternate keys. Problem 5: ORDER_ITEM(OrderID, ProductID, Quantity, UnitPrice) The same product occurs at most once in an order. Find the minimal key and justify why it is composite. Problem 6: ENROLLMENT(StudentID, CourseID, Semester, Grade) A student may register for many courses and a course may have many students. Identify a suitable composite primary key. Problem 7: FLIGHT(FlightNo, FlightDate, Source, Destination, AircraftNo) The same FlightNo can operate on different dates. Determine an appropriate candidate key. Problem 8: ROOM_BOOKING(RoomNo, BookingDate, TimeSlot, CustomerID) A room may be booked multiple times on the same day but not for the same time slot. Find the candidate key. Problem 9: RESULT(StudentID, SubjectCode, Semester, Marks, Grade) A student has one result for each subject in a particular semester. Find an appropriate composite key. Problem 10: BANK_ACCOUNT(AccountNo, CustomerID, BranchCode, AccountType, Balance) AccountNo uniquely identifies every account. Identify candidate key, primary key, possible foreign keys and examples of super keys.",2,,2
+2,"Compare ER Model, Relational Model, Object-Oriented Model and Object-Relational Model with examples.",2,,2
+2,"Compare sequential, indexed and hashed file organisation.",2,,2
+2,"Consider CUSTOMER(CustomerID, AadhaarNo, Email, Name, City). Assume CustomerID, AadhaarNo and Email uniquely identify customers. If CustomerID is selected as the primary key, find all candidate keys, alternate keys, five super keys and explain why {CustomerID, Name} is a super key but not a candidate key.",2,,2
+2,"Consider EMPLOYEE works_for DEPARTMENT. Each employee works for exactly one department and one department can have many employees. Identify cardinality ratio, participation of EMPLOYEE, possible participation of DEPARTMENT, primary keys and foreign key after relational mapping.",2,,2
+2,"Consider STUDENT(StudentID, Name, DeptID) and DEPARTMENT(DeptID, DeptName). Identify primary and foreign keys and explain the referential integrity constraint.",2,,2
+2,Define Cardinality Ratio and Participation Constraint in ER modeling.,2,,2
+2,"Define Primary Key, Candidate Key, and Super Key with suitable examples.",2,,2
+2,Define alternate key.,2,,2
+2,Define candidate key.,2,,2
+2,Define cardinality ratio in an ER model.,2,,2
+2,Define composite key.,2,,2
+2,Define domain.,2,,2
+2,Define foreign key.,2,,2
+2,Define primary key and state its properties.,2,,2
+2,Define referential integrity.,2,,2
+2,Define relation and relation schema.,2,,2
+2,Define relation cardinality and give an example.,2,,2
+2,"Define relation, tuple, attribute and domain.",2,,2
+2,Define role in an ER relationship.,2,,2
+2,Define super key and candidate key.,2,,2
+2,Define super key.,2,,2
+2,Define tuple.,2,,2
+2,Differentiate between relation intension and relation extension.,2,,2
+2,Differentiate between schema and instance.,2,,2
+2,Differentiate primary key from foreign key.,2,,2
+2,"Differentiate primary, secondary and clustering index.",2,,2
+2,Differentiate relation intension from relation extension.,2,,2
+2,Distinguish between Simple vs Composite attributes and Single-valued vs Multi-valued attributes.,2,,2
+2,"Explain ER to relational mapping for strong entity, weak entity, 1:1, 1:N and M:N relationships.",2,,2
+2,Explain record organisation in a database.,2,,2
+2,Explain the basic organisation of magnetic disk storage.,2,,2
+2,Explain the domain constraint.,2,,2
+2,Explain the entity integrity constraint.,2,,2
+2,Explain the key constraint.,2,,2
+2,Explain the referential integrity constraint.,2,,2
+2,How can we identify a foreign key in a table?,2,,2
+2,List any two Relational Model Constraints and describe their significance with suitable examples.,2,,2
+2,List any two steps for mapping a ER model into a relational model with suitable example.,2,,2
+2,List the steps of mapping an ER model to the relational model.,2,,2
+2,State the difference between single-valued vs multivalued attributes and stored vs derived attributes with suitable examples.,2,,2
+2,What are relational model constraints? Name the main types.,2,,2
+2,What are weak entity sets? How are they represented and identified in an ER diagram?,2,,2
+2,What happens if a foreign key value does not exist in the referenced relation? Which constraint is violated?,2,,2
+2,What is RAID? Why is it used?,2,,2
+2,What is Referential Integrity Constraint? Explain using foreign key syntax.,2,,2
+2,What is a B+ tree?,2,,2
+2,What is a composite key?,2,,2
+2,What is a descriptive attribute? Give an example.,2,,2
+2,What is a foreign key?,2,,2
+2,What is a recursive relationship?,2,,2
+2,What is a relation instance?,2,,2
+2,What is a relation schema? What is a relation instance?,2,,2
+2,What is a relational data model?,2,,2
+2,What is a relationship set?,2,,2
+2,What is a schema diagram?,2,,2
+2,What is an identifying relationship in an ER model?,2,,2
+2,What is an identifying relationship?,2,,2
+2,What is an index? Why are indices used?,2,,2
+2,What is an object-relational model?,2,,2
+2,What is meant by detailed storage architecture?,2,,2
+2,What is ordered indexing?,2,,2
+2,What is relation cardinality?,2,,2
+2,What is relation degree and relation cardinality?,2,,2
+2,What is the degree of a relation?,2,,2
+2,What is the significance of NULL attributes in a database?,2,,2
+2,Why can Email be an alternate key even though it uniquely identifies a customer?,2,,2
+2,Why is the relational model called a record-based model?,2,,2
+2,"Why is {OrderID, ProductID} a candidate key in ORDER_ITEM while OrderID alone is not?",2,,2
+2,Why must a candidate key be minimal while a super key need not be minimal?,2,,2
+2,Why must a candidate key be minimal while a super key need not be?,2,,2
+2,Compare B tree and B+ tree.,5,,5
+2,"Consider EMPLOYEE(EmpID, AadhaarNo, Name, Email, Salary). Assume EmpID, AadhaarNo and Email are individually unique. Determine candidate keys, one possible primary key, alternate keys and at least six super keys.",5,,5
+2,"Consider ORDER_ITEM(OrderID, ProductID, Quantity, UnitPrice). Assuming a product occurs only once in a particular order, identify the candidate key and possible primary key. Explain why neither OrderID nor ProductID alone can be the primary key.",5,,5
+2,"Consider PRODUCT(ProductID, SKU, Barcode, Name, CategoryID). Assume ProductID, SKU and Barcode are unique. Identify super keys, candidate keys, primary key, alternate keys and foreign key, assuming CategoryID references CATEGORY.",5,,5
+2,"Consider STUDENT(StudentID, RollNo, Name, Department, Email). Assume StudentID, RollNo and Email are individually unique. Find super keys, candidate keys, the primary key if StudentID is selected, and alternate keys.",5,,5
+2,Discuss the step-by-step rules for converting an ER diagram into Relational Tables.,5,,5
+2,"Explain 1:1, 1:N and M:N relationships with suitable real-world examples.",5,,5
+2,"Explain Specialization, Generalization, and Aggregation in Extended ER (EER) modeling with examples.",5,,5
+2,Explain all major relational model constraints.,5,,5
+2,"Explain alternate, composite and foreign keys with examples.",5,,5
+2,Explain different types of attributes in an ER model with suitable examples and standard notations.,5,,5
+2,Explain domain and key constraints with examples.,5,,5
+2,Explain entity integrity and referential integrity constraints with examples.,5,,5
+2,Explain entity integrity and referential integrity with examples.,5,,5
+2,"Explain entity, attribute, relationship, role, cardinality ratio and participation constraint with suitable examples.",5,,5
+2,"Explain file organisation - sequential, indexed and hashed.",5,,5
+2,"Explain primary, secondary and clustering indexes.",5,,5
+2,"Explain schema, instance, intension and extension with examples.",5,,5
+2,"Explain super key, candidate key and primary key with an example.",5,,5
+2,"Explain the mapping of 1:1, 1:N and N:1 relationships.",5,,5
+2,Explain the mapping of M:N relationships and weak entity sets.,5,,5
+2,Explain the mapping of a strong entity set with composite and multivalued attributes.,5,,5
+2,Explain the referential actions available when a parent row changes.,5,,5
+2,Explain the storage hierarchy and the RAID levels used for databases.,5,,5
+2,"Explain the terms relation, tuple, attribute, domain, degree and cardinality.",5,,5
+2,Reduce the given E-R diagram containing a weak entity set (Order) and composite attribute (address) into relational schemas with primary and foreign keys.,5,Data/Questions/Diagram/DBE/weak_entity_er.png,5
+2,"What are integrity constraints? Explain Domain Constraints, Entity Integrity, and Key Constraints.",5,,5
+2,"A company is organized into Departments (name, number, manager with start date, multiple locations). Each department controls projects (unique name/number, one location). Employees (name, SSN, address, salary, sex, birthdate) work for one department and multiple projects (hours/week recorded), and may have dependents (name, sex, birthdate, relationship). Draw a complete ER diagram.",7,,7
+2,"Compare relation intension and extension, schema and instance, with examples.",7,,5
+2,"Consider CUSTOMER(CustomerID, AadhaarNo, Email, Name, City) and explain why {CustomerID, Name} is a super key but not a candidate key.",7,,7
+2,Consider EMPLOYEE works_for DEPARTMENT and analyse the relationship after mapping.,7,,5
+2,"Consider EMPLOYEE(EmpID, AadhaarNo, Email, Name, Salary) and find all candidate keys, the primary key, alternate keys and six super keys.",7,,7
+2,"Consider PRODUCT(ProductID, SKU, Barcode, Name, CategoryID) and identify all the keys.",7,,7
+2,"Construct a complete ER diagram for a University Management System showing entities (Student, Department, Course, Instructor), attributes, and relationship constraints. Map it to relational schema.",7,,7
+2,"Convert the following ER structure into relational schemas: STUDENT(StudentID, Name, Email), COURSE(CourseID, CourseName, Credits), and an M:N relationship ENROLLMENT with Semester and Grade. Identify primary and foreign keys in the resulting relations.",7,,7
+2,"Convert the given Banking Management System E-R diagram (showing Account, Branch, Customer, and Loan entities) into relational tables, clearly identifying primary keys, foreign keys, and total participation constraints.",7,Data/Questions/Diagram/DBE/digram 1.png,7
+2,"Convert the given Car-Insurance Company E-R diagram (person, car, accident, owns, participated) into relational tables, clearly identifying primary keys, foreign keys, and the ternary relationship.",7,Data/Questions/Diagram/DBE/car_insurance_er.png,7
+2,"Convert the given Hospital Doctors-Patients-Tests E-R diagram (DOCTORS, TREATS, PATIENTS, LOG, TESTS) into relational tables, handling multivalued attributes and relationship attributes properly.",7,Data/Questions/Diagram/DBE/doctors_patients_tests_er.png,7
+2,"Design ER model for Airline Reservation System. An airline operates flights between airports. A flight number represents a scheduled route, while an actual flight occurrence takes place on a specific date. Passengers book seats on flight occurrences. Aircraft are assigned to flight occurrences, and each aircraft contains seats identified by seat number and class. A booking may include one or more passengers and may cover multiple flight segments. Draw the complete ER diagram with keys, cardinalities, and participation constraints.",7,,7
+2,"Design ER model for Banking and Loan Management System. A bank has multiple branches. Customers can open one or more accounts, and a single account may be jointly owned by multiple customers. Each account belongs to exactly one branch. Customers may also apply for loans, and a loan may have multiple co-borrowers. The bank records account transactions, including deposit, withdrawal, and transfer. Every transaction has a unique number, date, amount, and transaction type. Draw the complete ER diagram with keys, cardinalities, and participation constraints.",7,,7
+2,"Design ER model for College Examination and Result Processing. A college conducts examinations for courses offered in a semester. Students register for courses and become eligible to appear in corresponding examinations. Each examination has a date, time, room, and maximum marks. Students receive marks in each examination. A course may have internal assessment and end-semester examination components, and the final result is calculated from these components. Draw the complete ER diagram with keys, cardinalities, and participation constraints.",7,,7
+2,"Design ER model for Company Employee and Project Management. A software company has departments, employees, projects, clients, and skills. Each employee works for one department and may work on several projects. Each project is handled for one client and can have many employees. The company stores the number of hours per week that an employee works on a project. Employees may possess multiple skills, and the proficiency level for each skill must be recorded. Draw the complete ER diagram with keys, cardinalities, and participation constraints.",7,,7
+2,"Design ER model for Food Delivery Application. A food delivery application connects customers, restaurants, menu items, delivery partners, orders, payments, and reviews. A restaurant offers many menu items. Customers place orders containing items from one restaurant. A delivery partner may deliver many orders, but each delivered order is assigned to one partner. Customers can review restaurants and delivery partners after order completion. Draw the complete ER diagram with keys, cardinalities, and participation constraints.",7,,7
+2,"Design ER model for Hospital Patient and Appointment Management. A hospital stores details of patients, doctors, departments, appointments, medical tests, and prescriptions. Each doctor works in one department, while a department can have many doctors. A patient may book many appointments with different doctors. During an appointment, the doctor may prescribe multiple medicines and may recommend several tests. A prescription must record dosage, frequency, and duration. A test recommendation must record the test date and result when available. Draw the complete ER diagram with keys, cardinalities, and participation constraints.",7,,7
+2,"Design ER model for Learning Management System (LMS). An LMS stores instructors, students, courses, modules, lessons, assignments, submissions, quizzes, questions, and grades. An instructor may teach many courses and a course may have multiple instructors. Students enroll in courses. Each course contains modules, and modules contain lessons. Students submit assignments and attempt quizzes multiple times, with scores stored for each attempt. Draw the complete ER diagram with keys, cardinalities, and participation constraints.",7,,7
+2,"Design ER model for Library Management System. A university library maintains books, authors, publishers, book copies, members, borrow transactions, and reservations. A book can have multiple authors, and an author can write multiple books. Each book may have several physical copies, each with a unique Accession Number. Members borrow individual copies and may reserve a book title when all copies are unavailable. The system also records due date, return date, and fine amount. Draw the complete ER diagram with keys, cardinalities, and participation constraints.",7,,7
+2,"Design ER model for Online Shopping and Order Processing System. An e-commerce company manages customers, products, categories, suppliers, orders, payments, and deliveries. A product belongs to one category but may be supplied by several suppliers. A customer can place many orders. An order contains one or more products, and the quantity and selling price of each product in the order must be stored. Each order may have one or more payment attempts but only successful payments are considered for final settlement. Delivery details are recorded after the order is shipped. Draw the complete ER diagram with keys, cardinalities, and participation constraints.",7,,7
+2,"Design ER model for Social Networking Platform. A social networking platform stores users, posts, comments, likes, friendships, groups, and group memberships. Users create posts and comments. Users can like many posts, while a post can be liked by many users. Friendship is a relationship between two users and has a status such as pending, accepted, or blocked. Users may join groups and may have different roles such as member, moderator, or admin. Draw the complete ER diagram with keys, cardinalities, and participation constraints.",7,,7
+2,"Design ER model for Supply Chain and Warehouse Management. A manufacturing company manages suppliers, raw materials, products, warehouses, purchase orders, shipments, and inventory. Suppliers provide raw materials. Purchase orders contain several raw materials with ordered quantities and prices. Shipments may partially fulfil purchase orders. Warehouses store both raw materials and finished products, and stock levels change because of receipts, issues, and transfers. Draw the complete ER diagram with keys, cardinalities, and participation constraints.",7,,7
+2,"Design ER model for University Course Registration System. A university maintains information about students, departments, faculty members, courses, course offerings, and registrations. Each student belongs to one department and is identified by a unique Student ID. A department offers many courses and employs many faculty members. A course may be offered in multiple semesters, and each offering is handled by one faculty member. Students can register for many course offerings, and each course offering can have many students. The system must also store the grade obtained by a student in a particular course offering. Draw the complete ER diagram with keys, cardinalities, and participation constraints.",7,,7
+2,"Design an ER diagram for a College Database. A department has many students and offers many courses. A faculty member belongs to a department. Students register for several courses and a course can be taken by several students. Store the grade obtained by each student in each course. Show entities, attributes, primary keys, relationships, cardinality ratios and participation constraints.",7,,7
+2,"Design an ER diagram for a Hospital Management System. Each patient has PatientID, Name, DOB, Phone and Address. Each doctor has DoctorID, Name and Specialization. A patient can consult many doctors and a doctor can consult many patients. Consultation has Date, Diagnosis and Fee. A patient may be admitted to a room. Each room has RoomNo and RoomType. Indicate all keys, relationships, cardinalities and participation constraints.",7,,7
+2,Design relational tables from a given ER diagram involving Specialization and Generalization hierarchies.,7,,5
+2,Discuss all the types of keys in a relational database with suitable examples and explain their role in data integrity.,7,,7
+2,"Draw an ER diagram for a Hospital Management System with Doctor, Patient, Ward, and Treatment entities. Demonstrate the conversion into relational tables.",7,,7
+2,Explain ER-to-relational mapping for a hospital database and for a car-insurance database.,7,,5
+2,Explain all the relational model constraints with examples.,7,,7
+2,"Explain descriptive attributes and NULL attributes with examples, and their effect on design.",7,,5
+2,Explain specialization and how it is mapped to relational tables.,7,,5
+2,Explain the mapping of a bank ER diagram to relational tables.,7,,5
+2,"Explain the rules for converting an ER diagram into relational tables, with examples.",7,,5
+2,"Explain the storage architecture of a DBMS: storage hierarchy, file organisation, indexing and RAID.",7,,5
+2,"Find the candidate keys and the primary key for the given relations, and list super keys.",7,,7
+2,"Given DEPARTMENT(DeptID, DeptName), EMPLOYEE(EmpID, EmpName, Salary, DeptID), PROJECT(ProjectID, ProjectName) and WORKS_ON(EmpID, ProjectID, Hours), identify primary keys, foreign keys, composite keys and referential integrity constraints.",7,,7
+2,"Map the given Hospital E-R diagram (patients, doctors, test, test-log, performed_by) into relational schemas, properly handling the weak entity set and identifying relationships.",7,Data/Questions/Diagram/DBE/hospital_er.png,7
+3,Analyze how relational algebra differs from SQL in expressiveness and execution.,2,,2
+3,Compare and contrast the RENAME operator in relational algebra and the ORDER BY (SORT) clause in SQL with an example.,2,,2
+3,Compare relational algebra with relational calculus.,2,,2
+3,Define Cartesian Product in relational algebra with an example.,2,,2
+3,Define inner join and outer join.,2,,2
+3,Define relational algebra.,2,,2
+3,Define relational calculus. Why is it called non-procedural?,2,,2
+3,Differentiate CHAR and VARCHAR.,2,,2
+3,Differentiate DROP and TRUNCATE.,2,,2
+3,Differentiate JOIN from Cartesian product.,2,,2
+3,Differentiate TRC from DRC.,2,,2
+3,Differentiate WHERE from HAVING.,2,,2
+3,Differentiate between Natural Join and Theta Join with an example.,2,,2
+3,"Differentiate natural join, theta join and equi join.",2,,2
+3,Explain the Select (sigma) and Project (pi) operations in Relational Algebra with examples.,2,,2
+3,Explain the aggregate functions and the rule for NULL values.,2,,2
+3,Explain the difference between JOIN and Cartesian Product in relational algebra.,2,,2
+3,Explain the division operation with an example.,2,,2
+3,Explain the existential and universal quantifiers.,2,,2
+3,Explain union compatibility in relational algebra operations.,2,,2
+3,"Given schema Student(sid, sname, branch, address), write an SQL query to retrieve names of students whose name is 7 characters long and starts with 'M'.",2,,2
+3,How does relational algebra differ from SQL in expressiveness and execution?,2,,2
+3,How is equi join different from natural join?,2,,2
+3,Outline the Projection operation with its syntax.,2,,2
+3,Outline the Selection operation with its syntax.,2,,2
+3,What are the advantages of outer joins? Name the three types.,2,,2
+3,What is DCL? Give examples.,2,,2
+3,What is DDL? Give examples.,2,,2
+3,What is DML? Give examples.,2,,2
+3,What is QBE?,2,,2
+3,What is Relational Algebra? List any four fundamental operations.,2,,2
+3,What is SQL? Name its main categories of commands.,2,,2
+3,What is Tuple Relational Calculus (TRC)? Write its general syntax.,2,,2
+3,What is a safe relational calculus expression?,2,,2
+3,What is a self join?,2,,2
+3,What is a subquery? Distinguish a simple subquery from a correlated subquery.,2,,2
+3,What is a view? State its advantages.,2,,2
+3,What is the RENAME operator? Compare it with the SQL SORT command.,2,,2
+3,What is the difference between DELETE and TRUNCATE?,2,,2
+3,What is the difference between a unary and a binary relational algebra operator?,2,,2
+3,What is the order of evaluation of a SELECT statement?,2,,2
+3,What is the purpose of GROUP BY and ORDER BY?,2,,2
+3,What is union compatibility?,2,,2
+3,Why is the Cartesian product rarely used directly?,2,,2
+3,"Compare Left Outer Join, Right Outer Join, and Full Outer Join with suitable example relations.",5,,5
+3,"Differentiate between Relational Algebra, Tuple Relational Calculus (TRC), and Domain Relational Calculus (DRC) with examples.",5,,5
+3,"Differentiate between WHERE and HAVING clauses, and between DELETE, TRUNCATE, and DROP commands in SQL.",5,,5
+3,"Explain Aggregate Functions (COUNT, SUM, AVG, MIN, MAX) and GROUP BY / HAVING clauses in SQL with examples.",5,,5
+3,Explain Division (/) operation in Relational Algebra with an illustrative scenario.,5,,5
+3,"Explain Natural Join, Equi-Join, and Theta Join in Relational Algebra with sample relations and output tables.",5,,5
+3,"Explain Nested Subqueries and Correlated Subqueries in SQL using IN, EXISTS, ANY, and ALL operators.",5,,5
+3,"Explain SQL DDL commands (CREATE, ALTER, DROP, TRUNCATE) with syntax and examples.",5,,5
+3,"Explain SQL DML commands (INSERT, UPDATE, DELETE, SELECT) with syntax and practical examples.",5,,5
+3,"Explain Set operations (Union, Intersection, Set Difference, Cartesian Product) in Relational Algebra with examples.",5,,5
+3,"Explain Views in SQL. How are views created, updated, and dropped, and what are their advantages?",5,,5
+3,"Explain different types of Outer Joins (Left Outer, Right Outer, Full Outer Join) with sample relations and results.",5,,5
+3,Explain the Division (/) operation in Relational Algebra. Illustrate with a query finding students enrolled in all courses.,5,,5
+3,"Explain the Selection (sigma), Projection (pi), and Rename (rho) operations in Relational Algebra with syntax and examples.",5,,5
+3,"Given Student(sid, sname, branch, cgpa) and Enrolls(sid, cid, grade), write SQL queries to find branch-wise average CGPA, top scorers, and students enrolled in more than 3 courses.",5,,5
+3,"Based on the given Employee table and Department(DeptID, DeptName) with (10, HR), (20, IT), (30, Finance), write SQL queries to: (i) Create both tables with constraints and insert sample data; (ii) Display names and salaries in IT; (iii) Increase every salary by 10%; (iv) Delete employees with salary < 50,000; (v) Display average salary; (vi) Display names starting with 'M'; (vii) List employees ordered by salary descending.",7,Data/Questions/Diagram/DBE/table_employee_pyq.png,7
+3,"Based on the given University_Faculty_Details table, write SQL queries to: (1) Find name, dept_name, salary for faculty with salary between 70,000 and 90,000; (2) List faculty whose name starts with 'S'; (3) Order faculty names by salary ascending; (4) Increase all salaries by 10%; (5) Add a 'phone_number' column; (6) Insert three new records.",7,Data/Questions/Diagram/DBE/table_university_faculty.png,7
+3,"Consider the given Relations P(X, Y, Z), Q(X, Y, T), and R(Y, V). Retrieve the tuples returned by: (i) sigma_{P.Y=R.Y AND R.Y=V2}(P * R) where * is natural join; (ii) sigma_{R.Y=Q.Y}(R * Q); (iii) Perform Left Outer Join between Q and R.",7,Data/Questions/Diagram/DBE/table_relations_pqr.png,7
+3,Explain QBE with an example.,7,,5
+3,"Explain SQL joins, subqueries and views with examples.",7,,5
+3,Explain all the relational algebra operations with examples.,7,,7
+3,"Explain relational calculus with TRC and DRC, giving solved queries.",7,,5
+3,"Explain the DDL, DML and DQL commands of SQL with syntax and examples.",7,,5
+3,Explain the SELECT statement with all its clauses.,7,,5
+3,Explain the equivalence rules for relational algebra expressions and discuss their role in query optimization.,7,,7
+3,"Explain the join operations: natural, theta, equi, outer and self join, with examples.",7,,5
+3,"Given Employee(eid, ename), Assigned_to(pnum, enum), and Project(pnum, pname, supervisor), solve using Relational Algebra: (i) Details of employees working on 'Database' project; (ii) Details of employees on project C353; (iii) Employees working on all projects; (iv) Employees not working on project C453.",7,,7
+3,"Given Employee(eid, ename, salary, dept_id) and Department(dept_id, dept_name, location), solve using Relational Algebra: (i) Identify primary and foreign keys; (ii) Find employees with salary > 40000; (iii) Find employees working in 'HR' department; (iv) Find departments located in 'Delhi'.",7,,7
+3,"Given passenger(pid, pname, pgender, pcity), agency(aid, aname, acity), flight(fid, fname, fdate, time, source, destination), and booking(pid, aid, fid, fdate), write Relational Algebra queries to: (i) Get flight IDs travelling to New Delhi; (ii) Get flight IDs and names from Chennai to New Delhi; (iii) Get agency IDs booking flight 'UA2321'; (iv) Find passenger names booked on 'UA2321'; (v) Find passenger names and cities booked through 'JET Agency'.",7,,7
+3,"Given product(product_id, product_name, manufacturer_name, product_rate, sell_price, product_description, client_id), client(client_id, client_name, address, city, pin, state, bal_due), and salesman(salesman_id, salesman_name, address, city, pin, state, salary, product_id), write Relational Algebra queries for: (i) Salesmen and clients from the same city; (ii) Salesmen details selling products > Rs. 10,000; (iii) Salesmen selling 'Samsung' products; (iv) Clients in Odisha with bal_due > 20,000; (v) client_id and names selling Washing machines.",7,,7
+3,"Given relations: Student(RollNo, Name, Branch, CGPA), Course(CourseId, CName, Credits), Enrolls(RollNo, CourseId, Sem). Formulate relational algebra queries for 5 distinct analytical requests.",7,,7
+3,"Given schemas Suppliers(Sno, Sname, City), Parts(Pno, Pname, Pcolour), and Supply(Sno, Pno, Quantity), solve using Relational Algebra and SQL: (i) Find names of suppliers who supply a Red part; (ii) Find names of suppliers who supply some Red or Green parts.",7,,7
+3,"Solve relational algebra queries on the passenger, agency, flight and booking schema.",7,,7
+3,"Solve relational algebra queries on the product, client and salesman schema.",7,,7
+3,"Solve the P, Q, R natural join and outer join problem.",7,,5
+3,"Solve the relational algebra and SQL queries on the Suppliers, Parts and Supply schema.",7,,7
+3,"Solve the relational algebra queries on the Employee, Assigned_to and Project schema.",7,,7
+3,Write the SQL queries on the Department and Employee tables.,7,,7
+3,Write the SQL queries on the University_Faculty_Details table.,7,,7
+4,"Consider R(A, B, C, D, E) with FDs {A->BC, CD->E}, decomposed into R1(A, B, C) and R2(C, D, E). Is the decomposition lossless? Explain.",2,,2
+4,"Consider relation R(S, T, U, V, W) with FDs F = {ST->UW, V->W}. Determine the minimal cover and candidate key.",2,,2
+4,Define Boyce-Codd Normal Form.,2,,2
+4,Define Fifth Normal Form.,2,,2
+4,Define First Normal Form (1NF) and state how multi-valued attributes are eliminated.,2,,2
+4,Define First Normal Form.,2,,2
+4,Define Fourth Normal Form.,2,,2
+4,Define Second Normal Form (2NF) and explain partial dependency.,2,,2
+4,Define Second Normal Form.,2,,2
+4,Define Third Normal Form.,2,,2
+4,Define full functional dependency.,2,,2
+4,Define functional dependency.,2,,2
+4,Define inclusion dependency.,2,,2
+4,Define join dependency.,2,,2
+4,Define multivalued dependency.,2,,2
+4,Define normalization.,2,,2
+4,Define partial dependency.,2,,2
+4,Define transitive dependency.,2,,2
+4,Differentiate 1NF from 2NF.,2,,2
+4,Differentiate lossless decomposition from dependency preservation.,2,,2
+4,Differentiate partial dependency from transitive dependency.,2,,2
+4,Explain the deletion anomaly with an example.,2,,2
+4,Explain the insertion anomaly with an example.,2,,2
+4,Explain the update anomaly with an example.,2,,2
+4,"For R(A, B, C, D, E) with FDs {A->B, BC->D, D->E}, compute the attribute closures of A and BC.",2,,2
+4,Give the algorithm to compute X+.,2,,2
+4,How are redundant functional dependencies removed?,2,,2
+4,How is the left-hand side of an FD minimized?,2,,2
+4,"Identify and eliminate redundant functional dependencies from F = {A->B, B->C, A->C}.",2,,2
+4,State Armstrong's axioms.,2,,2
+4,State the advantages of normalization.,2,,2
+4,State the derived inference rules.,2,,2
+4,State the limitations of normalization.,2,,2
+4,"What are Insertion, Deletion, and Update anomalies in unnormalized relations?",2,,2
+4,What are anomalies? Name the three types.,2,,2
+4,What is Boyce-Codd Normal Form (BCNF)? How does it differ from 3NF?,2,,2
+4,What is Functional Dependency? Give a formal definition and an example.,2,,2
+4,What is a dependency diagram?,2,,2
+4,What is a lossy decomposition?,2,,2
+4,What is a minimal cover?,2,,2
+4,What is a non-redundant cover and how does it differ from a minimal cover?,2,,2
+4,What is a non-trivial and a completely non-trivial FD?,2,,2
+4,What is a prime attribute?,2,,2
+4,What is a spurious tuple?,2,,2
+4,What is a trivial functional dependency?,2,,2
+4,What is an extraneous attribute?,2,,2
+4,What is denormalization?,2,,2
+4,What is dependency preservation?,2,,2
+4,What is lossless join decomposition?,2,,2
+4,"What is the closure of a set of functional dependencies, F+?",2,,2
+4,"What is the closure of an attribute set, X+?",2,,2
+4,What is transitive dependency? Illustrate with an example.,2,,2
+4,Why can BCNF decomposition lose dependencies?,2,,2
+4,Why is 4NF needed when BCNF already exists?,2,,2
+4,Why is normalization needed?,2,,2
+4,Compare Third Normal Form (3NF) and Boyce-Codd Normal Form (BCNF). Give an example of a relation in 3NF but not in BCNF.,5,,5
+4,"Consider R(A, B, C, D) with F = {A->B, B->C, C->D}. Compare the two decompositions (R1(A, B, C), R2(C, D)) and (R1(A, C, D), R2(B, C)) for dependency preservation.",5,,5
+4,"Consider relation R(A, B, C, D) with FDs {AB->C, C->D, D->A}, decomposed into R1(A, B, C) and R2(C, D). Check whether the decomposition is dependency preserving.",5,,5
+4,"Consider relation R(A, B, C, D) with FDs {B->D, C->B, D->A}, decomposed into R1(A, B, C) and R2(C, D). Check whether this decomposition is lossless and dependency preserving.",5,,5
+4,"Consider relation R(A, B, C, D, E) with FDs F = {A->B, A->C, DE->C, DE->B, C->D}, decomposed into R1(A, B, C), R2(B, C, D, E), and R3(A, E). Check whether the decomposition is dependency preserving.",5,,5
+4,"Consider relation R(U, V, W, X, Y) with FDs {U->VW, V->X, W->Y}, decomposed into R1(U, V, W), R2(V, X), and R3(W, Y). Test whether this decomposition is lossless.",5,,5
+4,"Differentiate between 1NF, 2NF, and 3NF with suitable examples showing partial and transitive dependencies.",5,,5
+4,Explain Boyce-Codd Normal Form (BCNF) and demonstrate step-by-step decomposition of a relation into BCNF.,5,,5
+4,Explain Dependency-Preserving Decomposition with an example where BCNF decomposition fails to preserve dependencies.,5,,5
+4,Explain Join Dependency and Fifth Normal Form (5NF / PJNF) with an illustrative example.,5,,5
+4,Explain Lossless-Join Decomposition and Dependency Preservation with mathematical conditions.,5,,5
+4,"Explain Lossless-Join Decomposition and state the formal condition for a binary decomposition (R1, R2) to be lossless.",5,,5
+4,Explain Multi-Valued Dependency (MVD) and Fourth Normal Form (4NF) with a suitable example.,5,,5
+4,Explain Third Normal Form (3NF) with a detailed example showing removal of transitive dependencies.,5,,5
+4,"Explain how to test whether two sets of functional dependencies F and G are equivalent, with a worked example.",5,,5
+4,"Explain the algorithm to compute the attribute closure (X+) of an attribute set X under a set of functional dependencies F, with an example.",5,,5
+4,Explain the steps to compute the Minimal Cover (Canonical Cover) of a set of functional dependencies with an example.,5,,5
+4,"Find all candidate keys for relation R(A, B, C, D, E, F) given FDs {AB->C, C->D, D->AE, E->F} and determine its highest normal form.",5,,5
+4,"Find all candidate keys for relation R(A, B, C, D, E, F, G, H) with FDs F = {A->C, B->D, G->H, E->F, C->G}.",5,,5
+4,"For a given set of functional dependencies F = {A->B, A->C, CG->H, CG->I, B->H}, compute F+ (or derive A->H and CG->HI using Armstrong's axioms).",5,,5
+4,"State and prove Armstrong's Axioms (Reflexivity, Augmentation, Transitivity) and derive Union, Decomposition, and Pseudotransitivity rules.",5,,5
+4,State and prove Armstrong's Axioms for functional dependencies.,5,,5
+4,"What are data anomalies? Explain Insertion, Deletion, and Update anomalies with a concrete unnormalized table example.",5,,5
+4,"Consider relation R(A, B, C, D, E) with FDs {A->BC, CD->E, B->D, E->A}. Find all candidate keys and determine the highest normal form of R. Decompose into 3NF if necessary.",7,,7
+4,"Describe conditions under which two sets of functional dependencies are equivalent. For R(W, X, Y, Z), check whether FD1 = {W->X, X->Y, YW->Z} and FD2 = {W->X, X->Y, W->Z} are equivalent.",7,,7
+4,"Explain 1NF, 2NF, 3NF, and BCNF comprehensively with a complete student-faculty-department database normalization walk-through.",7,,7
+4,Explain 4NF and 5NF with examples.,7,,5
+4,Explain Armstrong's axioms and prove the derived rules.,7,,5
+4,Explain all the types of functional dependency with a dependency diagram.,7,,7
+4,"Explain closure of attributes and of functional dependencies, and use it to find keys.",7,,5
+4,Explain dependency-preserving decomposition with the standard questions.,7,,5
+4,"Explain lossless join decomposition and dependency preservation, with the standard tests.",7,,5
+4,Explain normalization and the normal forms up to BCNF with suitable examples.,7,,7
+4,Explain normalization with a complete worked example from an un-normalized relation to BCNF.,7,,7
+4,"Explain the 3NF synthesis algorithm and the BCNF decomposition algorithm, and compare their guarantees.",7,,7
+4,"Explain the anomalies of an un-normalized relation, the need for normalization and its pros and cons.",7,,7
+4,Explain the minimal cover with the full algorithm and worked examples.,7,,7
+4,"Explain the three algorithms required by the syllabus - finding a candidate key, the closure of an attribute set, and the minimal cover.",7,,7
+4,"Explain when two sets of functional dependencies are equivalent, and test the given pairs.",7,,7
+4,"Find all candidate keys for R(A,B,C,D,E,F,G,H,I,J,K) and normalize to BCNF.",7,,7
+4,"Find the minimal cover for the functional dependencies F = {A->B, C->B, D->ABC, AC->D} on relation R(A, B, C, D).",7,,7
+4,"For R(A, B, C, D, E), check whether the two FD sets F = {A->BC, AB->C, D->AC, D->E} and G = {A->BC, D->AE} are equivalent.",7,,7
+4,"For R(A, B, C, D, E, F) with F1 = {A->BC, B->CDE, AE->F} and F2 = {A->BCF, B->DE, E->AB}, check whether F1 and F2 are equivalent.",7,,7
+4,"For R(A, B, C, D, E, F, G, H, I, J, K) with F = {AB->C, A->DE, B->F, F->GH, D->IJ, K->B}, find all candidate keys, check if R is in BCNF, and normalize up to BCNF.",7,,7
+4,"Given R(SSN, ENAME, PNUMBER, PNAME, PLOCATION, HOURS, CITY, STATUS) with FDs {SSN->(ENAME, CITY), PNUMBER->(PNAME, PLOCATION), (SSN, PNUMBER)->HOURS, CITY->STATUS}, verify BCNF and decompose into BCNF if necessary.",7,,7
+4,"Normalize R(SSN, ENAME, PNUMBER, PNAME, PLOCATION, HOURS, CITY, STATUS) up to BCNF.",7,,7
+5,"Analyze schedule S1: R1(A), R2(B), W1(B), W2(A) and determine conflict serializability by constructing a precedence graph.",2,,2
+5,"Compare conflict operations (read-write, write-read, write-write conflicts) with examples.",2,,2
+5,Define Serializability and Conflict Serializability.,2,,2
+5,Define a transaction.,2,,2
+5,Define atomicity.,2,,2
+5,Define concurrency. Why is a concurrency control mechanism needed?,2,,2
+5,Define durability.,2,,2
+5,Define serializability.,2,,2
+5,Define the read and write operations of a transaction.,2,,2
+5,Define the unrepeatable read problem.,2,,2
+5,Define view serializability.,2,,2
+5,Differentiate UNDO and REDO.,2,,2
+5,Differentiate conflict and view serializability.,2,,2
+5,Differentiate deferred update from immediate update.,2,,2
+5,Distinguish serial and non-serial schedules.,2,,2
+5,Explain Write-Ahead Logging (WAL) protocol.,2,,2
+5,Explain the requirements of recovery.,2,,2
+5,List the types of database failure.,2,,2
+5,State the three conditions for view equivalence.,2,,2
+5,What are shared and exclusive locks?,2,,2
+5,What is Deadlock in DBMS? Mention two deadlock prevention strategies.,2,,2
+5,What is a Database Transaction? State the ACID properties.,2,,2
+5,What is a blind write?,2,,2
+5,What is a cascadeless schedule?,2,,2
+5,What is a checkpoint?,2,,2
+5,What is a dirty read?,2,,2
+5,What is a phantom read?,2,,2
+5,What is a precedence graph?,2,,2
+5,What is a recoverable schedule?,2,,2
+5,What is a schedule?,2,,2
+5,What is a strict schedule?,2,,2
+5,What is a timestamp in a timestamp protocol?,2,,2
+5,What is a transaction log? What does it contain?,2,,2
+5,What is a wait-for graph?,2,,2
+5,What is conflict equivalence?,2,,2
+5,What is conflict serializability?,2,,2
+5,What is deadlock?,2,,2
+5,What is shadow paging?,2,,2
+5,What is the Dirty Read (Temporary Update) problem in concurrent executions?,2,,2
+5,What is the Thomas write rule?,2,,2
+5,What is the incorrect summary problem?,2,,2
+5,What is the lock point?,2,,2
+5,What is the lost update problem?,2,,2
+5,What is two-phase locking?,2,,2
+5,What is write-ahead logging?,2,,2
+5,When do two operations conflict?,2,,2
+5,Write the ACID properties of a transaction.,2,,2
+5,"Analyze the given concurrent schedule across transactions T1, T2, T3, and T4 over data items A and B. Construct the precedence graph and test for conflict serializability.",5,Data/Questions/Diagram/DBE/schedule_t1_t2_t3_t4_ab.png,5
+5,"Analyze the given precedence graph for a concurrent schedule S involving transactions T1, T2, and T3. Explain whether the schedule is conflict serializable and what concurrency issue it indicates.",5,Data/Questions/Diagram/DBE/precedence_cycle.png,5
+5,"Check whether the given schedule S (across transactions T1, T2, T3) on data item A is conflict serializable and view serializable.",5,Data/Questions/Diagram/DBE/schedule_t1_t2_t3_a.png,5
+5,"Check whether the schedule S: R1(A), R2(A), R1(B), R2(B), R3(B), W1(A), W2(B) is conflict serializable and view serializable.",5,,5
+5,Compare Deferred Update (NO-UNDO/REDO) and Immediate Update (UNDO/REDO) log-based recovery techniques.,5,,5
+5,Describe Log-Based Recovery techniques (Deferred Update vs Immediate Update).,5,,5
+5,"Determine whether the given three-transaction schedule S (T1, T2, T3) on data item A is conflict serializable and view serializable.",5,Data/Questions/Diagram/DBE/schedule_t1_t2_t3_b.png,5
+5,Differentiate between Conflict Serializability and View Serializability. Give an example of a schedule that is view serializable but not conflict serializable.,5,,5
+5,Distinguish between Serial Schedule and Non-Serial Schedule. Define Conflict Equivalence and Conflict Serializability.,5,,5
+5,"Draw and explain the Transaction State Transition Diagram (Active, Partially Committed, Committed, Failed, Aborted, Terminated).",5,,5
+5,"Examine the given schedule S over data items a, b, and c across T1, T2, and T3. Test whether it is conflict serializable using a precedence graph.",5,Data/Questions/Diagram/DBE/schedule_t1_t2_t3_abc.png,5
+5,Explain Checkpointing and Write-Ahead Logging (WAL) protocol in database recovery.,5,,5
+5,Explain Deadlock in transaction management. Discuss Deadlock Prevention (Wait-Die and Wound-Wait) and Deadlock Detection using Wait-For Graph.,5,,5
+5,Explain Shadow Paging recovery technique with its advantages and disadvantages.,5,,5
+5,Explain Timestamp-Based Concurrency Control protocol and Thomas' Write Rule.,5,,5
+5,"Explain Two-Phase Locking (2PL) protocol and compare Basic 2PL, Strict 2PL, and Rigorous 2PL.",5,,5
+5,"Explain Two-Phase Locking (2PL) protocol. Compare Basic 2PL, Strict 2PL, and Rigorous 2PL.",5,,5
+5,Explain how a Precedence (Serialization) Graph is constructed to test conflict serializability with an example schedule.,5,,5
+5,Explain the ACID properties of a database transaction using a bank account fund-transfer example.,5,,5
+5,Explain the ACID properties of a transaction in detail with a banking fund-transfer example.,5,,5
+5,Explain the Precedence (Serialization) Graph method to test conflict serializability of a schedule with an example.,5,,5
+5,"Explain the concurrency problems in DBMS: Lost Update, Dirty Read (Uncommitted Dependency), and Unrepeatable Read with examples.",5,,5
+5,"Given the precedence graph below for a concurrent schedule S involving transactions T1, T2, and T3, determine whether the schedule is conflict serializable and state the equivalent serial execution order.",5,Data/Questions/Diagram/DBE/precedence_acyclic.png,5
+5,"Analyse the schedule R1(A), R2(A), R1(B), R2(B), R3(B), W1(A), W2(B) from the model paper.",7,,5
+5,"Analyse the schedule R1(A), R2(B), W1(B), W2(A) and check view serializability.",7,,5
+5,"Check conflict serializability for the three schedules: S1: r1(x); r3(x); w3(x); w1(x); r2(x), S2: r3(x); r2(x); r1(x); w3(x); w1(x), and S3: r1(x); w2(x); r3(x); w1(x); r2(x); w3(x).",7,,7
+5,Check the conflict serializability of the three schedules from the paper.,7,,5
+5,Check the conflict serializability of the two schedules from the backlog paper.,7,,5
+5,"Check whether the given four-transaction schedule S (T1, T2, T3, T4) over data items A and B is conflict serializable; if yes, find the equivalent serial order, otherwise identify the cycle.",7,Data/Questions/Diagram/DBE/schedule_t1_t2_t3_t4_cd.png,7
+5,Compare conflict serializability with view serializability.,7,,5
+5,"Discuss Concurrency Control techniques in detail: Lock-based protocols, Timestamp-ordering protocols, and Validation-based protocols.",7,,7
+5,"Discuss Database Recovery Management in detail: Checkpointing, Shadow Paging, and the ARIES recovery algorithm.",7,,7
+5,Distinguish serial and non-serial schedules and explain the concurrency problems with examples.,7,,5
+5,Explain conflict serializability and the precedence graph method.,7,,5
+5,"Explain deadlock - its causes, detection and prevention.",7,,5
+5,Explain lock-based protocols and two-phase locking.,7,,5
+5,"Explain log-based recovery with UNDO, REDO and checkpoints.",7,,5
+5,"Explain recoverable, cascadeless and strict schedules.",7,,5
+5,Explain shadow paging as a recovery technique.,7,,5
+5,Explain the timestamp-based concurrency control protocol.,7,,5
+5,Explain the transaction states with a state diagram.,7,,5
+5,Explain the types of database failure and the requirements of recovery.,7,,5
+5,Explain transactions and the ACID properties with an example.,7,,5
+5,Explain view serializability with its conditions and worked examples.,7,,5

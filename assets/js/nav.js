@@ -578,3 +578,143 @@ document.addEventListener("DOMContentLoaded", () => {
     { capture: true, passive: true },
   );
 });
+
+// ══ PERSISTENT GLOBAL ZOOM CONTROLLER ══
+(function initGlobalZoom() {
+  if (window.location.pathname.toLowerCase().includes("viewer.html")) return;
+  const STORAGE_KEY = 'btechx_page_zoom';
+  const ZOOM_PRESETS = [0.25, 0.33, 0.50, 0.67, 0.75, 0.80, 0.90, 1.00, 1.10, 1.25, 1.50, 1.75, 2.00, 2.50];
+
+  let zoomPill = null;
+  let hideTimer = null;
+  let lastWheelTime = 0;
+
+  function createZoomPill() {
+    if (zoomPill) return zoomPill;
+    if (!document.body) return null;
+    zoomPill = document.createElement('div');
+    zoomPill.className = 'btechx-zoom-indicator';
+    zoomPill.id = 'btechxZoomIndicator';
+    zoomPill.setAttribute('aria-live', 'polite');
+    zoomPill.innerHTML = '<i class="fas fa-search"></i><span id="btechxZoomVal">100%</span>';
+    document.body.appendChild(zoomPill);
+    return zoomPill;
+  }
+
+  function getCurrentZoom() {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        const parsed = parseFloat(stored);
+        if (!isNaN(parsed) && parsed >= 0.25 && parsed <= 2.50) {
+          return parsed;
+        }
+      }
+    } catch (e) {}
+    return 1.00;
+  }
+
+  function applyZoom(level, save = true, showPill = true) {
+    const clamped = Math.max(0.25, Math.min(2.50, Math.round(level * 100) / 100));
+    document.documentElement.style.zoom = clamped;
+
+    if (save) {
+      try {
+        localStorage.setItem(STORAGE_KEY, clamped.toFixed(2));
+      } catch (e) {}
+    }
+
+    if (showPill) {
+      const pill = createZoomPill();
+      if (pill) {
+        const valEl = pill.querySelector('#btechxZoomVal');
+        if (valEl) {
+          valEl.textContent = Math.round(clamped * 100) + '%';
+        }
+        pill.style.transformOrigin = 'top right';
+        pill.style.transform = 'scale(' + (1 / clamped) + ')';
+        pill.classList.add('visible');
+
+        if (hideTimer) clearTimeout(hideTimer);
+        hideTimer = setTimeout(() => {
+          pill.classList.remove('visible');
+        }, 1200);
+      }
+    }
+  }
+
+  function stepZoom(direction) {
+    const current = getCurrentZoom();
+    let nextZoom = current;
+
+    if (direction > 0) {
+      for (let i = 0; i < ZOOM_PRESETS.length; i++) {
+        if (ZOOM_PRESETS[i] > current + 0.01) {
+          nextZoom = ZOOM_PRESETS[i];
+          break;
+        }
+      }
+      if (nextZoom === current && current < 2.50) nextZoom = 2.50;
+    } else {
+      for (let i = ZOOM_PRESETS.length - 1; i >= 0; i--) {
+        if (ZOOM_PRESETS[i] < current - 0.01) {
+          nextZoom = ZOOM_PRESETS[i];
+          break;
+        }
+      }
+      if (nextZoom === current && current > 0.25) nextZoom = 0.25;
+    }
+
+    applyZoom(nextZoom, true, true);
+  }
+
+  function resetZoom() {
+    applyZoom(1.00, true, true);
+  }
+
+  // Ensure zoom is applied immediately
+  const initialZoom = getCurrentZoom();
+  if (initialZoom !== 1.00) {
+    applyZoom(initialZoom, false, false);
+  }
+
+  window.addEventListener(
+    'wheel',
+    (e) => {
+      if (e.ctrlKey) {
+        e.preventDefault();
+        const now = Date.now();
+        if (now - lastWheelTime < 45) return;
+        lastWheelTime = now;
+        stepZoom(e.deltaY < 0 ? 1 : -1);
+      }
+    },
+    { passive: false }
+  );
+
+  window.addEventListener('keydown', (e) => {
+    if (e.ctrlKey || e.metaKey) {
+      if (e.key === '=' || e.key === '+' || e.code === 'NumpadAdd') {
+        e.preventDefault();
+        stepZoom(1);
+      } else if (e.key === '-' || e.key === '_' || e.code === 'NumpadSubtract') {
+        e.preventDefault();
+        stepZoom(-1);
+      } else if (e.key === '0' || e.code === 'Numpad0') {
+        e.preventDefault();
+        resetZoom();
+      }
+    }
+  });
+
+  window.addEventListener('storage', (e) => {
+    if (e.key === STORAGE_KEY) {
+      const val = parseFloat(e.newValue);
+      if (!isNaN(val)) {
+        applyZoom(val, false, true);
+      } else {
+        applyZoom(1.00, false, true);
+      }
+    }
+  });
+})();

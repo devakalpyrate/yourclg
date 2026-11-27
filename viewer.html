@@ -3,6 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      document.documentElement.style.zoom = "1";
+    </script>
     <title>Document Viewer - BTechX</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
@@ -27,8 +30,9 @@
 
       html,
       body {
-        width: 100%;
-        height: 100%;
+        zoom: 1 !important;
+        width: 100% !important;
+        height: 100% !important;
         margin: 0 !important;
         padding: 0 !important;
         overflow: hidden;
@@ -44,8 +48,10 @@
       .viewer-layout {
         display: flex;
         flex-direction: column;
-        height: 100vh;
-        width: 100vw;
+        height: 100% !important;
+        width: 100% !important;
+        min-height: 100vh;
+        min-width: 100vw;
       }
 
       /* Top Navigation Bar - Ultra-Slim, Frameless & Minimalist */

@@ -3,6 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function () {
+        try {
+          var z = localStorage.getItem("btechx_page_zoom");
+          if (z && z !== "1") {
+            document.documentElement.style.zoom = z;
+          }
+        } catch (e) {}
+      })();
+    </script>
     <meta
       name="description"
       content="BTechX is a free academic resource platform for B.Tech students with engineering notes, syllabus resources, and student tools."
@@ -1339,6 +1349,7 @@
               <li><a href="index.html">Home</a></li>
               <li><a href="index.html#subjects">Subjects</a></li>
               <li><a href="syllabus.html">Syllabus</a></li>
+              <li><a href="paper.html">Model Paper</a></li>
               <li><a href="about.html">About & Contact</a></li>
             </ul>
           </div>

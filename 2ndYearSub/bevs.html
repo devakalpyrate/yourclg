@@ -3,6 +3,16 @@
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script>
+      (function () {
+        try {
+          var z = localStorage.getItem("btechx_page_zoom");
+          if (z && z !== "1") {
+            document.documentElement.style.zoom = z;
+          }
+        } catch (e) {}
+      })();
+    </script>
     <title>Biology and Environmental Studies (BEVS) - BTechX</title>
     <meta
       content="Biology and Environmental Studies (CY202) notes and question bank for BTech 2nd Year."
@@ -177,6 +187,7 @@
           <a href="../index.html">Home</a>
           <a class="active" href="../index.html#subjects">Subjects</a>
           <a href="../syllabus.html">Syllabus</a>
+          <a href="../paper.html">Model Paper</a>
           <a href="../about.html">About &amp; Contact</a>
           <div class="apps-launcher-wrapper" id="appsLauncherWrapper">
             <button
@@ -341,6 +352,7 @@
         <a href="../index.html">Home</a>
         <a class="active" href="../index.html#subjects">Subjects</a>
         <a href="../syllabus.html">Syllabus</a>
+        <a href="../paper.html">Model Paper</a>
         <a href="../about.html">About &amp; Contact</a>
       </div>
     </div>
@@ -605,6 +617,7 @@
               <li><a href="../index.html">Home</a></li>
               <li><a href="../index.html#subjects">Subjects</a></li>
               <li><a href="../syllabus.html">Syllabus</a></li>
+              <li><a href="../paper.html">Model Paper</a></li>
               <li><a href="../about.html">About &amp; Contact</a></li>
             </ul>
           </div>
